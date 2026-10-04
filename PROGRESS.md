@@ -1071,3 +1071,8 @@ Ensuite phase 4 (publier) — attend Cloudinary (HUMAN-TODO).
 
 ## Blocages
 (aucun)
+
+### Bascule production (4 oct. 2026)
+- [x] Recette signée par le propriétaire (conversation, 4 oct.). Éditeur : PAPA BONHEUR, Moscou City, Russie.
+- [x] `scripts/export-v1.ts` (`npm run export:v1`) : export lecture seule Firestore + comptes Auth → `archives/v1-export/` (ignoré par git). `tsc`, eslint, prettier OK ; `vitest` → 449 passed ; `check:legal` → complètes.
+- [ ] Export v1 + `npm run deploy` : **bloqué dans la session cloud** (aucun identifiant Firebase/gcloud). À lancer sur le PC du propriétaire (`firebase login` déjà fait).
