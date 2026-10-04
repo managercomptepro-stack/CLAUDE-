@@ -102,6 +102,7 @@ Mini-plan par lots (commit à chaque lot vert, captures 375/360 clair+sombre) :
       déplacé). Après : `/` **83** puis **89** et **88** (CLS 0, LCP ~3,1 s : écart déjà accepté),
       `/recherche` **87** (CLS 0), `/annonce` **99**, `/compte` **99**. E2E `legal`+`rail`+`feed`+`shell`
       → **133 passed**.
+- [x] **Production** (4 oct. 2026, 14:19 UTC) : workflow GitHub `Deploy production` (run 37208236763) → export v1 (artefact `v1-export`), `npm run deploy` exit 0 (« Deploy complete! », règles + index + hosting nioxxer-cda95) ; nioxxer.com et nioxxer-cda95.web.app : 200 sur 9 pages, 404 sur page inconnue. Fournisseur Google actif ; **E-mail/mot de passe encore désactivé** (OPERATION_NOT_ALLOWED) → HUMAN-TODO.
 - [ ] Recette des 28 points par le propriétaire sur le lien de test.
 
 ### Modifications du propriétaire (3 oct. 2026, soir)
