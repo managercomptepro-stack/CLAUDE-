@@ -1,0 +1,53 @@
+# Production switch of nioxxer.com (phase 9), asked by the owner on 4 Oct 2026.
+# 1. Read-only export of v1 data: only the counts go to the log (the repository is public, so the
+#    personal data itself is never uploaded); 2. npm run deploy; 3. HTTP checks on nioxxer.com.
+name: Production
+
+on:
+  push:
+    branches: [claude/jolly-ptolemy-nystbu]
+    paths: [.github/workflows/production.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Service account key (runner temp only)
+        run: printf '%s' "$SA" > "$RUNNER_TEMP/sa.json" && echo "GOOGLE_APPLICATION_CREDENTIALS=$RUNNER_TEMP/sa.json" >> "$GITHUB_ENV"
+        env:
+          SA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+      - name: Export v1 (counts only)
+        run: npm run export:v1 && cat archives/v1-export/*/summary.json
+      - name: Deploy (legal check + tests + hosting + rules + indexes)
+        run: npm run deploy -- --non-interactive
+      - name: Check nioxxer.com
+        run: |
+          fail=0
+          for u in $(curl -fsS https://nioxxer.com/sitemap.xml | grep -o '<loc>[^<]*' | sed 's/<loc>//'); do
+            c=$(curl -s -o /dev/null -w '%{http_code}' "$u"); echo "$c $u"; [ "$c" = 200 ] || fail=1
+          done
+          for p in /connexion /publier /compte /admin; do
+            c=$(curl -s -o /dev/null -w '%{http_code}' "https://nioxxer.com$p"); echo "$c $p"; [ "$c" = 200 ] || fail=1
+          done
+          echo "404 attendu: $(curl -s -o /dev/null -w '%{http_code}' https://nioxxer.com/n-existe-pas)"
+          curl -sI https://nioxxer.com/ | grep -i -E 'cache-control|content-security'
+          exit $fail
+      - if: always()
+        run: rm -rf "$RUNNER_TEMP/sa.json" archives/v1-export
