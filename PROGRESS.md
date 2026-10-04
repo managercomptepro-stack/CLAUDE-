@@ -1080,3 +1080,7 @@ Ensuite phase 4 (publier) — attend Cloudinary (HUMAN-TODO).
 - [x] Choix A du propriétaire (4 oct.) : connexion e-mail/Google en échec sur nioxxer-cda95 → la
       production pointe sur `nioxxer-staging` (config, `.firebaserc`, `deploy`). `vitest` → 449 passed,
       `tsc` OK. Déploiement par `.github/deploy-trigger` après les réglages console (HUMAN-TODO § Choix A).
+- [x] Run 37220401340 (succès) : `npm run deploy` sur `nioxxer-staging` (tests verts, hosting + règles + index),
+      nioxxer.com : pages du sitemap + /connexion /publier /compte /admin → 200, 404 OK. Le run 37219881549
+      avait échoué (403, droits du compte de service sur staging) avant tout changement en ligne.
+- [ ] Test du propriétaire sur nioxxer.com : connexion e-mail, Google, vérification e-mail, publication.
