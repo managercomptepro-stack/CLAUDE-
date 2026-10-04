@@ -1,0 +1,22 @@
+node_modules/
+dist/
+*.log
+.firebase/
+test-results/
+playwright-report/
+*serviceAccount*.json
+*service-account*.json
+.env.local
+.env.*.local
+
+# Local secrets only (public Firebase web config lives in src/firebase/config.ts)
+.env*
+*.pem
+*.key
+*.p12
+*-adminsdk-*.json
+credentials*.json
+
+# Exports of production data (personal data): never in git
+archives/v1-export/
+docs/captures/

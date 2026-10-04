@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "nioxxer-cda95",
+    "staging": "nioxxer-staging"
+  }
+}

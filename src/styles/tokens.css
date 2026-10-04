@@ -1,0 +1,162 @@
+/*
+ * NIOXXER design tokens — the ONLY place where colours, fonts, sizes and durations are
+ * written (CLAUDE.md § 6). Dark theme by default (owner's decision of 3 Oct 2026, back to the
+ * original choice); light theme via [data-theme="light"].
+ * Palette from v1 (archives/v1/css/tokens.css), validated by the owner.
+ */
+
+:root,
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #100e14;
+  --bg-raised: #1a1620;
+  --bg-sunken: #0b0a0e;
+  --ink: #f2edf3;
+  --ink-muted: #a198a6;
+  --ink-faint: #8f8694;
+  --line: rgba(242, 237, 243, 0.1);
+  --line-strong: rgba(242, 237, 243, 0.28);
+  --accent: #f0455f;
+  --accent-hover: #ff5f76;
+  --accent-ink: #26060c;
+  --gold: #f5c542;
+  --gold-ink: #2a1d05;
+  --gold-text: #f5c542;
+  --verified: #4da3ff;
+  --whatsapp: #25d366;
+  --whatsapp-ink: #053b1a;
+  --danger: #ff6b6b;
+  --ok: #5fd07a;
+  /* Top and bottom bars: SOLID (owner's phone test, 2 Oct 2026: content showed through). */
+  --bar: #100e14;
+  --bar-line: rgba(242, 237, 243, 0.14);
+  --bar-shadow: 0 6px 16px -10px rgba(0, 0, 0, 0.9);
+  --skeleton: rgba(242, 237, 243, 0.07);
+  --focus: #f5c542;
+  --shadow: 0 10px 24px -14px rgba(0, 0, 0, 0.9);
+  --toast-bg: #2a2330;
+  --toast-ink: #f2edf3;
+  --theme-icon-dark: block;
+  --scrim: rgba(11, 10, 14, 0.62);
+  --scrim-ink: #ffffff;
+  --backdrop: rgba(0, 0, 0, 0.6);
+  --theme-icon-light: none;
+  --card-shadow: 0 8px 20px -12px rgba(0, 0, 0, 0.9);
+  --sponsored-line: rgba(240, 69, 95, 0.5);
+  --page-glow: linear-gradient(180deg, #1c1420 0%, var(--bg) 220px);
+  --profile-wash: linear-gradient(160deg, rgba(240, 69, 95, 0.12), transparent 60%);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #faf7f5;
+  --bg-raised: #ffffff;
+  --bg-sunken: #f0ebe8;
+  --ink: #1e1922;
+  --ink-muted: #5e5563;
+  --ink-faint: #6a6170;
+  --line: rgba(30, 25, 34, 0.12);
+  --line-strong: rgba(30, 25, 34, 0.3);
+  --accent: #d42f4c;
+  --accent-hover: #b8233e;
+  --accent-ink: #ffffff;
+  --gold: #f5c542;
+  --gold-ink: #2a1d05;
+  --gold-text: #8a6400;
+  --verified: #1a6fd8;
+  --whatsapp: #25d366;
+  --whatsapp-ink: #053b1a;
+  --danger: #c62828;
+  --ok: #2e7d32;
+  --bar: #faf7f5;
+  --bar-line: rgba(30, 25, 34, 0.14);
+  --bar-shadow: 0 6px 16px -12px rgba(30, 25, 34, 0.35);
+  --skeleton: rgba(30, 25, 34, 0.07);
+  --focus: #1e1922;
+  --shadow: 0 10px 24px -16px rgba(30, 25, 34, 0.35);
+  --toast-bg: #1e1922;
+  --toast-ink: #faf7f5;
+  --theme-icon-dark: none;
+  --scrim: rgba(11, 10, 14, 0.62);
+  --scrim-ink: #ffffff;
+  --backdrop: rgba(30, 25, 34, 0.45);
+  --theme-icon-light: block;
+  --card-shadow: 0 6px 18px -12px rgba(30, 25, 34, 0.45);
+  --sponsored-line: rgba(212, 47, 76, 0.45);
+  --page-glow: linear-gradient(180deg, #fff3ee 0%, var(--bg) 220px);
+  --profile-wash: linear-gradient(160deg, rgba(212, 47, 76, 0.08), transparent 60%);
+}
+
+:root {
+  --font-display: 'Young Serif', Georgia, serif;
+  --font-ui: 'Karla', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Premium rail plates: drawn over photos, identical in both themes (v1 « Ruban »). */
+  --gold-lift: #ffe08a;
+  --gold-line: rgba(245, 197, 66, 0.55);
+  --plate-shade-strong: rgba(8, 4, 8, 0.88);
+  --plate-shade-soft: rgba(8, 4, 8, 0.3);
+  --plate-edge: rgba(255, 255, 255, 0.16);
+  --stamp-edge: rgba(255, 255, 255, 0.24);
+  --plate-shadow: 0 12px 24px -14px rgba(0, 0, 0, 0.85);
+  --caption-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  --fab-shadow: 0 6px 16px -6px rgba(0, 0, 0, 0.55);
+  /* Premium frame: gold gradient, soft glow, light sweep (owner's request of 3 Oct 2026). */
+  --gold-deep: #b9862a;
+  --gold-frame: linear-gradient(
+    135deg,
+    var(--gold-lift) 0%,
+    var(--gold) 38%,
+    var(--gold-deep) 62%,
+    var(--gold-lift) 100%
+  );
+  --gold-glow: 0 10px 26px -12px rgba(245, 197, 66, 0.7);
+  --sheen: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.38) 50%, transparent 65%);
+  --sheen-soft: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, 0.2) 50%, transparent 62%);
+  /* Premium: golden sweep; Sponsored: silver, quieter (owner's request of 4 Oct 2026). */
+  --sheen-gold: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 236, 170, 0.15) 42%,
+    rgba(255, 246, 210, 0.62) 50%,
+    rgba(255, 236, 170, 0.15) 58%,
+    transparent 70%
+  );
+  --sheen-silver: linear-gradient(105deg, transparent 36%, rgba(235, 240, 248, 0.34) 50%, transparent 64%);
+  --halo-gold: 0 0 22px 4px rgba(245, 197, 66, 0.55);
+  --accent-gradient: linear-gradient(135deg, var(--accent-hover), var(--accent));
+
+  --t-title: 1.75rem;
+  --t-lead: 1rem;
+  --t-body: 0.9375rem;
+  --t-meta: 0.8125rem;
+  --t-micro: 0.75rem;
+
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  /* Tighter since the owner's phone test of 3 Oct 2026 (was 20 / 24 / 32). */
+  --sp-5: 16px;
+  --sp-6: 20px;
+  --sp-7: 24px;
+
+  --r-field: 12px;
+  --r-card: 16px;
+  --r-pill: 999px;
+
+  --page-max: 480px;
+  --gutter: 12px;
+  --topbar-h: 56px;
+  --bottomnav-h: 64px;
+  --tap: 44px;
+  --logo-h: 40px;
+
+  --t-fast: 150ms;
+  --t-mid: 220ms;
+  --t-sheen: 3.6s;
+  --ease-spring: cubic-bezier(0.2, 0.9, 0.25, 1.15);
+  --r-chip: 999px;
+  --ease: cubic-bezier(0.22, 0.68, 0.28, 1);
+}

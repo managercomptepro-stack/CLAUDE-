@@ -1,0 +1,7 @@
+archives/
+dist/
+docs/
+public/
+package-lock.json
+*.md
+src/data/disposable-domains.ts

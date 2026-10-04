@@ -1,0 +1,572 @@
+/* Self-hosted fonts (OFL, see public/fonts/LICENSE-*.txt), latin subset only. */
+@font-face {
+  font-family: 'Karla';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/karla-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Karla';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/karla-latin-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Young Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/young-serif-latin-400-normal.woff2') format('woff2');
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: var(--bg);
+  /* Focused fields and anchors never end up under the sticky header or the bottom bar. */
+  scroll-padding: calc(var(--topbar-h) + var(--sp-3)) 0 calc(var(--bottomnav-h) + var(--sp-4));
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100dvh;
+  /* A faint warm glow under the header, then the plain background (no image, no blur). */
+  background:
+    var(--page-glow) no-repeat,
+    var(--bg);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: var(--t-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: calc(var(--bottomnav-h) + env(safe-area-inset-bottom));
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--sp-3);
+  top: var(--sp-3);
+  z-index: 100;
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--bg-raised);
+  border-radius: var(--r-field);
+  transform: translateY(-200%);
+}
+.skip-link:focus {
+  transform: none;
+}
+
+main:focus {
+  outline: none;
+}
+
+/* ── Layout ─────────────────────────────────────────────────────────── */
+.page {
+  width: 100%;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: var(--sp-3) var(--gutter) var(--sp-5);
+}
+
+.page__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--t-title);
+  line-height: 1.15;
+  margin: var(--sp-1) 0 var(--sp-3);
+}
+
+/* ── Top bar ────────────────────────────────────────────────────────── */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background-color: var(--bar);
+  border-bottom: 1px solid var(--bar-line);
+  box-shadow: var(--bar-shadow);
+  padding-top: env(safe-area-inset-top);
+}
+.topbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--topbar-h);
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+.topbar__brand {
+  display: block;
+  line-height: 0;
+  padding: 2px 8px;
+  margin-left: -8px;
+  border-radius: var(--r-field);
+}
+.topbar__brand img {
+  height: var(--logo-h);
+  width: auto;
+}
+.topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  margin-right: -10px;
+}
+
+.icon-button {
+  display: inline-grid;
+  place-items: center;
+  width: var(--tap);
+  height: var(--tap);
+  border-radius: var(--r-pill);
+  color: var(--ink-muted);
+}
+.icon-button:hover {
+  background: var(--skeleton);
+}
+/* Bell: only for a signed-in member (attribute set before first paint, src/shell/bell.ts). */
+.topbar__bell {
+  position: relative;
+}
+html:not([data-member]) .topbar__bell {
+  display: none;
+}
+.topbar__badge {
+  position: absolute;
+  top: 6px;
+  right: 4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: var(--r-pill);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+}
+.topbar__badge[hidden] {
+  display: none;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.icon--when-dark {
+  display: var(--theme-icon-dark);
+}
+.icon--when-light {
+  display: var(--theme-icon-light);
+}
+
+/* ── Bottom bar (Accueil · Recherche · + Publier · Compte) ──────────── */
+.bottomnav {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 40;
+  background-color: var(--bar);
+  border-top: 1px solid var(--bar-line);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.bottomnav__list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  max-width: var(--page-max);
+  height: var(--bottomnav-h);
+  margin: 0 auto;
+  list-style: none;
+}
+.bottomnav__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  height: 100%;
+  color: var(--ink-muted);
+  text-decoration: none;
+  font-size: var(--t-micro);
+  font-weight: 700;
+}
+/* Icons take the same 32 px box as the « + » pill so that all four labels share one baseline. */
+.bottomnav__item > .icon {
+  padding: 4px 0;
+  box-sizing: content-box;
+}
+.bottomnav__item[aria-current='page'] {
+  color: var(--accent);
+}
+.bottomnav__plus {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 32px;
+  border-radius: var(--r-pill);
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.bottomnav__plus .icon {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2.4;
+}
+.bottomnav__item--publish {
+  color: var(--ink);
+}
+
+/* ── Buttons ────────────────────────────────────────────────────────── */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  min-height: var(--tap);
+  padding: 0 var(--sp-5);
+  border-radius: var(--r-pill);
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform var(--t-fast) var(--ease);
+}
+.button:active,
+.chip:active,
+.icon-button:active,
+.city-button:active,
+.bottomnav__item:active {
+  transform: scale(0.97);
+}
+.button--primary {
+  background: var(--accent-gradient);
+  color: var(--accent-ink);
+  box-shadow: var(--card-shadow);
+}
+.button--gold {
+  background: var(--gold-frame);
+  color: var(--gold-ink);
+  box-shadow: var(--gold-glow);
+}
+.button--primary:hover {
+  background: var(--accent-hover);
+}
+
+/* ── Empty state ────────────────────────────────────────────────────── */
+.empty-state {
+  display: grid;
+  justify-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-7) var(--sp-4);
+  text-align: center;
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  background: var(--bg-raised);
+}
+.empty-state__title {
+  font-weight: 700;
+  font-size: var(--t-lead);
+}
+.empty-state__body {
+  color: var(--ink-muted);
+}
+.empty-state__actions {
+  margin-top: var(--sp-3);
+}
+
+/* ── Skeleton (pure CSS, visible before JS) ─────────────────────────── */
+.skeleton {
+  background: var(--skeleton);
+  border-radius: var(--r-card);
+  animation: skeleton-pulse 1.2s ease-in-out infinite alternate;
+}
+.skeleton--title {
+  width: 45%;
+  height: 28px;
+  margin-bottom: var(--sp-4);
+  border-radius: var(--r-field);
+}
+.skeleton--card {
+  height: 112px;
+  margin-bottom: var(--sp-3);
+}
+@keyframes skeleton-pulse {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.45;
+  }
+}
+
+/* ── Toast ──────────────────────────────────────────────────────────── */
+.toast-stack {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--bottomnav-h) + env(safe-area-inset-bottom) + var(--sp-3));
+  z-index: 50;
+  display: grid;
+  gap: var(--sp-2);
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  pointer-events: none;
+}
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-field);
+  background: var(--toast-bg);
+  color: var(--toast-ink);
+  box-shadow: var(--shadow);
+  pointer-events: auto;
+  animation: toast-in var(--t-mid) var(--ease);
+}
+.toast--error {
+  border-left: 4px solid var(--danger);
+}
+.toast--success {
+  border-left: 4px solid var(--ok);
+}
+.toast__message {
+  flex: 1;
+}
+.toast__close {
+  width: 32px;
+  height: 32px;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* ── Motion (owner's request of 3 Oct 2026): transform/opacity only ──── */
+/*
+ * Each page slides in slightly (transform only: the LCP is painted at once, CLS ignores it). Only
+ * when scripts run (`data-js`, set by the theme boot script): pages read without JavaScript stay still.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  [data-js] main > .page {
+    animation: page-in 320ms var(--ease);
+  }
+}
+@keyframes page-in {
+  from {
+    transform: translateY(18px);
+  }
+}
+/* Cards rise in, in cascade (../lib/reveal.ts): below the screen with a fade, on screen by
+   transform only (the first photo is painted at once: LCP). */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px) scale(0.94);
+}
+.reveal--in {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 420ms var(--ease) var(--reveal-delay, 0ms),
+    transform 520ms var(--ease-spring) var(--reveal-delay, 0ms);
+}
+.reveal-rise {
+  animation: card-rise 560ms var(--ease-spring) var(--reveal-delay, 0ms) both;
+}
+@keyframes card-rise {
+  from {
+    transform: translateY(36px) scale(0.94);
+  }
+}
+/* A tab or a section that appears: short fade and rise. */
+.panel-in {
+  animation: panel-in var(--t-mid) var(--ease);
+}
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+/* Light sweep across Premium and Sponsored frames (a moving pseudo-element, never repainted):
+   it crosses in the first ~0.9 s of each cycle, then waits. */
+@keyframes sheen {
+  0% {
+    transform: translateX(-120%) skewX(-12deg);
+  }
+  25%,
+  100% {
+    transform: translateX(120%) skewX(-12deg);
+  }
+}
+/* Golden halo breathing around Premium frames (opacity only). */
+@keyframes halo {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+  .reveal-rise {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── « Publier gratuit » pill in the header (owner's request of 3 Oct 2026) ─ */
+.free-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  margin-right: var(--sp-1);
+  padding: 0 10px;
+  overflow: hidden;
+  border-radius: var(--r-pill);
+  background: var(--accent-gradient);
+  color: var(--accent-ink);
+  font-size: var(--t-micro);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: var(--card-shadow);
+}
+/* A light sweep every few seconds (transform only). */
+.free-pill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--sheen);
+  transform: translateX(-120%);
+  animation: sheen 2.6s var(--ease) infinite;
+  pointer-events: none;
+}
+.free-pill {
+  animation: pill-pulse 2.6s var(--ease) infinite;
+}
+@keyframes pill-pulse {
+  0%,
+  70%,
+  100% {
+    transform: scale(1);
+  }
+  80% {
+    transform: scale(1.09);
+  }
+  90% {
+    transform: scale(0.98);
+  }
+}
+.free-pill:active {
+  animation: none;
+  transform: scale(0.96);
+}
+
+/* ── Floating WhatsApp support button (every page but /admin) ─────────── */
+.support-fab {
+  position: fixed;
+  right: max(var(--gutter), calc((100vw - var(--page-max)) / 2 + var(--gutter)));
+  bottom: calc(var(--bottomnav-h) + env(safe-area-inset-bottom) + var(--sp-3));
+  z-index: 45;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--whatsapp);
+  box-shadow: var(--fab-shadow);
+  animation: fab-in var(--t-mid) var(--ease) 400ms both;
+  transition: transform var(--t-fast) var(--ease);
+}
+.support-fab:active {
+  transform: scale(0.92);
+}
+@keyframes fab-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.8);
+  }
+}
+/* The last content of a page scrolls clear of the button; toasts open above it. */
+main {
+  padding-bottom: calc(48px + var(--sp-3));
+}
+.toast-stack {
+  bottom: calc(var(--bottomnav-h) + env(safe-area-inset-bottom) + 48px + var(--sp-5));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .free-pill,
+  .free-pill::after,
+  .support-fab {
+    animation: none;
+  }
+}
