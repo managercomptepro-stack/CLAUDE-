@@ -1084,3 +1084,6 @@ Ensuite phase 4 (publier) — attend Cloudinary (HUMAN-TODO).
       nioxxer.com : pages du sitemap + /connexion /publier /compte /admin → 200, 404 OK. Le run 37219881549
       avait échoué (403, droits du compte de service sur staging) avant tout changement en ligne.
 - [ ] Test du propriétaire sur nioxxer.com : connexion e-mail, Google, vérification e-mail, publication.
+- [x] Super-admin du propriétaire (uid OaBo4GjayqXmnoq6HnrKkEAyJCT2) sur nioxxer-staging :
+      `scripts/grant-super-admin.ts` via `grant-admin.yml`, run 37226001774 → succès (+ entrée auditLog).
+- [ ] E-mail de vérification non reçu : vérifier le domaine personnalisé des modèles Auth (HUMAN-TODO).
