@@ -1,0 +1,32 @@
+# One-off: makes the owner's account (uid given on 4 Oct 2026) super-admin of nioxxer.com
+# (project nioxxer-staging). Runs when .github/grant-admin-trigger changes.
+name: Grant super-admin
+
+on:
+  push:
+    branches: [claude/jolly-ptolemy-nystbu]
+    paths: [.github/grant-admin-trigger]
+
+permissions:
+  contents: read
+
+jobs:
+  grant:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Service account key (runner temp only)
+        run: printf '%s' "$SA" > "$RUNNER_TEMP/sa.json" && echo "GOOGLE_APPLICATION_CREDENTIALS=$RUNNER_TEMP/sa.json" >> "$GITHUB_ENV"
+        env:
+          SA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+      - run: npx tsx scripts/grant-super-admin.ts OaBo4GjayqXmnoq6HnrKkEAyJCT2
+      - if: always()
+        run: rm -f "$RUNNER_TEMP/sa.json"
