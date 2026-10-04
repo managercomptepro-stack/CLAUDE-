@@ -185,3 +185,13 @@ dis-le à Claude Code. Claude Code ajoute ici toute nouvelle tâche de ce type.
       `/mentions-legales`, `/regles`) — textes dans `src/i18n/legal-fr.ts`.
 - [ ] Stratégie des premières annonces pour que l'accueil ne soit pas vide au lancement.
 - [ ] Passage au plan Blaze (avec alerte de budget) quand l'admin › Santé approche des quotas.
+
+## Choix A (4 oct. 2026) : nioxxer.com servi par le projet nioxxer-staging
+- [ ] nioxxer-staging › Paramètres › Comptes de service › Générer une clé → GitHub › Secrets ›
+      `FIREBASE_SERVICE_ACCOUNT` : remplacer la valeur (déploiement + maintenance visent alors staging).
+- [ ] nioxxer-cda95 › Hosting › domaine `nioxxer.com` (et `www`) › Supprimer.
+- [ ] nioxxer-staging › Hosting › Ajouter un domaine personnalisé `nioxxer.com` → enregistrements DNS chez IONOS.
+- [ ] nioxxer-staging › Authentication › Paramètres › Domaines autorisés › ajouter `nioxxer.com`.
+- [ ] Google Cloud (nioxxer-staging) › API et services › Identifiants : client OAuth Web → URI de
+      redirection `https://nioxxer.com/__/auth/handler` + origine `https://nioxxer.com` ; clé API du
+      navigateur, si elle est restreinte → ajouter `https://nioxxer.com/*`.

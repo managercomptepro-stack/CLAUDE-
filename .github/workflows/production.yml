@@ -1,12 +1,12 @@
-# Production switch of nioxxer.com (phase 9), asked by the owner on 4 Oct 2026.
-# 1. Read-only export of v1 data: only the counts go to the log (the repository is public, so the
-#    personal data itself is never uploaded); 2. npm run deploy; 3. HTTP checks on nioxxer.com.
+# Production deploy of nioxxer.com (project nioxxer-staging since the owner's choice A, 4 Oct 2026):
+# npm run deploy, then HTTP checks on nioxxer.com. Runs when .github/deploy-trigger changes.
+# The v1 export (nioxxer-cda95: 2 accounts, 0 listing) was done in run 37211871765.
 name: Production
 
 on:
   push:
     branches: [claude/jolly-ptolemy-nystbu]
-    paths: [.github/workflows/production.yml]
+    paths: [.github/deploy-trigger]
   workflow_dispatch:
 
 permissions:
@@ -33,8 +33,6 @@ jobs:
         run: printf '%s' "$SA" > "$RUNNER_TEMP/sa.json" && echo "GOOGLE_APPLICATION_CREDENTIALS=$RUNNER_TEMP/sa.json" >> "$GITHUB_ENV"
         env:
           SA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-      - name: Export v1 (counts only)
-        run: npm run export:v1 && cat archives/v1-export/*/summary.json
       - name: Deploy (legal check + tests + hosting + rules + indexes)
         run: npm run deploy -- --non-interactive
       - name: Check nioxxer.com
@@ -50,4 +48,4 @@ jobs:
           curl -sI https://nioxxer.com/ | grep -i -E 'cache-control|content-security'
           exit $fail
       - if: always()
-        run: rm -rf "$RUNNER_TEMP/sa.json" archives/v1-export
+        run: rm -f "$RUNNER_TEMP/sa.json"

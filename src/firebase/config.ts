@@ -49,14 +49,20 @@ const TARGETS: Readonly<Record<BuildMode, Target>> = {
       appId: '1:32898601996:web:6468faa27ad9863e558a29',
     },
   },
-  // Values from archives/v1/js/firebase-config.js.
+  // Owner's decision (4 Oct 2026, choice A): nioxxer.com is served by the « nioxxer-staging » project
+  // that passed the owner's review; the v1 project « nioxxer-cda95 » is no longer used.
   production: {
-    // App Check key of the production project: to create at the switch (HUMAN-TODO).
-    env: { projectId: 'nioxxer-cda95', authDomain: 'nioxxer.com', useEmulators: false, appCheckKey: null },
+    env: {
+      projectId: 'nioxxer-staging',
+      authDomain: 'nioxxer.com',
+      useEmulators: false,
+      // The reCAPTCHA key does not list nioxxer.com yet (monitoring mode only): off for now.
+      appCheckKey: null,
+    },
     options: {
-      apiKey: 'AIzaSyBQz0NOIbDahSMyZLCKutn3vgKHVte9a0o',
-      messagingSenderId: '933001931493',
-      appId: '1:933001931493:web:a7f547b5f18a5a1621c20c',
+      apiKey: 'AIzaSyAuvnG6yM3nQCrSkHfasS9LAzPNQY4yWVw',
+      messagingSenderId: '32898601996',
+      appId: '1:32898601996:web:6468faa27ad9863e558a29',
     },
   },
 };

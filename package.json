@@ -29,7 +29,7 @@
     "seed": "cross-env FIRESTORE_EMULATOR_HOST=127.0.0.1:8080 tsx scripts/seed-emulator.ts",
     "lighthouse": "tsx scripts/lighthouse.ts",
     "deploy:preview": "vite build --mode preview && firebase deploy --only firestore --project nioxxer-staging && firebase hosting:channel:deploy preview --expires 7d --project nioxxer-staging",
-    "deploy": "npm run check:legal && npm test && firebase deploy --only hosting,firestore --project nioxxer-cda95"
+    "deploy": "npm run check:legal && npm test && firebase deploy --only hosting,firestore --project nioxxer-staging"
   },
   "dependencies": {
     "firebase": "12.19.0",

@@ -20,11 +20,11 @@ describe('firebase config by build mode', () => {
     expect(envForMode('preview').useEmulators).toBe(false);
   });
 
-  it('production: nioxxer-cda95 with authDomain nioxxer.com', () => {
+  it('production: nioxxer-staging with authDomain nioxxer.com', () => {
     const o = firebaseOptions('production');
-    expect(o.projectId).toBe('nioxxer-cda95');
+    expect(o.projectId).toBe('nioxxer-staging');
     expect(o.authDomain).toBe('nioxxer.com');
-    expect(o.appId).toMatch(/^1:933001931493:web:/);
+    expect(o.appId).toMatch(/^1:32898601996:web:/);
     expect(envForMode('production').useEmulators).toBe(false);
   });
 

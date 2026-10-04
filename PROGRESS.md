@@ -1077,3 +1077,6 @@ Ensuite phase 4 (publier) — attend Cloudinary (HUMAN-TODO).
 - [x] `scripts/export-v1.ts` (`npm run export:v1`) : export lecture seule Firestore + comptes Auth → `archives/v1-export/` (ignoré par git). `tsc`, eslint, prettier OK ; `vitest` → 449 passed ; `check:legal` → complètes.
 - [x] Workflow `production.yml` (run 37211871765, succès) : export v1 → settings 1, users 2, comptes Auth 2, aucune annonce ; `npm run deploy` → 449 unitaires + 172 règles, check-links 0 mort, hosting+règles+index sur nioxxer-cda95 ; nioxxer.com : 35 pages du sitemap + /connexion /publier /compte /admin → 200, /n-existe-pas → 404.
 - [ ] Test manuel du propriétaire : connexion e-mail, Google, publication.
+- [x] Choix A du propriétaire (4 oct.) : connexion e-mail/Google en échec sur nioxxer-cda95 → la
+      production pointe sur `nioxxer-staging` (config, `.firebaserc`, `deploy`). `vitest` → 449 passed,
+      `tsc` OK. Déploiement par `.github/deploy-trigger` après les réglages console (HUMAN-TODO § Choix A).
