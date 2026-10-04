@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#100E14">
+<title>Créer un compte · NIOXXER</title>
+<meta name="description" content="Créez votre compte NIOXXER ou connectez-vous. Gratuit, sans frais de publication.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Karla:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/app.css">
+<style>
+body{background:transparent;color:var(--ink);font-family:var(--font-ui);font-size:var(--t-body);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+.page{max-width:var(--page-max);margin:0 auto;position:relative;z-index:2}
+@keyframes mm2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-11vw,7vw) scale(1.1)}}
+.spark{position:absolute;border-radius:50%;pointer-events:none;mix-blend-mode:screen;
+  background:radial-gradient(circle,#fff 0%,rgba(255,255,255,.85) 26%,rgba(255,255,255,0) 70%)}
+@keyframes fly{0%{transform:translate3d(0,10vh,0)}50%{transform:translate3d(calc(var(--dx,4vw)*.55),-28vh,0)}
+  100%{transform:translate3d(var(--dx,4vw),-66vh,0)}}
+@keyframes twinkle{0%,100%{opacity:0}10%{opacity:var(--o,.9)}40%{opacity:calc(var(--o,.9)*.28)}
+  62%{opacity:var(--o,.9)}88%{opacity:calc(var(--o,.9)*.45)}}
+.ready [data-rise]{opacity:1;transform:none;
+  transition:opacity var(--t-slow) var(--ease),transform var(--t-slow) var(--ease);transition-delay:var(--d,0ms)}
+.masthead{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;
+  padding:11px var(--gutter);background:var(--bar);
+  -webkit-backdrop-filter:blur(20px) saturate(1.35);backdrop-filter:blur(20px) saturate(1.35);
+  border-bottom:1px solid transparent;transition:background var(--t-mid),border-color var(--t-mid)}
+.masthead.condensed{background:var(--bar-solid);border-bottom-color:var(--line)}
+.mark{font-family:var(--font-display);font-size:19px;color:var(--accent)}
+.stamp{font-size:8.5px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;padding:3px 7px;border-radius:var(--r-pill)}
+.stamp.premium{background:linear-gradient(96deg,var(--saffron),var(--saffron-lift));color:var(--saffron-ink)}
+.sheet{position:fixed;inset:0;z-index:70;display:none;background:rgba(var(--veil-rgb),.68);
+  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);align-items:flex-end}
+.sheet .panel{width:100%;max-width:var(--page-max);margin:0 auto;background:var(--bg-lift);
+  border-radius:var(--r-panel) var(--r-panel) 0 0;border-top:1px solid var(--line);
+  padding:var(--sp-2) 14px calc(var(--sp-5) + env(safe-area-inset-bottom));animation:up .26s var(--ease)}
+.grip{width:34px;height:3.5px;border-radius:var(--r-pill);background:rgba(255,255,255,.22);margin:0 auto var(--sp-3)}
+.sheet h3{font-family:var(--font-display);font-size:17px;font-weight:400;margin:0 4px 6px}
+.opts{display:flex;flex-direction:column;gap:5px;max-height:44vh;overflow-y:auto;overscroll-behavior:contain}
+.opt{display:flex;align-items:center;gap:10px;padding:11px 13px;border-radius:var(--r-field);
+  background:var(--panel);border:1px solid transparent;color:var(--ink);font-size:14px;text-align:left}
+.sheet-search{width:100%;margin-bottom:9px;background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--r-field);padding:11px 13px;color:var(--ink);font-family:var(--font-ui);font-size:14px;outline:none}
+/* le bouton collant du bas ne doit jamais recouvrir un champ ni « Continuer avec Google » */
+body{padding-bottom:calc(150px + env(safe-area-inset-bottom))}
+input[type="date"]{color-scheme:dark;min-height:52px}
+.seg{display:flex;gap:5px;background:var(--panel);border-radius:var(--r-pill);padding:4px;margin:var(--sp-2) var(--gutter) 0}
+.prog i{flex:1;height:3px;border-radius:var(--r-pill);background:rgba(255,255,255,.1);transition:background var(--t-mid)}
+.pane{display:none;padding:0 var(--gutter)}
+h2{font-family:var(--font-display);font-size:23px;margin-top:var(--sp-6);font-weight:400}
+.sub{font-size:13px;color:var(--ink-60);margin-top:8px;line-height:1.6}
+.lbl{font-size:var(--t-micro);font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--saffron);margin-top:var(--sp-6)}
+.field{margin-top:var(--sp-3);position:relative}
+input{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-field);
+  padding:14px;color:var(--ink);font-family:var(--font-ui);font-size:15px;outline:none}
+input:focus{border-color:var(--accent)}
+input::placeholder{color:var(--ink-40)}
+.pwtoggle{position:absolute;right:6px;top:6px;bottom:6px;padding:0 10px;font-size:12px;
+  font-weight:700;color:var(--ink-40);border-radius:var(--r-field)}
+.phone{display:flex;gap:8px}
+.cc{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-field);padding:14px 13px;
+  font-size:15px;font-weight:600;color:var(--saffron);flex:0 0 auto;display:flex;align-items:center;gap:6px}
+.note{font-size:12px;color:var(--ink-40);margin-top:var(--sp-3);line-height:1.55}
+.opts-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:var(--sp-3)}
+.opt-b{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-card);padding:13px 0;
+  text-align:center;font-size:14px;font-weight:600;color:var(--ink-60)}
+.opt-b[aria-pressed="true"]{background:rgba(var(--accent-rgb),.13);border-color:var(--accent);color:var(--accent)}
+.picker-btn{width:100%;display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--r-field);padding:14px;font-size:15px;color:var(--ink);text-align:left;margin-top:var(--sp-3)}
+.consent{display:flex;gap:12px;align-items:flex-start;margin-top:var(--sp-5);background:var(--panel);
+  border:1px solid var(--line);border-radius:var(--r-card);padding:14px}
+.cb{width:23px;height:23px;border-radius:7px;flex:0 0 auto;border:1.5px solid rgba(var(--saffron-rgb),.4);
+  display:flex;align-items:center;justify-content:center}
+.cb.on{background:var(--saffron);border-color:var(--saffron)}
+.cb svg{width:13px;height:13px;opacity:0}
+.cb.on svg{opacity:1}
+.consent p{font-size:12.5px;line-height:1.55;color:var(--ink-70)}
+.consent a{color:var(--saffron);text-decoration:none}
+.forgot{display:block;width:100%;text-align:center;margin-top:var(--sp-4);font-size:13px;color:var(--accent)}
+.info{margin-top:var(--sp-5);background:rgba(var(--saffron-rgb),.08);border-left:3px solid var(--saffron);
+  border-radius:0 12px 12px 0;padding:12px 13px;font-size:12.5px;line-height:1.6;color:var(--ink-60)}
+.err{margin-top:var(--sp-3);background:rgba(var(--danger-rgb),.09);border-left:3px solid var(--danger);
+  border-radius:0 12px 12px 0;padding:11px 13px;font-size:12.5px;line-height:1.55;color:var(--danger-mist);display:none}
+.or-row{display:flex;align-items:center;gap:10px;margin-top:var(--sp-5);color:var(--ink-40);font-size:11.5px}
+.or-row::before,.or-row::after{content:"";flex:1;height:1px;background:var(--line)}
+.google-btn{width:100%;margin-top:var(--sp-4);display:flex;align-items:center;justify-content:center;gap:10px;
+  background:#fff;color:var(--google-ink);border-radius:var(--r-pill);padding:14px 0;font-size:14.5px;font-weight:700}
+.google-btn svg{width:18px;height:18px}
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:40;
+  padding:var(--sp-3) var(--gutter) calc(var(--sp-3) + env(safe-area-inset-bottom));
+  background:linear-gradient(to top,rgba(var(--bg-rgb),.98) 62%,rgba(var(--bg-rgb),0))}
+.cta{width:100%;background:var(--accent);color:var(--accent-ink);border-radius:var(--r-pill);
+  padding:15px 0;font-family:var(--font-display);font-size:16px}
+.dock .hint{text-align:center;font-size:var(--t-meta);color:var(--ink-40);margin-top:7px}
+</style>
+</head>
+<body>
+<div class="scene" id="scene" aria-hidden="true">
+  <i class="mass m1"></i><i class="mass m2"></i><i class="mass m3"></i>
+</div>
+<div class="page">
+
+<header class="masthead" id="masthead">
+  <button class="icon-btn" id="back" aria-label="Retour"><svg viewBox="0 0 24 24"><path d="M15.5 4 7 12l8.5 8 1.4-1.4L9.8 12l7.1-6.6L15.5 4Z"/></svg></button>
+  <span class="mark" style="margin:0 auto;padding-right:34px"><picture><source srcset="/img/logo.webp" type="image/webp"><img class="logo" src="/img/logo.png" alt="NIOXXER" width="364" height="160"></picture></span>
+</header>
+
+<div class="seg" data-rise style="--d:0ms" id="seg">
+  <button id="tN" aria-selected="true">Créer un compte</button>
+  <button id="tL" aria-selected="false">Connexion</button>
+</div>
+
+<div id="signup">
+  <div class="prog"><i class="on" id="p1"></i><i id="p2"></i><i id="p3"></i></div>
+
+  <div class="pane on" id="s1">
+    <h2>Créer votre compte</h2>
+    <p class="sub">Votre e-mail sert d'identifiant. Nous vous enverrons un lien pour le confirmer.</p>
+    <div class="lbl">E-mail</div>
+    <div class="field"><input type="email" id="email" placeholder="vous@exemple.com" autocomplete="email"></div>
+    <div class="lbl">Mot de passe</div>
+    <div class="field">
+      <input type="password" id="pwd" placeholder="6 caractères minimum" autocomplete="new-password">
+      <button type="button" class="pwtoggle" data-toggle="pwd">Afficher</button>
+    </div>
+    <div class="lbl">Confirmer le mot de passe</div>
+    <div class="field">
+      <input type="password" id="pwd2" placeholder="Retapez votre mot de passe" autocomplete="new-password">
+      <button type="button" class="pwtoggle" data-toggle="pwd2">Afficher</button>
+    </div>
+    <p class="err" id="errSignup"></p>
+    <div class="info">Nous ne publions jamais votre e-mail. Il ne sert qu'à vous identifier et à vous prévenir en cas de problème sur votre compte.</div>
+    <div class="or-row">ou</div>
+    <button class="google-btn" id="googleSignup" type="button">
+      <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l6-6C34.6 5.1 29.6 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21c0-1.4-.1-2.7-.4-3.5Z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.6 15.6 18.9 13 24 13c3.1 0 5.9 1.2 8 3.1l6-6C34.6 6.1 29.6 4 24 4 16.1 4 9.3 8.4 6.3 14.7Z"/><path fill="#4CAF50" d="M24 44c5.5 0 10.4-2.1 14.1-5.5l-6.5-5.5C29.6 34.9 27 36 24 36c-5.2 0-9.6-3.3-11.2-7.9l-6.5 5C9.2 39.6 16 44 24 44Z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.2 4.2-4.1 5.6l6.5 5.5C41.6 35.9 44 30.4 44 24c0-1.4-.1-2.7-.4-3.5Z"/></svg>
+      Continuer avec Google
+    </button>
+  </div>
+
+  <div class="pane" id="s3">
+    <h2>Votre profil</h2>
+    <p class="sub">Ces informations apparaîtront sur vos annonces.</p>
+
+    <div class="lbl">Prénom ou pseudo</div>
+    <div class="field"><input type="text" id="nom" placeholder="Votre prénom ou pseudo" maxlength="30"></div>
+
+    <div class="lbl">Date de naissance</div>
+    <div class="field"><input type="date" id="naissance" min="1900-01-01" required aria-describedby="naissanceNote"></div>
+    <div class="note" id="naissanceNote">18 ans minimum. Votre date de naissance n'est jamais affichée : seul votre âge l'est.</div>
+
+    <div class="lbl">Je suis</div>
+    <div class="opts-grid" id="genre">
+      <button class="opt-b" aria-pressed="false">Femme</button>
+      <button class="opt-b" aria-pressed="false">Homme</button>
+      <button class="opt-b" aria-pressed="false">Gay</button>
+      <button class="opt-b" aria-pressed="false">Lesbienne</button>
+      <button class="opt-b" aria-pressed="false">Trans</button>
+      <button class="opt-b" aria-pressed="false">Couples</button>
+      <button class="opt-b" style="grid-column:span 2" aria-pressed="false">Autres</button>
+    </div>
+
+    <div class="lbl">Où vous êtes</div>
+    <button class="picker-btn" id="cityBtn">
+      <svg width="13" height="13" viewBox="0 0 24 24" style="fill:var(--saffron)"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>
+      <span id="cityLabel">Douala</span><span class="caret">▾</span>
+    </button>
+
+    <div class="lbl">Numéro WhatsApp <span style="color:var(--ink-40);text-transform:none;letter-spacing:0;font-weight:600">(optionnel)</span></div>
+    <div class="field phone"><span class="cc">🇨🇲 +237</span><input type="tel" id="tel" placeholder="6 XX XX XX XX" maxlength="20" autocomplete="tel-national" inputmode="tel"></div>
+    <div class="note">Sert uniquement de contact sur vos annonces. Vous pouvez le laisser vide et l'ajouter plus tard.</div>
+
+    <div class="consent">
+      <button class="cb" id="cb" aria-pressed="false"><svg viewBox="0 0 16 16" fill="none"><path d="M3.5 8.3 6.4 11 12.5 5" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--saffron-ink)"/></svg></button>
+      <p>J'ai 18 ans ou plus et j'accepte les <a href="/cgu">conditions d'utilisation</a> et la <a href="/confidentialite">politique de confidentialité</a>.</p>
+    </div>
+    <p class="err" id="errProfil"></p>
+  </div>
+</div>
+
+<div id="login" style="display:none">
+  <div class="pane on">
+    <h2>Content de vous revoir</h2>
+    <p class="sub">Entrez votre e-mail et votre mot de passe.</p>
+    <div class="lbl">E-mail</div>
+    <div class="field"><input type="email" id="loginEmail" placeholder="vous@exemple.com" autocomplete="email"></div>
+    <div class="lbl">Mot de passe</div>
+    <div class="field">
+      <input type="password" id="loginPwd" placeholder="Votre mot de passe" autocomplete="current-password">
+      <button type="button" class="pwtoggle" data-toggle="loginPwd">Afficher</button>
+    </div>
+    <button class="forgot" id="forgot" type="button">Mot de passe oublié ?</button>
+    <p class="err" id="errLogin"></p>
+    <div class="or-row">ou</div>
+    <button class="google-btn" id="googleLogin" type="button">
+      <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l6-6C34.6 5.1 29.6 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21c0-1.4-.1-2.7-.4-3.5Z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.6 15.6 18.9 13 24 13c3.1 0 5.9 1.2 8 3.1l6-6C34.6 6.1 29.6 4 24 4 16.1 4 9.3 8.4 6.3 14.7Z"/><path fill="#4CAF50" d="M24 44c5.5 0 10.4-2.1 14.1-5.5l-6.5-5.5C29.6 34.9 27 36 24 36c-5.2 0-9.6-3.3-11.2-7.9l-6.5 5C9.2 39.6 16 44 24 44Z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.2 4.2-4.1 5.6l6.5 5.5C41.6 35.9 44 30.4 44 24c0-1.4-.1-2.7-.4-3.5Z"/></svg>
+      Continuer avec Google
+    </button>
+  </div>
+</div>
+
+</div>
+<div class="dock"><div class="inner">
+  <button class="cta" id="cta">Créer mon compte</button>
+  <p class="hint" id="hint">Étape 1 sur 3 · Gratuit</p>
+</div></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true"><div class="panel" id="panel"></div></div>
+<script src="/js/config.js"></script>
+<script>
+
+const calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(calm) document.documentElement.classList.add('calm');
+const rnd=(a,b)=>a+Math.random()*(b-a), pick=a=>a[Math.floor(Math.random()*a.length)];
+{
+  const host=document.getElementById('scene');
+  const kinds=['lozenge','dot','dot','ring'], tints=['rgba(255,255,255,.9)','var(--saffron)','var(--accent)'];
+  for(let i=0;i<30;i++){
+    const b=document.createElement('span'), s=rnd(4,11);
+    b.className='bit '+pick(kinds); b.style.color=pick(tints);
+    b.style.width=s+'px'; b.style.height=s+'px'; b.style.left=rnd(-2,101)+'%'; b.style.bottom='0';
+    b.style.setProperty('--o',rnd(.22,.52)); b.style.setProperty('--dx',rnd(-10,10)+'vw');
+    b.style.setProperty('--rot',rnd(-180,180)+'deg');
+    b.style.animation='drift '+rnd(12,24)+'s linear infinite';
+    b.style.animationDelay=(-rnd(0,24))+'s'; host.appendChild(b);
+  }
+  const glows=[['255,255,255',.95],['var(--saffron-rgb)',.85],['var(--accent-rgb)',.75]];
+  for(let i=0;i<22;i++){
+    const g=document.createElement('span'), c=pick(glows), s=rnd(3,9);
+    g.className='spark'; g.style.width=s+'px'; g.style.height=s+'px';
+    g.style.left=rnd(-2,101)+'%'; g.style.bottom='0';
+    g.style.boxShadow='0 0 '+(s*2.6)+'px '+(s*.55)+'px rgba('+c[0]+','+(c[1]*.55).toFixed(2)+')';
+    g.style.setProperty('--o',rnd(.45,1)*c[1]); g.style.setProperty('--dx',rnd(-12,12)+'vw');
+    g.style.animation='fly '+rnd(14,26)+'s linear infinite, twinkle '+rnd(2.4,5.2)+'s ease-in-out infinite';
+    g.style.animationDelay=(-rnd(0,26))+'s, '+(-rnd(0,5))+'s'; host.appendChild(g);
+  }
+}
+requestAnimationFrame(function(){document.body.classList.add('ready')});
+addEventListener('scroll',function(){
+  const m=document.getElementById('masthead'); if(m) m.classList.toggle('condensed',scrollY>16);
+},{passive:true});
+document.querySelectorAll('.pwtoggle').forEach(function(btn){
+  btn.onclick=function(){
+    const input=document.getElementById(btn.dataset.toggle);
+    const showing=input.type==='text';
+    input.type=showing?'password':'text';
+    btn.textContent=showing?'Afficher':'Masquer';
+  };
+});
+
+const VILLES=[
+    'Douala','Yaoundé','Garoua','Bamenda','Maroua','Bafoussam','Ngaoundéré','Bertoua',
+    'Edéa','Loum','Kumba','Nkongsamba','Buea','Kumbo','Foumban','Dschang',
+    'Ebolowa','Kousséri','Guider','Mbouda','Limbé','Kribi','Bafang','Tiko',
+    'Mbalmayo','Sangmélima','Meiganga','Bafia'
+];
+let ville='Douala', mode='new';
+const cta=document.getElementById('cta'), hint=document.getElementById('hint');
+const errSignup=document.getElementById('errSignup'), errLogin=document.getElementById('errLogin'), errProfil=document.getElementById('errProfil');
+
+function showErr(el,msg){ el.textContent=msg; el.classList.toggle('show',!!msg); }
+
+document.querySelectorAll('#genre .opt-b').forEach(function(b){
+  b.onclick=function(){
+    document.querySelectorAll('#genre .opt-b').forEach(x=>x.setAttribute('aria-pressed','false'));
+    b.setAttribute('aria-pressed','true'); refresh();
+  };
+});
+const cb=document.getElementById('cb');
+cb.onclick=function(){const on=cb.classList.toggle('on');cb.setAttribute('aria-pressed',String(on));refresh()};
+['email','pwd','pwd2'].forEach(id=>document.getElementById(id).addEventListener('input',refresh));
+document.getElementById('nom').addEventListener('input',refresh);
+document.getElementById('loginEmail').addEventListener('input',refresh);
+document.getElementById('loginPwd').addEventListener('input',refresh);
+
+function refresh(){
+  if(mode==='profil'){
+    cta.disabled=!(cb.classList.contains('on')
+      && document.getElementById('nom').value.trim().length>1
+      && document.querySelector('#genre .opt-b[aria-pressed="true"]'));
+    return;
+  }
+  if(mode!=='new'){
+    cta.disabled=!(document.getElementById('loginEmail').value.includes('@')
+      && document.getElementById('loginPwd').value.length>=6);
+    return;
+  }
+  cta.disabled=!(document.getElementById('email').value.includes('@')
+    && document.getElementById('pwd').value.length>=6
+    && document.getElementById('pwd2').value.length>=6);
+}
+
+function show(){
+  document.getElementById('signup').style.display = mode==='log'?'none':'block';
+  document.getElementById('login').style.display  = mode==='log'?'block':'none';
+  document.getElementById('tN').setAttribute('aria-selected',String(mode!=='log'));
+  document.getElementById('tL').setAttribute('aria-selected',String(mode==='log'));
+  if(mode==='new'){
+    document.getElementById('s1').classList.add('on'); document.getElementById('s3').classList.remove('on');
+    [1,2,3].forEach(n=>document.getElementById('p'+n).classList.toggle('on',n<=1));
+    hint.textContent='Étape 1 sur 3 · Gratuit'; cta.textContent='Créer mon compte';
+  }else if(mode==='profil'){
+    document.getElementById('s1').classList.remove('on'); document.getElementById('s3').classList.add('on');
+    document.getElementById('seg').style.display='none';
+    [1,2,3].forEach(n=>document.getElementById('p'+n).classList.toggle('on',n<=3));
+    hint.textContent='Étape 3 sur 3 · Gratuit'; cta.textContent='Enregistrer mon profil';
+  }else{
+    hint.textContent="Pas encore de compte ? Créez-en un, c'est gratuit";
+    cta.textContent='Se connecter';
+  }
+  refresh();
+}
+/* Le bouton Retour est câblé par js/config.js, comme sur les autres écrans :
+   le recâbler ici déclencherait deux history.back() par clic. */
+document.getElementById('tN').onclick=function(){mode='new';show()};
+document.getElementById('tL').onclick=function(){mode='log';show()};
+
+const sheet=document.getElementById('sheet'), panel=document.getElementById('panel');
+function closeSheet(){sheet.classList.remove('open')}
+sheet.onclick=function(e){if(e.target===sheet)closeSheet()};
+document.getElementById('cityBtn').onclick=function(){
+  panel.innerHTML='<div class="grip"></div><h3>Ville</h3>'
+    +'<input type="text" class="sheet-search" id="q" placeholder="Chercher une ville…">'
+    +'<div class="opts" id="opts"></div>';
+  const opts=panel.querySelector('#opts'), q=panel.querySelector('#q');
+  function draw(f){
+    const list=VILLES.filter(v=>!f||v.toLowerCase().indexOf(f.toLowerCase())>-1);
+    opts.innerHTML=list.map(v=>'<button class="opt" role="option" aria-selected="'+(v===ville)+'">'
+      +'<span class="rank">'+(VILLES.indexOf(v)+1)+'</span>'+v+'<span class="tick">✓</span></button>').join('');
+    opts.querySelectorAll('.opt').forEach(function(b,i){
+      b.onclick=function(){ville=list[i];document.getElementById('cityLabel').textContent=ville;closeSheet()};
+    });
+  }
+  q.oninput=function(){draw(q.value)};
+  draw(''); sheet.classList.add('open');
+};
+
+/* Demande le mot de passe existant lors d'une liaison de compte Google */
+function askExistingPassword(email){
+  return new Promise(function(resolve){
+    panel.innerHTML='<div class="grip"></div><h3>Confirmez votre mot de passe</h3>'
+      +'<p class="lead">Un compte existe déjà pour '+nxEsc(email)+' avec un mot de passe. '
+      +'Entrez-le pour relier votre connexion Google à ce même compte.</p>'
+      +'<div class="field"><input type="password" id="linkPwd" placeholder="Votre mot de passe"></div>'
+      +'<button class="cta" id="linkOk" style="width:100%;margin-top:12px">Continuer</button>'
+      +'<button class="cancel" id="linkCancel">Annuler</button>';
+  sheet.classList.add('open');
+    panel.querySelector('#linkOk').onclick=function(){
+      const v=panel.querySelector('#linkPwd').value; closeSheet(); resolve(v);
+    };
+    panel.querySelector('#linkCancel').onclick=function(){ closeSheet(); resolve(null); };
+  });
+}
+
+/* ── Firebase ── */
+import('/js/nioxxer-auth.js').then(function(authApi){
+  const { auth, onAuthStateChanged, signUpWithEmail, logInWithEmail, signInWithGoogle,
+          saveProfile, profileExists, getProfile, translateAuthError, safeNext } = authApi;
+  const params=new URLSearchParams(location.search);
+  /* ?next= : page à retrouver après connexion (ex. /publier). */
+  const next=params.get('next') ? safeNext(params.get('next')) : null;
+  const avecNext=(url)=>next ? url+(url.includes('?')?'&':'?')+'next='+encodeURIComponent(next) : url;
+
+  /* Date de naissance : sélecteur natif du téléphone, plafonné à 18 ans
+     (même seuil que firestore.rules). */
+  const naissanceInput=document.getElementById('naissance');
+  naissanceInput.max=new Date(Date.now()-SEUIL_MAJORITE_JOURS*86400000).toISOString().slice(0,10);
+
+  async function sendVerifiedUserOnward(user){
+    location.replace(await profileExists(user.uid)
+      ? (next || '/compte')
+      : avecNext('/connexion?step=profil'));
+  }
+
+  /* Remplit le formulaire avec le profil déjà enregistré, pour que cette
+     étape serve aussi de modification depuis « Mon compte » et pas seulement
+     de première saisie. */
+  function prefillProfil(p){
+    if(!p) return;
+    if(p.nom) document.getElementById('nom').value=p.nom;
+    if(p.whatsapp) document.getElementById('tel').value=afficherWhatsApp(p.whatsapp);
+    if(p.naissance && p.naissance.toDate){
+      naissanceInput.value=p.naissance.toDate().toISOString().slice(0,10);
+    }
+    if(p.ville){ ville=p.ville; document.getElementById('cityLabel').textContent=ville; }
+    if(p.genre){
+      document.querySelectorAll('#genre .opt-b').forEach(function(b){
+        b.setAttribute('aria-pressed', String(b.textContent.trim()===p.genre));
+      });
+    }
+    cb.classList.add('on'); cb.setAttribute('aria-pressed','true');
+    refresh();
+  }
+
+  if(params.get('step')==='profil'){
+    onAuthStateChanged(auth,async function(user){
+      if(!user){ location.replace(avecNext('/connexion?mode=log')); return; }
+      if(!user.emailVerified){ location.replace(avecNext('/verifier-email')); return; }
+      mode='profil'; show();
+      try{ prefillProfil(await getProfile(user.uid)); }
+      catch(e){ console.error('Profil illisible :', e); }
+    });
+  } else {
+    onAuthStateChanged(auth,function(user){
+      if(user && user.emailVerified && mode!=='profil'){
+        sendVerifiedUserOnward(user);
+      }
+    });
+    /* « Connexion » (accueil, pages protégées) ouvre directement l'onglet
+       de connexion ; « Créer mon compte » garde l'inscription. */
+    if(params.get('mode')==='log') mode='log';
+    show();
+  }
+
+  cta.onclick=async function(){
+    showErr(errSignup,''); showErr(errLogin,''); showErr(errProfil,'');
+    if(mode==='new'){
+      const email=document.getElementById('email').value.trim();
+      const pwd=document.getElementById('pwd').value, pwd2=document.getElementById('pwd2').value;
+      if(pwd!==pwd2){ showErr(errSignup,'Les deux mots de passe ne correspondent pas.'); return; }
+      cta.disabled=true;
+      try{
+        await signUpWithEmail(email,pwd,next);
+        location.assign(avecNext('/verifier-email'));
+      }catch(e){ showErr(errSignup,translateAuthError(e)); cta.disabled=false; }
+    }else if(mode==='log'){
+      const email=document.getElementById('loginEmail').value.trim();
+      const pwd=document.getElementById('loginPwd').value;
+      cta.disabled=true;
+      try{
+        const user=await logInWithEmail(email,pwd);
+        if(!user.emailVerified){ location.assign(avecNext('/verifier-email')); return; }
+        await sendVerifiedUserOnward(user);
+      }catch(e){ showErr(errLogin,translateAuthError(e)); cta.disabled=false; }
+    }else if(mode==='profil'){
+      const genre=document.querySelector('#genre .opt-b[aria-pressed="true"]');
+      const m=naissanceInput.value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      if(!m){ showErr(errProfil,'Choisissez votre date de naissance.'); return; }
+      const naissance=new Date(Date.UTC(+m[1], +m[2]-1, +m[3]));
+      if(isNaN(naissance) || +m[1]<1900){ showErr(errProfil,'Cette date de naissance n\'est pas valide.'); return; }
+      /* Même seuil que firestore.rules (6575 jours). Un simple « age >= 18 »
+         laissait passer côté formulaire des dates que les règles refusent
+         ensuite : l'utilisateur recevait une erreur de permissions brute. */
+      const seuil=Date.now()-SEUIL_MAJORITE_JOURS*86400000;
+      if(naissance.getTime()>seuil){ showErr(errProfil,'Vous devez avoir 18 ans ou plus pour utiliser NIOXXER.'); return; }
+      /* Même format que firestore.rules (+2376XXXXXXXX) : on refuse ici avec
+         un message clair plutôt que de laisser les règles renvoyer une
+         erreur de permissions. */
+      const whatsapp=normaliserWhatsApp(document.getElementById('tel').value);
+      if(whatsapp===false){ showErr(errProfil,'Numéro WhatsApp invalide : entrez un numéro mobile camerounais à 9 chiffres commençant par 6, ou laissez le champ vide.'); return; }
+      cta.disabled=true;
+      try{
+        await saveProfile(auth.currentUser.uid,{
+          nom:document.getElementById('nom').value.trim(),
+          naissance:naissance,
+          genre:genre?genre.textContent:'',
+          ville:ville,
+          whatsapp:whatsapp,
+        });
+        location.assign(next || '/compte');
+      }catch(e){ console.error('[NIOXXER profil]', e && e.code || e); showErr(errProfil,'Impossible d\'enregistrer votre profil. Réessayez.'+(e&&e.code?' ('+e.code+')':'')); cta.disabled=false; }
+    }
+  };
+
+  document.getElementById('googleSignup').onclick=document.getElementById('googleLogin').onclick=async function(){
+    try{
+      const {user}=await signInWithGoogle(askExistingPassword);
+      await sendVerifiedUserOnward(user);
+    }catch(e){
+      const msg=translateAuthError(e);
+      showErr(mode==='log'?errLogin:errSignup,msg);
+    }
+  };
+
+  document.getElementById('forgot').onclick=async function(){
+    const {sendPasswordResetEmail}=await import('https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js');
+    const email=document.getElementById('loginEmail').value.trim();
+    if(!email.includes('@')){ showErr(errLogin,'Entrez votre e-mail ci-dessus pour recevoir le lien de réinitialisation.'); return; }
+    try{
+      await sendPasswordResetEmail(auth,email);
+      showErr(errLogin,'E-mail de réinitialisation envoyé, si ce compte existe.');
+    }catch(e){ showErr(errLogin,translateAuthError(e)); }
+  };
+});
+</script>
+</body>
+</html>

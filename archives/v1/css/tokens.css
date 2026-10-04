@@ -1,0 +1,106 @@
+/* NIOXXER — jetons de design et socle commun à toutes les pages
+   Généré à partir des styles communs des pages. Règle (CLAUDE.md) : aucune
+   couleur, police ou rayon en dur dans un écran ; tout vient des jetons. */
+
+:root{
+  --bg:#100E14;
+  --ink:#F2EDF3;
+  --ink-60:#A198A6;
+  --ink-40:#736A78;
+  --line:rgba(242,237,243,.10);
+  --accent:#F0455F;
+  --accent-lift:#FF5F76;
+  --saffron:#F5C542;
+  --panel:rgba(255,255,255,.05);
+  --bar:rgba(16,14,20,.74);
+  --bar-solid:rgba(16,14,20,.95);
+  --r-card:16px;
+  --r-pill:999px;
+  --reel:40s;
+  --ease:cubic-bezier(.22,.68,.28,1);
+  --bg-lift:#191520;
+  --accent-ink:#26060C;
+  --saffron-ink:#2A1D05;
+  --whatsapp:#25D366;
+  --whatsapp-ink:#053B1A;
+  --danger:#FF6B6B;
+  --ok:#5FD07A;
+  --dye-1:linear-gradient(158deg,#8E1C3C,#C9666F);
+  --dye-2:linear-gradient(158deg,#26407A,#7288B8);
+  --dye-3:linear-gradient(158deg,#9A6018,#D6A85C);
+  --dye-4:linear-gradient(158deg,#5A2652,#9E6E92);
+  --dye-5:linear-gradient(158deg,#1A564F,#68A296);
+  --dye-6:linear-gradient(158deg,#8A3720,#C4835F);
+  --font-display:'Young Serif',Georgia,serif;
+  --font-ui:'Karla',system-ui,sans-serif;
+  --t-title:20px;
+  --t-lead:15px;
+  --t-body:13px;
+  --t-meta:11.5px;
+  --t-micro:10.5px;
+  --r-panel:20px;
+  --r-field:12px;
+  --sp-1:4px;
+  --sp-2:8px;
+  --sp-3:11px;
+  --sp-4:16px;
+  --sp-5:18px;
+  --sp-6:24px;
+  --sp-7:32px;
+  --gutter:16px;
+  --page-max:520px;
+  --t-fast:.18s;
+  --t-mid:.32s;
+  --t-slow:.5s;
+  --ring:inset 0 0 0 1px rgba(255,255,255,.16);
+  --lift-1:0 10px 20px -14px rgba(0,0,0,.8);
+  /* logo (img/logo.webp) : hauteur affichée */
+  --logo-h:44px;
+  --logo-h-condensed:34px;
+  --logo-h-foot:56px;
+  /* ajoutés : teintes jusque-là écrites en dur dans les écrans */
+  --saffron-lift:#FFE08A;
+  --accent-soft:#FF9AAB;
+  --accent-mist:#F2C2CB;
+  --danger-soft:#FF9C9C;
+  --danger-mist:#FFC9C9;
+  --danger-haze:#E9BDBD;
+  --ink-80:#D6CEDA;
+  --ink-75:#DCD3DF;
+  --ink-70:#C7BECB;
+  --ok-lift:#7FE79A;
+  --ok-mist:#CDEFD6;
+  --ok-haze:#C6E4CE;
+  --saffron-mist:#E8D5A8;
+  --saffron-haze:#E4D5AE;
+  --accent-haze:#EFC6CE;
+  --google-ink:#1F1F1F;
+  --mass-1:#A32846;
+  --mass-2:#4C2C86;
+  --mass-3:#8A5A22;
+  --dye-7:linear-gradient(158deg,#383B68,#8386A8);
+  --dye-8:linear-gradient(158deg,#6E1B3E,#B0728A);
+  --accent-rgb:240,69,95;
+  --saffron-rgb:245,197,66;
+  --bg-rgb:16,14,20;
+  --danger-rgb:255,107,107;
+  --ok-rgb:95,208,122;
+  --shade-rgb:8,4,8;
+  --veil-rgb:4,3,6;
+  --toast-rgb:28,22,34;
+  --stamp-rgb:10,6,12;
+  --mass-1-rgb:163,40,70;
+  --mass-2-rgb:76,44,134;
+  --lilac-rgb:180,140,255;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg)}
+:focus-visible{outline:2px solid var(--saffron);outline-offset:3px;border-radius:5px}
+.mark em{font-style:normal;color:var(--saffron)}
+
+/* Logo image — remplace l'ancien logotype texte « nio<em>xx</em>er ». */
+.logo{display:block;height:var(--logo-h);width:auto;transition:height var(--t-mid) var(--ease)}
+.masthead.condensed .logo{height:var(--logo-h-condensed)}
+.colophon .logo{height:var(--logo-h-foot)}
+.mark:has(.logo){line-height:0}

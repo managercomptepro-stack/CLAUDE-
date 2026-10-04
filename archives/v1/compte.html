@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#100E14">
+<title>Mon compte · NIOXXER</title>
+<meta name="description" content="Votre compte NIOXXER : profil et réglages.">
+<script>document.documentElement.style.visibility='hidden';</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Karla:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/app.css">
+<style>
+body{background:transparent;color:var(--ink);font-family:var(--font-ui);font-size:var(--t-body);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+.page{max-width:var(--page-max);margin:0 auto;position:relative;z-index:2}
+@keyframes mm2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-11vw,7vw) scale(1.1)}}
+.spark{position:absolute;border-radius:50%;pointer-events:none;mix-blend-mode:screen;
+  background:radial-gradient(circle,#fff 0%,rgba(255,255,255,.85) 26%,rgba(255,255,255,0) 70%)}
+@keyframes fly{0%{transform:translate3d(0,10vh,0)}50%{transform:translate3d(calc(var(--dx,4vw)*.55),-28vh,0)}
+  100%{transform:translate3d(var(--dx,4vw),-66vh,0)}}
+@keyframes twinkle{0%,100%{opacity:0}10%{opacity:var(--o,.9)}40%{opacity:calc(var(--o,.9)*.28)}
+  62%{opacity:var(--o,.9)}88%{opacity:calc(var(--o,.9)*.45)}}
+.ready [data-rise]{opacity:1;transform:none;
+  transition:opacity var(--t-slow) var(--ease),transform var(--t-slow) var(--ease);transition-delay:var(--d,0ms)}
+.masthead{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;
+  padding:11px var(--gutter);background:var(--bar);
+  -webkit-backdrop-filter:blur(20px) saturate(1.35);backdrop-filter:blur(20px) saturate(1.35);
+  border-bottom:1px solid transparent;transition:background var(--t-mid),border-color var(--t-mid)}
+.masthead.condensed{background:var(--bar-solid);border-bottom-color:var(--line)}
+.mark{font-family:var(--font-display);font-size:19px;color:var(--accent)}
+.stamp{font-size:8.5px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;padding:3px 7px;border-radius:var(--r-pill)}
+.stamp.premium{background:linear-gradient(96deg,var(--saffron),var(--saffron-lift));color:var(--saffron-ink)}
+.sheet{position:fixed;inset:0;z-index:70;display:none;background:rgba(var(--veil-rgb),.68);
+  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);align-items:flex-end}
+.sheet .panel{width:100%;max-width:var(--page-max);margin:0 auto;background:var(--bg-lift);
+  border-radius:var(--r-panel) var(--r-panel) 0 0;border-top:1px solid var(--line);
+  padding:var(--sp-2) 14px calc(var(--sp-5) + env(safe-area-inset-bottom));animation:up .26s var(--ease)}
+.grip{width:34px;height:3.5px;border-radius:var(--r-pill);background:rgba(255,255,255,.22);margin:0 auto var(--sp-3)}
+.sheet h3{font-family:var(--font-display);font-size:17px;font-weight:400;margin:0 4px 6px}
+.opts{display:flex;flex-direction:column;gap:5px;max-height:44vh;overflow-y:auto;overscroll-behavior:contain}
+.opt{display:flex;align-items:center;gap:10px;padding:11px 13px;border-radius:var(--r-field);
+  background:var(--panel);border:1px solid transparent;color:var(--ink);font-size:14px;text-align:left}
+.sheet-search{width:100%;margin-bottom:9px;background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--r-field);padding:11px 13px;color:var(--ink);font-family:var(--font-ui);font-size:14px;outline:none}
+.tabs .row{position:relative;max-width:var(--page-max);margin:0 auto;display:grid;
+  grid-template-columns:repeat(4,1fr);align-items:end;padding:7px 8px 8px}
+.glide{position:absolute;top:3px;height:2.5px;width:24px;border-radius:var(--r-pill);
+  background:var(--accent);transition:left var(--t-mid) var(--ease)}
+.slot{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:600;color:var(--ink-40);
+  text-decoration:none}
+.slot svg{width:20px;height:20px;fill:currentColor}
+.slot.post .knob{width:42px;height:42px;border-radius:50%;background:var(--accent);display:flex;
+  align-items:center;justify-content:center;margin-top:-13px;box-shadow:0 6px 15px -5px rgba(var(--accent-rgb),.7)}
+.slot.post .knob svg{width:21px;height:21px;fill:var(--accent-ink)}
+body{padding-bottom:74px}
+.me{display:flex;gap:13px;align-items:center;padding:var(--sp-3) var(--gutter) 0}
+.ava{width:62px;height:62px;border-radius:18px;flex:0 0 auto;background:var(--dye-1);
+  display:flex;align-items:center;justify-content:center;font-family:var(--font-display);
+  font-size:25px;color:rgba(255,255,255,.85)}
+.me .nm{font-family:var(--font-display);font-size:21px;display:flex;align-items:center;gap:7px}
+.me .nm .seal{width:15px;height:15px}
+.me .lo{font-size:12.5px;color:var(--ink-60);margin-top:3px}
+.me .ph{font-size:11.5px;color:var(--ink-40);margin-top:4px;letter-spacing:.04em}
+.wallet{margin:var(--sp-4) var(--gutter) 0;border-radius:var(--r-panel);padding:16px 17px;
+  background:linear-gradient(135deg,rgba(var(--saffron-rgb),.10),rgba(255,255,255,.03));
+  border:1px solid rgba(var(--saffron-rgb),.24)}
+.wallet .top{display:flex;align-items:flex-start}
+.wallet .cap{font-size:var(--t-micro);letter-spacing:.14em;text-transform:uppercase;color:var(--saffron);font-weight:800}
+.wallet .amt{font-family:var(--font-display);font-size:30px;margin-top:5px}
+.wallet .amt small{font-size:14px;color:var(--ink-60)}
+.wallet .add{margin-left:auto;background:var(--saffron);color:var(--saffron-ink);border-radius:var(--r-pill);
+  padding:10px 16px;font-size:13px;font-weight:700;text-decoration:none;display:inline-block}
+.wallet .hist{margin-top:11px;font-size:12px;color:var(--ink-60)}
+.seg{display:flex;gap:5px;background:var(--panel);border-radius:var(--r-pill);padding:4px;margin:var(--sp-5) var(--gutter) 0}
+.pane{display:none}
+.ad{margin:var(--sp-3) var(--gutter) 0;background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--r-card);overflow:hidden}
+.ad.premium{border-color:rgba(var(--saffron-rgb),.38)}
+.ad.held{border-color:rgba(var(--saffron-rgb),.3)}
+.ad.no{border-color:rgba(var(--danger-rgb),.35)}
+.ad .bd{display:flex;gap:12px;padding:12px}
+.ad .th{width:74px;height:92px;border-radius:12px;flex:0 0 auto;display:flex;align-items:center;
+  justify-content:center;font-family:var(--font-display);font-size:24px;color:rgba(255,255,255,.28)}
+.ad .info{flex:1;min-width:0}
+.state{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:800;letter-spacing:.06em;
+  text-transform:uppercase;padding:4px 9px;border-radius:var(--r-pill)}
+.state.live{background:rgba(var(--ok-rgb),.14);color:var(--ok)}
+.state.wait{background:rgba(var(--saffron-rgb),.14);color:var(--saffron)}
+.state.bad{background:rgba(var(--danger-rgb),.14);color:var(--danger-soft)}
+.state.exp{background:rgba(255,255,255,.07);color:var(--ink-40)}
+.ad .ttl{font-family:var(--font-display);font-size:14.5px;margin-top:8px;line-height:1.3}
+.ad .stats{display:flex;gap:13px;margin-top:8px;flex-wrap:wrap}
+.ad .st{font-size:11.5px;color:var(--ink-40)}
+.ad .st b{color:var(--ink);font-size:13px;font-family:var(--font-display)}
+.promo{display:flex;align-items:center;gap:8px;margin:0 12px 12px;padding:10px 12px;border-radius:12px;
+  font-size:12px;background:rgba(var(--saffron-rgb),.09);color:var(--saffron-mist)}
+.promo.rose{background:rgba(var(--accent-rgb),.09);color:var(--accent-mist)}
+.promo .track{flex:1;height:4px;border-radius:var(--r-pill);background:rgba(255,255,255,.14);overflow:hidden}
+.promo .track i{display:block;height:100%;background:var(--saffron);border-radius:var(--r-pill)}
+.promo.rose .track i{background:var(--accent)}
+.alert{margin:0 12px 12px;padding:10px 12px;border-radius:12px;font-size:12px;line-height:1.5}
+.alert.warn{background:rgba(var(--saffron-rgb),.09);color:var(--saffron-mist)}
+.alert.bad{background:rgba(var(--danger-rgb),.09);color:var(--danger-haze)}
+.acts{display:flex;gap:7px;padding:0 12px 12px}
+.b{flex:1;text-align:center;padding:10px 0;border-radius:var(--r-pill);font-size:12.5px;font-weight:700}
+.b.gold{background:var(--saffron);color:var(--saffron-ink)}
+.b.rose{background:rgba(var(--accent-rgb),.16);color:var(--accent-soft);box-shadow:inset 0 0 0 1px rgba(var(--accent-rgb),.4)}
+.b.gh{background:var(--panel);color:var(--ink-60);box-shadow:inset 0 0 0 1px var(--line)}
+.list{margin:var(--sp-3) var(--gutter) 0;background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--r-card);overflow:hidden}
+.item{display:flex;align-items:center;gap:12px;padding:14px;width:100%;text-align:left;text-decoration:none}
+.item+.item{border-top:1px solid var(--line)}
+.item .ic{width:19px;height:19px;fill:var(--saffron);flex:0 0 auto}
+.item .t{flex:1;font-size:14px}
+.item .t small{display:block;font-size:11.5px;color:var(--ink-40);margin-top:2px}
+.item .ar{color:var(--ink-40)}
+.item.danger .ic{fill:var(--danger-soft)}
+.item.danger .t{color:var(--danger-soft)}
+.blank{margin:var(--sp-4) var(--gutter) 0;padding:36px 22px 32px;text-align:center;
+  border-radius:var(--r-card);background:var(--panel);border:1px solid var(--line)}
+.blank-glyph{width:58px;height:58px;border-radius:50%;background:rgba(var(--accent-rgb),.10);
+  margin:0 auto 15px;display:flex;align-items:center;justify-content:center}
+.blank-glyph svg{width:25px;height:25px}
+.blank h3{font-family:var(--font-display);font-size:17px;font-weight:400}
+.blank p{font-size:12.5px;color:var(--ink-60);margin-top:9px;line-height:1.6}
+.foot-note{margin:var(--sp-4) var(--gutter) 0;text-align:center;font-size:12px;color:var(--ink-40)}
+.ad .th{background:var(--dye-1)}
+.ad .when{font-size:11.5px;color:var(--ink-40);margin-top:4px}
+.ad .txt{font-size:12.5px;color:var(--ink-60);margin-top:6px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;
+  -webkit-box-orient:vertical;overflow:hidden}
+.ad .acts{display:flex;border-top:1px solid var(--line)}
+.ad .acts a,.ad .acts button{flex:1;text-align:center;padding:11px 0;font-size:12.5px;font-weight:700;text-decoration:none;color:var(--ink-60)}
+.ad .acts > * + *{border-left:1px solid var(--line)}
+.ad .acts .del{color:var(--danger-soft)}
+.publish-row{margin:var(--sp-4) var(--gutter) 0}
+.publish{display:block;text-align:center;text-decoration:none;background:var(--accent);color:var(--accent-ink);
+  border-radius:var(--r-pill);padding:14px 0;font-family:var(--font-display);font-size:15px}
+.blank .publish{display:inline-block;padding:12px 22px;margin-top:18px}
+.del-err{font-size:12.5px;color:var(--danger-mist);margin:6px 4px 0;min-height:1em}
+.del-go{width:100%;margin-top:var(--sp-3);background:var(--danger);color:var(--accent-ink);border-radius:var(--r-pill);
+  padding:14px 0;font-family:var(--font-display);font-size:15px}
+.del-go:disabled{opacity:.5}
+</style>
+</head>
+<body>
+<script type="module" src="/js/auth-guard.js"></script>
+<div class="scene" id="scene" aria-hidden="true">
+  <i class="mass m1"></i><i class="mass m2"></i><i class="mass m3"></i>
+</div>
+<div class="page">
+
+<header class="masthead" id="masthead">
+  <h1>Mon compte</h1>
+  <button class="icon-btn" style="margin-left:auto" aria-label="Réglages" id="gearBtn">
+    <svg viewBox="0 0 24 24"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm9.4 4c0-.5 0-1-.1-1.4l2-1.6-2-3.4-2.4 1a7.6 7.6 0 0 0-2.4-1.4L16.1 2h-4l-.4 2.6c-.9.3-1.7.8-2.4 1.4l-2.4-1-2 3.4 2 1.6a8.6 8.6 0 0 0 0 2.9l-2 1.6 2 3.4 2.4-1c.7.6 1.5 1.1 2.4 1.4l.4 2.6h4l.4-2.6c.9-.3 1.7-.8 2.4-1.4l2.4 1 2-3.4-2-1.6c.1-.5.1-1 .1-1.4Z"/></svg>
+  </button>
+</header>
+
+<div class="me" data-rise style="--d:0ms">
+  <div class="ava" id="ava">·</div>
+  <div>
+    <div class="nm" id="meNom">—
+      <svg class="seal" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" style="fill:var(--saffron)"/><path d="M5 8.2 7 10.2 11 6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--saffron-ink)"/></svg>
+    </div>
+    <div class="lo" id="meLieu"></div>
+    <div class="ph" id="meMail"></div>
+  </div>
+</div>
+
+<div class="seg" data-rise style="--d:110ms">
+  <button id="t1" aria-selected="true">Mes annonces</button>
+  <button id="t2" aria-selected="false">Réglages</button>
+</div>
+
+<!-- MES ANNONCES -->
+<div class="pane on" id="p1">
+  <div id="mesAnnonces"><p class="foot-note">Chargement de vos annonces…</p></div>
+  <div class="publish-row" id="publishRow" hidden><a class="publish" href="/publier">+ Publier une annonce</a></div>
+  <p class="foot-note" id="quotaNote"></p>
+</div>
+
+<!-- RÉGLAGES -->
+<div class="pane" id="p2">
+  <div class="list">
+    <a class="item" href="/connexion?step=profil&amp;next=/compte"><svg class="ic" viewBox="0 0 24 24"><path d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm0 2c-4 0-8 2-8 4.5V21h16v-2.5c0-2.5-4-4.5-8-4.5Z"/></svg><span class="t">Modifier mon profil<small>Prénom, date de naissance, genre, ville, WhatsApp</small></span><span class="ar">›</span></a>
+    <button class="item" id="pwdBtn"><svg class="ic" viewBox="0 0 24 24"><path d="M12 1 3 5v6c0 5 3.8 9.7 9 11 5.2-1.3 9-6 9-11V5l-9-4Z"/></svg><span class="t">Changer mon mot de passe<small>Un lien de réinitialisation vous sera envoyé</small></span><span class="ar">›</span></button>
+  </div>
+  <p class="foot-note" id="pwdMsg" style="margin-top:8px"></p>
+  <div class="list">
+    <a class="item" href="/securite"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2 1 21h22L12 2Zm-1 6h2v7h-2V8Zm0 9h2v2h-2v-2Z"/></svg><span class="t">Se rencontrer en sécurité<small>Nos conseils avant un rendez-vous</small></span><span class="ar">›</span></a>
+    <a class="item" href="/regles"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm1 15h-2v-2h2Zm0-4h-2V7h2Z"/></svg><span class="t">Règles de publication<small>Ce qui est autorisé et interdit</small></span><span class="ar">›</span></a>
+    <a class="item" href="/cgu"><svg class="ic" viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6V2Zm8 1.5V8h4.5L14 3.5Z"/></svg><span class="t">Conditions d'utilisation<small>Le contrat entre vous et NIOXXER</small></span><span class="ar">›</span></a>
+    <a class="item" href="/confidentialite"><svg class="ic" viewBox="0 0 24 24"><path d="M12 1 3 5v6c0 5 3.8 9.7 9 11 5.2-1.3 9-6 9-11V5l-9-4Zm0 10.5a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z"/></svg><span class="t">Confidentialité<small>Ce que nous faisons de vos données</small></span><span class="ar">›</span></a>
+  </div>
+  <div class="list">
+    <button class="item" id="logoutBtn"><svg class="ic" viewBox="0 0 24 24"><path d="M10 17v-2h6V9h-6V7l-5 5 5 5Zm9-14H5v2h14v14H5v2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2Z"/></svg><span class="t">Se déconnecter</span><span class="ar">›</span></button>
+  </div>
+  <div class="list">
+    <button class="item danger" id="deleteBtn"><svg class="ic" viewBox="0 0 24 24"><path d="M9 3h6l1 2h4v2H4V5h4l1-2Zm-3 6h12l-1 12H7L6 9Z"/></svg><span class="t">Supprimer mon compte<small>Efface votre profil et vos annonces, définitivement</small></span><span class="ar">›</span></button>
+  </div>
+  <p class="foot-note">NIOXXER · version 1.1</p>
+</div>
+
+</div>
+<div class="sheet" id="delSheet" role="dialog" aria-modal="true" aria-labelledby="delTitle"><div class="panel">
+  <div class="grip"></div>
+  <h3 id="delTitle">Supprimer mon compte ?</h3>
+  <p class="lead">Votre profil et toutes vos annonces seront effacés immédiatement et définitivement. Cette action ne peut pas être annulée.</p>
+  <input type="password" id="delPwd" class="sheet-search" placeholder="Votre mot de passe, pour confirmer" autocomplete="current-password" hidden>
+  <p class="del-err" id="delErr"></p>
+  <button class="del-go" id="delGo" type="button">Supprimer définitivement</button>
+  <button class="cancel" id="delCancel" type="button">Annuler</button>
+</div></div>
+<nav class="tabs" aria-label="Navigation principale">
+  <div class="row">
+    <span class="glide" id="glide"></span>
+    <a class="slot" href="/"><svg viewBox="0 0 24 24"><path d="M12 3 3 10v11h6v-6h6v6h6V10l-9-7Z"/></svg>Accueil</a>
+    <a class="slot" href="/recherche"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5" stroke-linecap="round"/></svg>Recherche</a>
+    <a class="slot post" href="/publier" aria-label="Publier une annonce"><span class="knob"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6V5Z"/></svg></span>Publier</a>
+    <a class="slot" href="/compte" aria-current="page"><svg viewBox="0 0 24 24"><path d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm0 2c-4 0-8 2-8 4.5V21h16v-2.5c0-2.5-4-4.5-8-4.5Z"/></svg>Compte</a>
+  </div>
+</nav>
+<script src="/js/config.js"></script>
+<script>
+
+const calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(calm) document.documentElement.classList.add('calm');
+const rnd=(a,b)=>a+Math.random()*(b-a), pick=a=>a[Math.floor(Math.random()*a.length)];
+const WA=NIOXXER_WA;   /* voir js/config.js — rule 10 */
+{
+  const host=document.getElementById('scene');
+  const kinds=['lozenge','dot','dot','ring'], tints=['rgba(255,255,255,.9)','var(--saffron)','var(--accent)'];
+  for(let i=0;i<30;i++){
+    const b=document.createElement('span'), s=rnd(4,11);
+    b.className='bit '+pick(kinds); b.style.color=pick(tints);
+    b.style.width=s+'px'; b.style.height=s+'px'; b.style.left=rnd(-2,101)+'%'; b.style.bottom='0';
+    b.style.setProperty('--o',rnd(.22,.52)); b.style.setProperty('--dx',rnd(-10,10)+'vw');
+    b.style.setProperty('--rot',rnd(-180,180)+'deg');
+    b.style.animation='drift '+rnd(12,24)+'s linear infinite';
+    b.style.animationDelay=(-rnd(0,24))+'s'; host.appendChild(b);
+  }
+  const glows=[['255,255,255',.95],['var(--saffron-rgb)',.85],['var(--accent-rgb)',.75]];
+  for(let i=0;i<22;i++){
+    const g=document.createElement('span'), c=pick(glows), s=rnd(3,9);
+    g.className='spark'; g.style.width=s+'px'; g.style.height=s+'px';
+    g.style.left=rnd(-2,101)+'%'; g.style.bottom='0';
+    g.style.boxShadow='0 0 '+(s*2.6)+'px '+(s*.55)+'px rgba('+c[0]+','+(c[1]*.55).toFixed(2)+')';
+    g.style.setProperty('--o',rnd(.45,1)*c[1]); g.style.setProperty('--dx',rnd(-12,12)+'vw');
+    g.style.animation='fly '+rnd(14,26)+'s linear infinite, twinkle '+rnd(2.4,5.2)+'s ease-in-out infinite';
+    g.style.animationDelay=(-rnd(0,26))+'s, '+(-rnd(0,5))+'s'; host.appendChild(g);
+  }
+}
+requestAnimationFrame(function(){document.body.classList.add('ready')});
+addEventListener('scroll',function(){
+  const m=document.getElementById('masthead'); if(m) m.classList.toggle('condensed',scrollY>16);
+},{passive:true});
+{
+  const slots=[].slice.call(document.querySelectorAll('.slot')), glide=document.getElementById('glide');
+  function move(el){const r=el.getBoundingClientRect(),p=el.parentElement.getBoundingClientRect();
+    glide.style.left=(r.left-p.left+r.width/2-12)+'px';}
+  slots.forEach(function(s){s.onclick=function(){
+    slots.forEach(x=>x.removeAttribute('aria-current'));
+    s.setAttribute('aria-current','page'); move(s);};});
+  const cur=document.querySelector('.slot[aria-current]')||slots[0];
+  move(cur); addEventListener('load',function(){move(cur)});
+}
+
+{
+  const t1=document.getElementById('t1'),t2=document.getElementById('t2');
+  const p1=document.getElementById('p1'),p2=document.getElementById('p2');
+  t1.onclick=function(){t1.setAttribute('aria-selected','true');t2.setAttribute('aria-selected','false');
+    p1.classList.add('on');p2.classList.remove('on')};
+  t2.onclick=function(){t2.setAttribute('aria-selected','true');t1.setAttribute('aria-selected','false');
+    p2.classList.add('on');p1.classList.remove('on')};
+  /* L'engrenage de l'en-tête ouvre l'onglet Réglages (il n'avait aucun effet). */
+  document.getElementById('gearBtn').onclick=function(){ t2.click(); scrollTo({top:0,behavior:'smooth'}); };
+}
+
+document.getElementById('logoutBtn').onclick=function(){
+  import('/js/nioxxer-auth.js').then(function(authApi){
+    authApi.signOut(authApi.auth).then(function(){
+      location.assign('/connexion');
+    });
+  });
+};
+
+/* Changement de mot de passe : Firebase envoie le lien, on ne manipule
+   jamais le mot de passe nous-mêmes. */
+document.getElementById('pwdBtn').onclick=function(){
+  const msg=document.getElementById('pwdMsg');
+  import('/js/nioxxer-auth.js').then(async function(api){
+    const u=api.auth.currentUser;
+    if(!u){ msg.textContent="Reconnectez-vous pour changer votre mot de passe."; return; }
+    try{
+      const {sendPasswordResetEmail}=await import('https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js');
+      await sendPasswordResetEmail(api.auth,u.email);
+      msg.textContent="Lien envoyé à "+u.email+". Pensez à regarder vos spams.";
+    }catch(e){ msg.textContent=api.translateAuthError(e); }
+  });
+};
+
+/* ── Profil réel ──
+   Le bloc d'identité affichait un profil fictif. Il est maintenant rempli
+   avec le document users/{uid} de la personne connectée. auth-guard.js a
+   déjà garanti qu'elle est connectée et vérifiée avant d'arriver ici. */
+import('/js/nioxxer-auth.js').then(function(api){
+  api.onAuthStateChanged(api.auth, async function(user){
+    if(!user) return;
+    document.getElementById('meMail').textContent = user.email + ' · vérifié';
+    try{
+      const profil = await api.getProfile(user.uid);
+      /* Compte vérifié mais profil jamais rempli (inscription interrompue) :
+         on renvoie vers l'étape profil au lieu d'afficher un compte vide. */
+      if(!profil){ location.replace('/connexion?step=profil'); return; }
+      const nom = profil.nom || '';
+      if(nom){
+        document.getElementById('ava').textContent = nom[0].toUpperCase();
+        document.getElementById('meNom').childNodes[0].nodeValue = nom + ' ';
+      }
+      const bouts=[];
+      if(profil.naissance && profil.naissance.toDate){
+        const n=profil.naissance.toDate();
+        const t=new Date();
+        let age=t.getFullYear()-n.getFullYear();
+        const m=t.getMonth()-n.getMonth();
+        if(m<0 || (m===0 && t.getDate()<n.getDate())) age--;
+        bouts.push(age+' ans');
+      }
+      if(profil.ville) bouts.push(profil.ville);
+      document.getElementById('meLieu').textContent = bouts.join(' · ');
+    }catch(e){
+      /* Lecture refusée ou hors ligne : on laisse l'e-mail, sans inventer le reste. */
+      console.error('Lecture du profil impossible :', e);
+    }
+  });
+});
+</script>
+<script type="module">
+/* ── Mes annonces et suppression du compte ── */
+import { auth, onAuthStateChanged, deleteAccount, providersOf, translateAuthError } from '/js/nioxxer-auth.js';
+import { mesAnnonces, supprimerAnnonce, supprimerToutesMesAnnonces, messageErreurAnnonce, MAX_ACTIVES } from '/js/annonces.js';
+const $=id=>document.getElementById(id);
+const DYES=['var(--dye-1)','var(--dye-2)','var(--dye-3)','var(--dye-4)','var(--dye-5)','var(--dye-6)','var(--dye-7)','var(--dye-8)'];
+const fmt=d=>d?d.toLocaleDateString('fr-FR',{day:'numeric',month:'long'}):'';
+
+async function afficher(){
+  const host=$('mesAnnonces');
+  let liste;
+  try{ liste=await mesAnnonces(); }
+  catch(e){ host.innerHTML='<p class="foot-note">'+nxEsc(messageErreurAnnonce(e))+'</p>'; return; }
+  const actives=liste.filter(a=>a.active).length;
+  $('publishRow').hidden = !liste.length || actives>=MAX_ACTIVES;
+  $('quotaNote').textContent = liste.length ? 'Annonces actives : '+actives+' / '+MAX_ACTIVES+' · publier est gratuit' : '';
+  if(!liste.length){
+    host.innerHTML='<div class="blank"><div class="blank-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" style="stroke:var(--accent)"><path d="M4 5h16v14H4z"/><path d="M8 10h8M8 14h5" stroke-linecap="round"/></svg></div>'
+      +'<h3>Aucune annonce</h3><p>Publiez votre première annonce : c’est gratuit, et elle reste en ligne 60 jours.</p>'
+      +'<a class="publish" href="/publier">Publier une annonce</a></div>';
+    return;
+  }
+  host.innerHTML=liste.map(function(a,i){
+    const etat=a.active ? '<span class="state live">En ligne</span>' : '<span class="state exp">Expirée</span>';
+    const quand=a.active ? (a.expire?'Expire le '+fmt(a.expire):'Publiée à l’instant') : 'Expirée le '+fmt(a.expire);
+    return '<div class="ad"><div class="bd">'
+      +'<div class="th" style="background:'+DYES[i%DYES.length]+'">'+nxEsc((a.prenom||'·')[0])+'</div>'
+      +'<div class="info">'+etat
+      +'<div class="ttl">'+nxEsc(a.prenom)+', '+nxEsc(a.age)+' · '+nxEsc([a.quartier,a.ville].filter(Boolean).join(', '))+'</div>'
+      +'<div class="when">'+nxEsc(quand)+'</div>'
+      +'<div class="txt">'+nxEsc(a.texte)+'</div></div></div>'
+      +'<div class="acts">'
+      +(a.active?'<a href="/annonce?id='+encodeURIComponent(a.id)+'">Voir</a><a href="/publier?id='+encodeURIComponent(a.id)+'">Modifier</a>':'')
+      +'<button type="button" class="del" data-id="'+nxEsc(a.id)+'">Supprimer</button></div></div>';
+  }).join('');
+  host.querySelectorAll('.del').forEach(function(b){
+    b.onclick=async function(){
+      if(!confirm('Supprimer cette annonce ? Elle disparaît immédiatement du site.')) return;
+      b.disabled=true;
+      try{ await supprimerAnnonce(b.dataset.id); await afficher(); }
+      catch(e){ alert(messageErreurAnnonce(e)); b.disabled=false; }
+    };
+  });
+}
+onAuthStateChanged(auth,function(u){ if(u && u.emailVerified) afficher(); });
+
+/* Suppression du compte : confirmation d'identité, puis annonces, profil, compte. */
+const sheet=$('delSheet'), pwd=$('delPwd'), go=$('delGo'), derr=$('delErr');
+$('deleteBtn').onclick=function(){
+  const u=auth.currentUser; if(!u) return;
+  pwd.hidden=!providersOf(u).includes('password'); pwd.value=''; derr.textContent='';
+  go.textContent = pwd.hidden ? 'Confirmer avec Google et supprimer' : 'Supprimer définitivement';
+  sheet.classList.add('open');
+};
+$('delCancel').onclick=()=>sheet.classList.remove('open');
+sheet.onclick=e=>{ if(e.target===sheet) sheet.classList.remove('open'); };
+go.onclick=async function(){
+  derr.textContent=''; go.disabled=true;
+  try{
+    await deleteAccount({ password: pwd.value, supprimerAnnonces: supprimerToutesMesAnnonces });
+    location.replace('/?compte=supprime');
+  }catch(e){ derr.textContent=translateAuthError(e); go.disabled=false; }
+};
+</script>
+</body>
+</html>

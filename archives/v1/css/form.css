@@ -1,0 +1,36 @@
+/* NIOXXER — écrans simples (publier, fiche d'annonce) : en-tête, intitulés,
+   champs, messages et barre d'action du bas. Mêmes valeurs que /connexion.
+   Couleurs et polices : uniquement des jetons (css/tokens.css). */
+
+body{background:transparent;color:var(--ink);font-family:var(--font-ui);font-size:var(--t-body);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  /* la barre d'action du bas ne doit jamais recouvrir le contenu */
+  padding-bottom:calc(150px + env(safe-area-inset-bottom))}
+a{color:inherit}
+.page{max-width:var(--page-max);margin:0 auto;position:relative;z-index:2}
+.masthead{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;
+  padding:11px var(--gutter);background:var(--bar-solid);border-bottom:1px solid var(--line);
+  -webkit-backdrop-filter:blur(20px) saturate(1.35);backdrop-filter:blur(20px) saturate(1.35)}
+.pad{padding:0 var(--gutter)}
+h2{font-family:var(--font-display);font-size:23px;margin-top:var(--sp-6);font-weight:400}
+.sub{font-size:13px;color:var(--ink-60);margin-top:8px;line-height:1.6}
+.lbl{font-size:var(--t-micro);font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--saffron);margin-top:var(--sp-6)}
+.opt-note{color:var(--ink-40);text-transform:none;letter-spacing:0;font-weight:600}
+.field{margin-top:var(--sp-3);position:relative}
+.note{font-size:12px;color:var(--ink-40);margin-top:var(--sp-3);line-height:1.55}
+.note a{color:var(--saffron);text-decoration:none}
+.info{margin-top:var(--sp-5);background:rgba(var(--saffron-rgb),.08);border-left:3px solid var(--saffron);
+  border-radius:0 12px 12px 0;padding:12px 13px;font-size:12.5px;line-height:1.6;color:var(--ink-60)}
+.info b{color:var(--ink)}
+.err{margin-top:var(--sp-3);background:rgba(var(--danger-rgb),.09);border-left:3px solid var(--danger);
+  border-radius:0 12px 12px 0;padding:11px 13px;font-size:12.5px;line-height:1.55;color:var(--danger-mist);display:none}
+.err.show{display:block}
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:40;
+  padding:var(--sp-3) var(--gutter) calc(var(--sp-3) + env(safe-area-inset-bottom));
+  background:linear-gradient(to top,rgba(var(--bg-rgb),.98) 70%,rgba(var(--bg-rgb),0))}
+.dock .inner{max-width:var(--page-max);margin:0 auto}
+.dock .hint{text-align:center;font-size:var(--t-meta);color:var(--ink-40);margin-top:7px}
+.cta{display:block;width:100%;background:var(--accent);color:var(--accent-ink);border-radius:var(--r-pill);
+  padding:15px 0;font-family:var(--font-display);font-size:16px;text-align:center;text-decoration:none}
+.cta:disabled{background:rgba(255,255,255,.07);color:var(--ink-40)}

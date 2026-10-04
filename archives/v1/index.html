@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#100E14">
+<link rel="canonical" href="https://nioxxer.com/">
+<title>NIOXXER — Petites annonces de rencontre à Douala</title>
+<meta name="description" content="Annonces de rencontre à Douala, Yaoundé et dans tout le Cameroun. Profils vérifiés, contact direct sur WhatsApp.">
+<meta property="og:title" content="NIOXXER — Petites annonces de rencontre à Douala">
+<meta property="og:description" content="Annonces de rencontre à Douala, Yaoundé et dans tout le Cameroun. Profils vérifiés, contact direct sur WhatsApp.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://nioxxer.com/">
+<meta property="og:image" content="https://nioxxer.com/og-image.png">
+<meta property="og:locale" content="fr_CM">
+<meta property="og:site_name" content="NIOXXER">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Karla:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/app.css">
+<style>
+body{background:transparent;color:var(--ink);font-family:var(--font-ui);
+  -webkit-font-smoothing:antialiased;padding-bottom:74px;overflow-x:hidden}
+@keyframes mm2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-11vw,7vw) scale(1.10)}}
+.spark{position:absolute;border-radius:50%;pointer-events:none;mix-blend-mode:screen;will-change:transform,opacity;
+  background:radial-gradient(circle,#fff 0%,rgba(255,255,255,.85) 26%,rgba(255,255,255,0) 70%)}
+@keyframes fly{
+  0%{transform:translate3d(0,10vh,0)}
+  50%{transform:translate3d(calc(var(--dx,4vw) * .55),-28vh,0)}
+  100%{transform:translate3d(var(--dx,4vw),-66vh,0)}}
+@keyframes twinkle{
+  0%,100%{opacity:0}
+  10%{opacity:var(--o,.9)}
+  40%{opacity:calc(var(--o,.9) * .28)}
+  62%{opacity:var(--o,.9)}
+  88%{opacity:calc(var(--o,.9) * .45)}}
+.page{max-width:520px;margin:0 auto;position:relative;z-index:2}
+.ready [data-rise]{opacity:1;transform:none;transition:opacity .5s var(--ease),transform .5s var(--ease);transition-delay:var(--d,0ms)}
+.masthead{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;
+  padding:13px 16px 11px;background:var(--bar);
+  -webkit-backdrop-filter:blur(20px) saturate(1.35);backdrop-filter:blur(20px) saturate(1.35);
+  border-bottom:1px solid transparent;transition:padding .28s var(--ease),background .28s,border-color .28s}
+.masthead.condensed{padding:9px 16px 8px;background:var(--bar-solid);border-bottom-color:var(--line)}
+.mark{font-family:var(--font-display);font-size:20px;line-height:1;letter-spacing:-.015em;color:var(--accent);transition:font-size .28s var(--ease)}
+.masthead.condensed .mark{font-size:17px}
+.place{margin-left:auto;display:inline-flex;align-items:center;gap:5px;cursor:pointer;font-size:13px;font-weight:500;
+  color:var(--ink);font-family:var(--font-ui);background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--r-pill);padding:6px 11px}
+.place svg{width:12px;height:12px;fill:var(--saffron)}
+.enter{font-size:13px;font-weight:700;color:var(--accent-ink);background:var(--accent);border-radius:var(--r-pill);
+  padding:8px 15px;border:none;font-family:var(--font-ui);cursor:pointer;transition:background .2s;
+  text-decoration:none;display:inline-block}
+.enter:hover{background:var(--accent-lift)}
+.facets{display:flex;gap:6px;overflow-x:auto;padding:10px 16px 2px;scrollbar-width:none}
+.facets::-webkit-scrollbar{display:none}
+.facet{flex:0 0 auto;font-size:12.5px;font-weight:500;color:var(--ink-60);font-family:var(--font-ui);
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--r-pill);padding:7px 13px;
+  white-space:nowrap;cursor:pointer;transition:all .16s}
+.facet:active{transform:scale(.95)}
+.facet[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg);font-weight:600}
+.facet.drop{display:inline-flex;align-items:center;gap:6px}
+.caret{width:0;height:0;border-left:3.5px solid transparent;border-right:3.5px solid transparent;border-top:4.5px solid currentColor;opacity:.7}
+.blank{margin:0 16px;padding:38px 22px 34px;text-align:center;border-radius:var(--r-card);
+  background:var(--panel);border:1px solid var(--line)}
+.blank-glyph{width:62px;height:62px;border-radius:50%;background:rgba(var(--accent-rgb),.10);
+  margin:0 auto 16px;display:flex;align-items:center;justify-content:center}
+.blank-glyph svg{width:27px;height:27px}
+.blank h3{font-family:var(--font-display);font-size:18px;font-weight:400}
+.blank p{font-size:13px;color:var(--ink-60);margin-top:9px;line-height:1.6}
+.blank-cta{display:inline-block;margin-top:18px;background:var(--accent);color:var(--accent-ink);
+  border-radius:var(--r-pill);padding:12px 22px;font-family:var(--font-display);font-size:14.5px;
+  text-decoration:none;transition:background .2s}
+.blank-cta:hover{background:var(--accent-lift)}
+.sheet{position:fixed;inset:0;z-index:70;display:none;background:rgba(var(--veil-rgb),.66);
+  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);align-items:flex-end}
+.sheet .panel{width:100%;max-width:520px;margin:0 auto;background:var(--bg-lift);border-radius:20px 20px 0 0;
+  padding:8px 14px calc(18px + env(safe-area-inset-bottom));border-top:1px solid var(--line);
+  animation:up .26s cubic-bezier(.2,.8,.3,1)}
+.grip{width:34px;height:3.5px;border-radius:var(--r-pill);background:rgba(255,255,255,.22);margin:0 auto 12px}
+.sheet h3{font-family:var(--font-display);font-size:16px;margin:0 4px 10px;font-weight:400}
+.sheet-search{width:100%;margin:0 0 9px;padding:11px 13px;border-radius:12px;background:var(--panel);
+  border:1px solid var(--line);color:var(--ink);font-family:var(--font-ui);font-size:14px;outline:none}
+.sheet-search:focus{border-color:var(--accent)}
+.sheet-search::placeholder{color:var(--ink-40)}
+.sheet-search[hidden]{display:none}
+.opts{display:flex;flex-direction:column;gap:5px;max-height:46vh;overflow-y:auto;overscroll-behavior:contain}
+.opt[aria-selected="true"] .rank{color:var(--accent)}
+.opt{display:flex;align-items:center;gap:10px;padding:11px 13px;border-radius:12px;background:var(--panel);
+  border:1px solid transparent;color:var(--ink);font-size:14px;font-family:var(--font-ui);cursor:pointer;text-align:left}
+.eyebrow{display:flex;align-items:center;gap:10px;padding:16px 16px 8px}
+.eyebrow h2{font-size:10.5px;font-weight:800;letter-spacing:.19em;text-transform:uppercase;color:var(--saffron)}
+.eyebrow .rule{flex:1;height:1px;background:var(--line)}
+.rail-count{font-size:10.5px;color:var(--ink-40);letter-spacing:.03em}
+.rail{
+  overflow-x:auto;overflow-y:hidden;
+  -webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;
+  scrollbar-width:none;-ms-overflow-style:none;
+  cursor:grab;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 18px,#000 calc(100% - 18px),transparent);
+          mask-image:linear-gradient(90deg,transparent,#000 18px,#000 calc(100% - 18px),transparent);
+}
+.rail::-webkit-scrollbar{display:none}
+.rail.dragging{cursor:grabbing}
+.rail.dragging .plate{pointer-events:none}
+.reel{display:flex;gap:9px;width:max-content;padding:1px 16px 4px}
+.plate{flex:0 0 auto;width:152px;height:206px;border-radius:var(--r-card);overflow:hidden;position:relative;
+  display:flex;align-items:flex-end;box-shadow:0 12px 24px -14px rgba(0,0,0,.85)}
+.plate::after{content:"";position:absolute;inset:0;border-radius:var(--r-card);z-index:5;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);pointer-events:none}
+.plate.premium::after{box-shadow:inset 0 0 0 1.5px rgba(var(--saffron-rgb),.55)}
+.plate .initial{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-size:60px;color:rgba(255,255,255,.26)}
+.plate .scrim{position:absolute;inset:0;background:linear-gradient(to top,rgba(var(--shade-rgb),.88) 0%,rgba(var(--shade-rgb),.30) 46%,transparent 78%)}
+.stamp{position:absolute;top:8px;left:8px;z-index:6;font-size:8.5px;font-weight:800;letter-spacing:.13em;
+  text-transform:uppercase;padding:3px 7px;border-radius:var(--r-pill)}
+.stamp.premium{background:linear-gradient(96deg,var(--saffron),var(--saffron-lift));color:var(--saffron-ink);box-shadow:0 0 0 1px rgba(255,255,255,.26)}
+.stamp.spons{background:rgba(var(--stamp-rgb),.62);color:var(--ink-75);box-shadow:inset 0 0 0 1px rgba(255,255,255,.22);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.plate .caption{position:relative;z-index:3;padding:10px 11px 11px;width:100%;color:#fff}
+.plate .who{font-family:var(--font-display);font-size:15px;line-height:1.15;display:flex;align-items:center;gap:5px}
+.plate .where{font-size:11px;color:rgba(255,255,255,.80);margin-top:2px}
+.headline{display:flex;align-items:baseline;gap:8px;padding:18px 16px 9px}
+.headline h2{font-family:var(--font-display);font-size:20px;letter-spacing:-.012em}
+.headline .tally{margin-left:auto;font-size:12px;color:var(--ink-40);font-variant-numeric:tabular-nums}
+.field{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 16px}
+.card{position:relative;border-radius:var(--r-card);overflow:hidden;height:228px;display:flex;align-items:flex-end;
+  cursor:pointer;box-shadow:0 10px 20px -14px rgba(0,0,0,.8);opacity:0;transform:translateY(16px);
+  transition:opacity .5s var(--ease),transform .5s var(--ease);text-decoration:none;color:inherit}
+.card.seen{opacity:1;transform:none}
+.card:active{transform:scale(.98)}
+.card::after{content:"";position:absolute;inset:0;border-radius:var(--r-card);z-index:5;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);pointer-events:none}
+.card .stamp{top:7px;left:7px;font-size:8px;padding:3px 6px}
+.card .initial{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-size:58px;color:rgba(255,255,255,.24);transition:transform .45s var(--ease)}
+.card:hover .initial{transform:scale(1.08) translateY(-4px)}
+.card .scrim{position:absolute;inset:0;background:linear-gradient(to top,rgba(var(--shade-rgb),.90) 0%,rgba(var(--shade-rgb),.38) 42%,rgba(var(--shade-rgb),.04) 68%,transparent 86%)}
+.card .caption{position:relative;z-index:3;padding:10px 11px 11px;width:100%;color:#fff}
+.card .who{font-family:var(--font-display);font-size:14px;display:flex;align-items:center;gap:4px;line-height:1.2}
+.card .where{font-size:11px;color:rgba(255,255,255,.76);margin-top:2px}
+.card .line{font-size:11.5px;line-height:1.4;color:rgba(255,255,255,.85);margin-top:5px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.reach{margin-top:8px;display:flex;align-items:center;justify-content:center;gap:6px;border-radius:var(--r-pill);
+  padding:7px 0;font-size:11.5px;font-weight:700;color:#fff;background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.26);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:background .2s}
+.card:hover .reach{background:rgba(255,255,255,.26)}
+.reach svg{width:13px;height:13px;fill:#fff}
+.more{display:flex;justify-content:center;padding:14px 16px 0}
+.more button{background:transparent;border:1.5px solid rgba(var(--accent-rgb),.55);color:var(--accent);
+  border-radius:var(--r-pill);padding:11px 26px;font-family:var(--font-ui);font-size:13.5px;font-weight:700;
+  cursor:pointer;transition:background .2s,color .2s,transform .16s var(--ease)}
+.more button:hover{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.more button:active{transform:scale(.96)}
+.skel{height:228px;border-radius:var(--r-card);background:rgba(255,255,255,.05);position:relative;overflow:hidden}
+.skel::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.07) 46%,transparent);
+  transform:translateX(-100%);animation:shim 1.2s ease-in-out infinite}
+@keyframes shim{to{transform:translateX(100%)}}
+.colophon{margin-top:18px;padding:14px 16px 16px;border-top:1px solid var(--line)}
+.colophon .mark{font-size:17px}
+.tagline{font-size:12px;color:var(--ink-60);margin-top:4px}
+.links{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px}
+.links a{font-size:12px;color:var(--ink-60);text-decoration:none;transition:color .16s}
+.links .wa-link{color:var(--ok);font-weight:600}
+.links .wa-link:hover{color:var(--ok-lift)}
+.tongues{display:flex;gap:5px;margin-top:10px}
+.tongues span{font-size:11px;font-weight:600;padding:5px 11px;border-radius:var(--r-pill);background:var(--panel);
+  border:1px solid var(--line);color:var(--ink-60);cursor:pointer}
+.tongues span[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.smallprint{margin-top:10px;font-size:11px;line-height:1.55;color:var(--ink-40)}
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--bar-solid);
+  -webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px);border-top:1px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom)}
+.dock .row{position:relative;max-width:520px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);
+  align-items:end;padding:7px 8px 8px}
+.glide{position:absolute;top:3px;height:2.5px;width:24px;border-radius:var(--r-pill);background:var(--accent);transition:left .32s var(--ease)}
+.slot{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:600;
+  color:var(--ink-40);cursor:pointer;background:none;border:none;font-family:var(--font-ui);transition:color .2s;
+  text-decoration:none}
+.slot svg{width:20px;height:20px;fill:currentColor;transition:transform .22s var(--ease)}
+.slot:active svg{transform:scale(.88)}
+.slot.post .knob{width:42px;height:42px;border-radius:50%;background:var(--accent);display:flex;align-items:center;
+  justify-content:center;margin-top:-13px;box-shadow:0 6px 15px -5px rgba(var(--accent-rgb),.7);transition:transform .22s var(--ease)}
+.slot.post:active .knob{transform:scale(.92)}
+.slot.post .knob svg{width:21px;height:21px;fill:var(--accent-ink)}
+html.calm .mass,html.calm .bit,html.calm .spark,html.calm .skel::after{animation:none}
+html.calm .card{opacity:1;transform:none;transition:none}
+</style>
+</head>
+<body>
+
+<div class="scene" id="scene" aria-hidden="true">
+  <i class="mass m1"></i><i class="mass m2"></i><i class="mass m3"></i>
+</div>
+
+<div class="page">
+
+  <header class="masthead" id="masthead" data-rise style="--d:0ms">
+    <div class="mark"><picture><source srcset="/img/logo.webp" type="image/webp"><img class="logo" src="/img/logo.png" alt="NIOXXER" width="364" height="160"></picture></div>
+    <button class="place" id="placeBtn">
+      <svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>
+      <span id="placeLabel">Douala</span>
+    </button>
+    <a class="enter" id="enter" href="/connexion?mode=log">Connexion</a>
+  </header>
+
+  <nav class="facets" aria-label="Filtres" data-rise style="--d:60ms">
+    <button class="facet" id="fReset" aria-pressed="true">Tout</button>
+    <button class="facet drop" data-f="ville"><span>Ville</span><i class="caret"></i></button>
+    <button class="facet drop" data-f="genre"><span>Genre</span><i class="caret"></i></button>
+    <button class="facet drop" data-f="age"><span>Âge</span><i class="caret"></i></button>
+    <button class="facet" id="fExtra" hidden><span></span></button>
+  </nav>
+
+  <div class="eyebrow" id="premiumEyebrow" data-rise style="--d:120ms">
+    <h2>Premium</h2><div class="rule"></div><span class="rail-count" id="railCount"></span>
+  </div>
+
+  <div class="rail" id="premiumRail" data-rise style="--d:170ms"><div class="reel" id="reel"></div></div>
+
+  <div class="headline" data-rise style="--d:230ms">
+    <h2>Annonces récentes</h2>
+    <span class="tally"><span id="tally">0</span> à <span id="tallyCity">Douala</span></span>
+  </div>
+
+  <div class="field" id="field"></div>
+  <div id="foot"></div>
+
+  <footer class="colophon">
+    <div class="mark"><picture><source srcset="/img/logo.webp" type="image/webp"><img class="logo" src="/img/logo.png" alt="NIOXXER" width="364" height="160"></picture></div>
+    <p class="tagline">Petites annonces de rencontre au Cameroun.</p>
+    <div class="links">
+      <a href="/cgu">Conditions d'utilisation</a><a href="/confidentialite">Confidentialité</a>
+      <a href="/mentions-legales">Mentions légales</a><a href="/regles">Règles de publication</a>
+      <a href="/securite">Se rencontrer en sécurité</a>
+      <a href="https://wa.me/237678802447" target="_blank" rel="noopener" class="wa-link">Nous contacter sur WhatsApp</a>
+    </div>
+    <p class="smallprint">© 2026 NIOXXER · Douala, Cameroun · 18 ans et plus</p>
+  </footer>
+
+</div>
+
+
+<div class="sheet" id="sheet" role="dialog" aria-modal="true">
+  <div class="panel">
+    <div class="grip"></div>
+    <h3 id="sheetTitle"></h3>
+    <input type="search" id="sheetSearch" class="sheet-search" placeholder="Chercher une ville…" hidden>
+    <div class="opts" id="sheetOpts"></div>
+  </div>
+</div>
+
+<nav class="dock" aria-label="Navigation principale">
+  <div class="row">
+    <span class="glide" id="glide"></span>
+    <a class="slot" href="/" aria-current="page"><svg viewBox="0 0 24 24"><path d="M12 3 3 10v11h6v-6h6v6h6V10l-9-7Z"/></svg>Accueil</a>
+    <a class="slot" href="/recherche"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5" stroke-linecap="round"/></svg>Recherche</a>
+        <a class="slot post" href="/publier" aria-label="Publier une annonce"><span class="knob"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6V5Z"/></svg></span>Publier</a><a class="slot" href="/compte"><svg viewBox="0 0 24 24"><path d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm0 2c-4 0-8 2-8 4.5V21h16v-2.5c0-2.5-4-4.5-8-4.5Z"/></svg>Compte</a>
+  </div>
+</nav>
+
+<script src="/js/config.js"></script>
+<script>
+const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(calm) document.documentElement.classList.add('calm');
+const rnd=(a,b)=>a+Math.random()*(b-a);
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+
+/* ── Semis du fond : toujours créé. C'est le CSS qui décide s'il bouge. ── */
+{
+  const host=document.getElementById('scene');
+  const kinds=['lozenge','dot','dot','ring'];
+  const tints=['rgba(255,255,255,.9)','var(--saffron)','var(--accent)'];
+  for(let i=0;i<40;i++){
+    const b=document.createElement('span');
+    const s=rnd(4,11);
+    b.className='bit '+pick(kinds);
+    b.style.color=pick(tints);
+    b.style.width=s+'px'; b.style.height=s+'px';
+    b.style.left=rnd(-2,101)+'%'; b.style.bottom='0';
+    b.style.setProperty('--o',rnd(.22,.52));
+    b.style.setProperty('--dx',rnd(-10,10)+'vw');
+    b.style.setProperty('--rot',rnd(-180,180)+'deg');
+    b.style.animation=`drift ${rnd(12,24)}s linear infinite`;
+    b.style.animationDelay=(-rnd(0,24))+'s';
+    host.appendChild(b);
+  }
+  /* Étincelles lumineuses : elles montent en scintillant */
+  const glows=[['255,255,255',.95],['var(--saffron-rgb)',.85],['var(--accent-rgb)',.75],['var(--lilac-rgb)',.7]];
+  for(let i=0;i<30;i++){
+    const g=document.createElement('span');
+    const c=pick(glows), s=rnd(3,9);
+    g.className='spark';
+    g.style.width=s+'px'; g.style.height=s+'px';
+    g.style.left=rnd(-2,101)+'%'; g.style.bottom='0';
+    g.style.boxShadow='0 0 '+(s*2.6)+'px '+(s*.55)+'px rgba('+c[0]+','+(c[1]*.55).toFixed(2)+')';
+    g.style.setProperty('--o',rnd(.45,1)*c[1]);
+    g.style.setProperty('--dx',rnd(-12,12)+'vw');
+    g.style.animation='fly '+rnd(14,26)+'s linear infinite, twinkle '+rnd(2.4,5.2)+'s ease-in-out infinite';
+    g.style.animationDelay=(-rnd(0,26))+'s, '+(-rnd(0,5))+'s';
+    host.appendChild(g);
+  }
+}
+
+/* ── Ressources ── */
+const dyes=['var(--dye-1)','var(--dye-2)','var(--dye-3)','var(--dye-4)','var(--dye-5)','var(--dye-6)','var(--dye-7)','var(--dye-8)'];
+const seal='<svg class="seal" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" style="fill:var(--saffron)"/><path d="M5 8.2 7 10.2 11 6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--saffron-ink)"/></svg>';
+const wa='<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm5.5 14.2c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6a11 11 0 0 1-4.2-3.8c-.3-.5-.7-1.1-.7-1.8s.4-1.1.6-1.3c.2-.2.4-.2.5-.2h.4c.1 0 .3 0 .5.4l.7 1.6c0 .1.1.2 0 .4l-.3.4-.2.2c-.1.1-.2.2 0 .5.2.3.7 1.1 1.4 1.8.9.8 1.6 1 1.9 1.2.2.1.4 0 .5-.1l.6-.7c.2-.2.3-.2.5-.1l1.6.8c.2.1.4.2.4.3.1.1.1.5 0 1Z"/></svg>';
+
+/* ══ SOURCE DES ANNONCES ══
+   Tableau unique dont découle tout l'affichage du fil et du bandeau.
+   Vide au lancement : aucune annonce n'a encore été publiée. Le jour où
+   les annonces viendront de Firestore, c'est ce tableau qu'on remplira,
+   rien d'autre ne change. Rempli depuis Firestore par le module en bas de
+   page (js/annonces.js → filAnnonces), ville par ville. Format par annonce :
+   { id, prenom, age:number, ville, quartier, genre, texte,
+     premium:bool, sponsorise:bool }
+   ville et genre servent aux filtres (ville, genre, âge, quartiers, mot-clé),
+   qui s'appliquent tous sur ce tableau. Les champs texte sont échappés à
+   l'affichage (nxEsc, js/config.js) : ne pas retirer cet échappement. */
+let ANNONCES = [];
+let ETAT = 'chargement';   /* chargement | pret | erreur */
+
+/* ══ BANDEAU PREMIUM ══
+   20 emplacements. Les annonces Premium passent en premier, complétées par
+   les sponsorisées classiques. Sans annonce Premium, la section entière
+   disparaît : mieux vaut pas de bandeau qu'un bandeau vide. */
+const RAIL_SLOTS=20, PREMIUM_FLOOR=5;
+function buildRail(){
+  const prem=ANNONCES.filter(a=>a.premium).map(p=>({p,kind:'premium'}));
+  const spons=ANNONCES.filter(a=>!a.premium&&a.sponsorise).map(p=>({p,kind:'spons'}));
+  return prem.concat(spons).slice(0,RAIL_SLOTS);
+}
+function renderRail(){
+  const railItems=buildRail();
+  const eyebrow=document.getElementById('premiumEyebrow'), railBox=document.getElementById('premiumRail');
+  if(!railItems.length){
+    eyebrow.hidden=true; railBox.hidden=true;
+  }else{
+    const nPrem=railItems.filter(r=>r.kind==='premium').length;
+    document.getElementById('railCount').textContent =
+      nPrem>=PREMIUM_FLOOR ? nPrem+' premium' : nPrem+' premium · '+(railItems.length-nPrem)+' sponsorisées';
+    let strip='';
+    for(let k=0;k<2;k++) railItems.forEach(function(it,i){
+      const p=it.p, prem=it.kind==='premium';
+      strip+='<a class="plate'+(prem?' premium':'')+'" href="/annonce?id='+encodeURIComponent(p.id)+'" style="background:'+dyes[i%dyes.length]+'">'
+        +'<span class="initial" aria-hidden="true">'+nxEsc(String(p.prenom||'').charAt(0))+'</span><span class="scrim"></span>'
+        +'<span class="stamp '+(prem?'premium':'spons')+'">'+(prem?'Premium':'Sponsorisé')+'</span>'
+        +'<div class="caption"><h3 class="who">'+nxEsc(p.prenom)+', '+nxEsc(p.age)+' '+seal+'</h3>'
+        +'<p class="where">'+nxEsc(p.quartier)+'</p></div></a>';
+    });
+    document.getElementById('reel').innerHTML=strip;
+  }
+}
+renderRail();
+
+/* ── Ruban : défilement automatique et glissement au doigt ──
+   Le mouvement est piloté en JavaScript plutôt qu'en CSS : il fonctionne même
+   lorsque le système bloque les animations, et il cohabite avec le défilement manuel. */
+(function(){
+  const rail=document.querySelector('.rail'), reel=document.getElementById('reel');
+  if(!rail||!reel) return;
+
+  const SPEED=34;              // pixels par seconde
+  const RESUME=2200;           // reprise après une interaction, en millisecondes
+  let last=null, idleUntil=0, dragging=false, startX=0, startScroll=0, moved=0;
+
+  function half(){ return reel.scrollWidth/2; }
+
+  function step(ts){
+    if(last===null) last=ts;
+    const dt=(ts-last)/1000; last=ts;
+    if(!dragging && ts>idleUntil && !document.hidden){
+      rail.scrollLeft += SPEED*dt;
+    }
+    // boucle sans saut : le contenu est dupliqué, on revient d'une demi-longueur
+    const h=half();
+    if(h>0){
+      if(rail.scrollLeft >= h) rail.scrollLeft -= h;
+      else if(rail.scrollLeft < 0) rail.scrollLeft += h;
+    }
+    requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+
+  function pause(){ idleUntil = performance.now()+RESUME; }
+
+  // Doigt et souris : glissement dans les deux sens
+  rail.addEventListener('pointerdown',function(e){
+    dragging=true; moved=0;
+    startX=e.clientX; startScroll=rail.scrollLeft;
+    rail.setPointerCapture(e.pointerId);
+    rail.classList.add('dragging');
+  });
+  rail.addEventListener('pointermove',function(e){
+    if(!dragging) return;
+    const d=e.clientX-startX;
+    moved=Math.max(moved,Math.abs(d));
+    rail.scrollLeft = startScroll - d;
+  });
+  function endDrag(e){
+    if(!dragging) return;
+    dragging=false; rail.classList.remove('dragging');
+    if(e&&e.pointerId!=null&&rail.hasPointerCapture&&rail.hasPointerCapture(e.pointerId))
+      rail.releasePointerCapture(e.pointerId);
+    pause();
+  }
+  rail.addEventListener('pointerup',endDrag);
+  rail.addEventListener('pointercancel',endDrag);
+  rail.addEventListener('pointerleave',endDrag);
+
+  // Défilement natif au doigt sur mobile, molette sur ordinateur
+  rail.addEventListener('touchstart',pause,{passive:true});
+  rail.addEventListener('touchmove',pause,{passive:true});
+  rail.addEventListener('wheel',pause,{passive:true});
+  rail.addEventListener('mouseenter',function(){ idleUntil=Infinity; });
+  rail.addEventListener('mouseleave',function(){ idleUntil=performance.now(); });
+})();
+
+/* ══ FIL ══
+   Tout vient de ANNONCES : aucune donnée n'est inventée ici. Tant que le
+   tableau est vide, le fil affiche son état « les annonces arrivent » au
+   lieu de profils fictifs. */
+const PAGE=8, AUTO_MAX=2;
+let page=0, autoUsed=0, busy=false, gen=0, FIL=[];
+const field=document.getElementById('field'), foot=document.getElementById('foot');
+
+/* ── Filtres ──
+   Tous appliqués sur ANNONCES, dans le navigateur. Ils viennent des pastilles
+   ci-dessus ou de la page Recherche, qui les passe dans l'URL :
+   ?ville=Douala&genre=Femme&amin=18&amax=35&q=mot&quartiers=Akwa,Deido */
+const VILLES=[
+  'Douala','Yaoundé','Garoua','Bamenda','Maroua','Bafoussam','Ngaoundéré','Bertoua',
+  'Edéa','Loum','Kumba','Nkongsamba','Buea','Kumbo','Foumban','Dschang',
+  'Ebolowa','Kousséri','Guider','Mbouda','Limbé','Kribi','Bafang','Tiko',
+  'Mbalmayo','Sangmélima','Meiganga','Bafia'
+];
+const GENRES=['Femme','Homme','Gay','Lesbienne','Trans','Couples','Autres'];
+const TRANCHES=[
+  {label:'18–25 ans',min:18,max:25},{label:'26–35 ans',min:26,max:35},
+  {label:'36–45 ans',min:36,max:45},{label:'46 ans et plus',min:46,max:Infinity}
+];
+const AGE_PLAFOND=70;   /* curseur de la Recherche : 70 veut dire « 70 et plus » */
+const VILLE_DEFAUT='Douala';
+const chosen={ville:VILLE_DEFAUT,genre:null,age:null,q:'',quartiers:[]};
+
+(function lireURL(){
+  const u=new URLSearchParams(location.search);
+  const v=u.get('ville'); if(VILLES.indexOf(v)>-1) chosen.ville=v;
+  const g=u.get('genre'); if(GENRES.indexOf(g)>-1) chosen.genre=g;
+  const a=parseInt(u.get('amin'),10), b=parseInt(u.get('amax'),10);
+  if(a>=18 || b>=18){
+    const min=a>=18?a:18, max=b>=18?Math.min(b,AGE_PLAFOND):AGE_PLAFOND;
+    if(max>=min) chosen.age={min:min,max:max>=AGE_PLAFOND?Infinity:max,
+      label:min+'–'+(max>=AGE_PLAFOND?AGE_PLAFOND+'+':max)+' ans'};
+  }
+  chosen.q=(u.get('q')||'').trim().slice(0,60);
+  /* Quartiers propres à la ville : on ignore tout nom qui n'appartient pas
+     à la ville retenue (CLAUDE.md). */
+  const connus=NIOXXER_QUARTIERS[chosen.ville]||[];
+  chosen.quartiers=(u.get('quartiers')||'').split(',').map(s=>s.trim())
+    .filter(x=>connus.indexOf(x)>-1);
+})();
+
+function majURL(){
+  const u=new URLSearchParams();
+  if(chosen.ville!==VILLE_DEFAUT) u.set('ville',chosen.ville);
+  if(chosen.genre) u.set('genre',chosen.genre);
+  if(chosen.age){
+    u.set('amin',chosen.age.min);
+    u.set('amax',chosen.age.max===Infinity?AGE_PLAFOND:chosen.age.max);
+  }
+  if(chosen.q) u.set('q',chosen.q);
+  if(chosen.quartiers.length) u.set('quartiers',chosen.quartiers.join(','));
+  const s=u.toString();
+  history.replaceState(null,'',location.pathname+(s?'?'+s:''));
+}
+
+const norm=s=>String(s==null?'':s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+function correspond(a){
+  if(a.ville!==chosen.ville) return false;
+  if(chosen.genre && a.genre!==chosen.genre) return false;
+  if(chosen.age && !(a.age>=chosen.age.min && a.age<=chosen.age.max)) return false;
+  if(chosen.quartiers.length && chosen.quartiers.indexOf(a.quartier)<0) return false;
+  if(chosen.q && norm([a.prenom,a.quartier,a.texte].join(' ')).indexOf(norm(chosen.q))<0) return false;
+  return true;
+}
+
+/* Ordre : au plus 3 annonces sponsorisées dans les 10 premiers résultats
+   (CLAUDE.md § Classement du fil), les autres sponsorisées viennent après.
+   Le boost est cantonné à la ville : le filtre ville est déjà appliqué. */
+const BOOST_TETE=3, TETE=10;
+function ordonner(liste){
+  const spons=liste.filter(a=>a.sponsorise), libres=liste.filter(a=>!a.sponsorise);
+  const tete=spons.slice(0,BOOST_TETE).concat(libres.slice(0,TETE-Math.min(BOOST_TETE,spons.length)));
+  return tete.concat(spons.slice(BOOST_TETE), libres.slice(TETE-Math.min(BOOST_TETE,spons.length)));
+}
+
+function tile(p,i){
+  return '<a class="card" href="/annonce?id='+encodeURIComponent(p.id)+'" style="background:'+dyes[i%dyes.length]+'">'
+    +'<span class="initial" aria-hidden="true">'+nxEsc(String(p.prenom||'').charAt(0))+'</span><span class="scrim"></span>'
+    +(p.sponsorise?'<span class="stamp spons">Sponsorisé</span>':'')
+    +'<div class="caption"><h3 class="who">'+nxEsc(p.prenom)+', '+nxEsc(p.age)+' '+seal+'</h3>'
+    +'<p class="where">'+nxEsc(p.quartier)+'</p><p class="line">'+nxEsc(p.texte)+'</p>'
+    +'<div class="reach" role="button" tabindex="0">'+wa+' Contacter</div></div></a>';
+}
+const io = calm ? null : new IntersectionObserver(function(es){
+  es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('seen'); io.unobserve(e.target); } });
+},{rootMargin:'0px 0px -6% 0px',threshold:.06});
+
+function paint(html){
+  field.insertAdjacentHTML('beforeend',html);
+  const fresh=[].slice.call(field.querySelectorAll('.card:not(.seen)'));
+  if(calm) fresh.forEach(c=>c.classList.add('seen'));
+  else fresh.forEach(function(c,i){c.style.transitionDelay=(i%2)*60+'ms';io.observe(c)});
+}
+let sio;
+function watch(){
+  const s=document.getElementById('sentinel'); if(!s) return;
+  if(sio) sio.disconnect();
+  sio=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting && autoUsed<AUTO_MAX && !busy){ autoUsed++; load(); } });
+  },{rootMargin:'220px'});
+  sio.observe(s);
+}
+function etatVide(){
+  return '<div class="blank">'
+    +'<div class="blank-glyph" aria-hidden="true">'
+    +'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" style="stroke:var(--accent)">'
+    +'<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5" stroke-linecap="round"/></svg></div>'
+    +"<h3>Pas encore d'annonce à "+nxEsc(chosen.ville)+"</h3>"
+    +"<p>Soyez parmi les premiers : publier une annonce est gratuit, "
+    +"et le restera.</p>"
+    +'<a class="blank-cta" href="/publier">Publier une annonce</a>'
+    +'</div>';
+}
+function etatAucun(){
+  return '<div class="blank">'
+    +'<div class="blank-glyph" aria-hidden="true">'
+    +'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" style="stroke:var(--accent)">'
+    +'<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5" stroke-linecap="round"/></svg></div>'
+    +"<h3>Aucune annonce ne correspond</h3>"
+    +"<p>Essayez une autre ville ou retirez un filtre.</p>"
+    +'<a class="blank-cta" href="/">Effacer les filtres</a>'
+    +'</div>';
+}
+function etatChargement(){
+  return '<div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div>';
+}
+function etatErreur(){
+  return '<div class="blank">'
+    +"<h3>Chargement impossible</h3>"
+    +"<p>Vérifiez votre connexion Internet, puis réessayez.</p>"
+    +'<button class="blank-cta" type="button" onclick="demanderVille(chosen.ville)" style="border:0;cursor:pointer">Réessayer</button>'
+    +'</div>';
+}
+function renderFoot(){
+  if(!FIL.length){ foot.innerHTML=''; return; }
+  if(page*PAGE>=FIL.length){
+    foot.innerHTML='<p class="smallprint" style="text-align:center;margin:16px 16px 0">Vous avez vu les '
+      +FIL.length+' annonce'+(FIL.length>1?'s':'')+' disponibles.</p>';
+    return;
+  }
+  if(autoUsed>=AUTO_MAX){
+    foot.innerHTML='<div class="more"><button id="more">Charger plus</button></div>';
+    document.getElementById('more').onclick=load;
+  }else{
+    foot.innerHTML='<div id="sentinel" style="height:1px"></div>';
+    if(!calm) watch();
+  }
+}
+function load(){
+  if(busy) return; busy=true;
+  const g=gen;
+  foot.innerHTML='<div class="field" style="padding-top:8px"><div class="skel"></div><div class="skel"></div></div>';
+  setTimeout(function(){
+    if(g!==gen) return;   /* les filtres ont changé entre-temps : lot périmé */
+    const lot=FIL.slice(page*PAGE,(page+1)*PAGE);
+    paint(lot.map(function(a,i){return tile(a,page*PAGE+i);}).join(''));
+    page++; busy=false; renderFoot();
+  },600);
+}
+function rendreFil(){
+  gen++; busy=false; page=0;
+  autoUsed = calm ? AUTO_MAX : 0;   /* sans défilement automatique, bouton tout de suite */
+  if(sio) sio.disconnect();
+  FIL=ordonner(ANNONCES.filter(correspond));
+  field.innerHTML='';
+  if(ETAT==='chargement'){ field.classList.add('field'); field.innerHTML=etatChargement(); foot.innerHTML=''; return; }
+  if(ETAT==='erreur'){ field.classList.remove('field'); field.innerHTML=etatErreur(); foot.innerHTML=''; return; }
+  if(!ANNONCES.length){ field.classList.remove('field'); field.innerHTML=etatVide(); }
+  else if(!FIL.length){ field.classList.remove('field'); field.innerHTML=etatAucun(); }
+  else{
+    field.classList.add('field');
+    paint(FIL.slice(0,PAGE).map(function(a,i){return tile(a,i);}).join('')); page=1;
+  }
+  renderFoot();
+}
+
+/* ── Filtres déroulants ── */
+const FILTERS={
+  ville:{titre:'Ville',defaut:'Ville',search:true,options:VILLES},
+  genre:{titre:'Genre',defaut:'Genre',options:GENRES},
+  age:{titre:"Tranche d'âge",defaut:'Âge',options:TRANCHES.map(t=>t.label)}
+};
+const sheet=document.getElementById('sheet');
+const sheetTitle=document.getElementById('sheetTitle');
+const sheetOpts=document.getElementById('sheetOpts');
+const fExtra=document.getElementById('fExtra');
+
+function valeur(k){ return k==='age' ? (chosen.age && chosen.age.label) : chosen[k]; }
+function paintChips(){
+  document.querySelectorAll('.facet.drop').forEach(function(c){
+    const k=c.dataset.f, v=valeur(k);
+    c.querySelector('span').textContent = v || FILTERS[k].defaut;
+    c.setAttribute('aria-pressed', v ? 'true' : 'false');
+  });
+  /* Mot-clé et quartiers viennent de la Recherche : une pastille les montre
+     et permet de les retirer, sinon le fil serait filtré sans qu'on le voie. */
+  const bouts=[];
+  if(chosen.q) bouts.push('« '+chosen.q+' »');
+  if(chosen.quartiers.length) bouts.push(chosen.quartiers.length===1 ? chosen.quartiers[0] : chosen.quartiers.length+' quartiers');
+  fExtra.hidden=!bouts.length;
+  fExtra.querySelector('span').textContent=bouts.join(' · ')+'  ✕';
+  const any = chosen.genre || chosen.age || bouts.length || chosen.ville!==VILLE_DEFAUT;
+  document.getElementById('fReset').setAttribute('aria-pressed', any ? 'false' : 'true');
+  document.getElementById('placeLabel').textContent = chosen.ville;
+  /* On met à jour les deux fragments séparément : réécrire tout le .tally
+     supprimait le <span id="tally">, ce qui cassait le compteur juste après. */
+  document.getElementById('tally').textContent = FIL.length;
+  document.getElementById('tallyCity').textContent = chosen.ville;
+}
+function appliquer(){ rendreFil(); paintChips(); majURL(); }
+function closeSheet(){ sheet.classList.remove('open'); }
+const sheetSearch=document.getElementById('sheetSearch');
+function renderOpts(k,q){
+  const f=FILTERS[k];
+  const list=f.options.filter(function(o){
+    return !q || norm(o).indexOf(norm(q))>-1;
+  });
+  sheetOpts.innerHTML=list.map(function(o){
+    const rank = f.search ? '<span class="rank">'+(f.options.indexOf(o)+1)+'</span>' : '';
+    return '<button class="opt" role="option" aria-selected="'+(valeur(k)===o)+'">'+rank+o+'<span class="tick">✓</span></button>';
+  }).join('') || '<p style="padding:14px 4px;color:var(--ink-40);font-size:13px">Aucune ville trouvée.</p>';
+  [].slice.call(sheetOpts.querySelectorAll('.opt')).forEach(function(b,i){
+    b.onclick=function(){
+      const o=list[i];
+      if(k==='age'){
+        chosen.age = (valeur('age')===o) ? null : TRANCHES.filter(t=>t.label===o)[0];
+      }else if(k==='ville'){
+        if(o!==chosen.ville){ chosen.quartiers=[]; chosen.ville=o; demanderVille(o); }   /* quartiers propres à chaque ville */
+      }else{
+        chosen[k] = (chosen[k]===o) ? null : o;
+      }
+      appliquer(); closeSheet();
+    };
+  });
+}
+function openSheet(k){
+  const f=FILTERS[k];
+  sheetTitle.textContent=f.titre;
+  sheetSearch.hidden=!f.search;
+  sheetSearch.value='';
+  sheetSearch.oninput=function(){ renderOpts(k, sheetSearch.value); };
+  renderOpts(k,'');
+  sheet.classList.add('open');
+}
+sheet.onclick=function(e){ if(e.target===sheet) closeSheet(); };
+addEventListener('keydown',function(e){ if(e.key==='Escape') closeSheet(); });
+document.querySelectorAll('.facet.drop').forEach(function(c){ c.onclick=function(){ openSheet(c.dataset.f); }; });
+document.getElementById('placeBtn').onclick=function(){ openSheet('ville'); };
+fExtra.onclick=function(){ chosen.q=''; chosen.quartiers=[]; appliquer(); };
+document.getElementById('fReset').onclick=function(){
+  const autre=chosen.ville!==VILLE_DEFAUT;
+  chosen.genre=chosen.age=null; chosen.q=''; chosen.quartiers=[]; chosen.ville=VILLE_DEFAUT;
+  if(autre) demanderVille(VILLE_DEFAUT); else appliquer();
+};
+rendreFil(); paintChips();
+
+/* Chargement d'une ville : délégué au module Firestore (bas de page).
+   Tant que le module n'est pas prêt, la demande est mémorisée. */
+let villeDemandee=chosen.ville;
+function demanderVille(v){
+  villeDemandee=v; ETAT='chargement'; ANNONCES=[]; appliquer();
+  if(window.nxCharger) window.nxCharger(v);
+}
+function recevoirAnnonces(v, liste, erreur){
+  if(v!==villeDemandee) return;            /* réponse d'une ville abandonnée */
+  if(erreur){ ETAT='erreur'; ANNONCES=[]; }
+  else{ ETAT='pret'; ANNONCES=liste; }
+  renderRail(); appliquer();
+}
+
+/* ── Séquence, compteur, en-tête ── */
+requestAnimationFrame(function(){ document.body.classList.add('ready'); });
+const tallyEl=document.getElementById('tally');
+if(calm){ tallyEl.textContent=FIL.length; }
+else{
+  let t0=null;
+  const run=function(ts){
+    if(!t0)t0=ts;
+    const k=Math.min(1,(ts-t0)/900);
+    tallyEl.textContent=Math.round(FIL.length*(1-Math.pow(1-k,3)));
+    if(k<1) requestAnimationFrame(run);
+  };
+  setTimeout(function(){ requestAnimationFrame(run); },320);
+}
+/* Le bouton Contacter ouvre WhatsApp sans suivre le lien de la carte */
+document.addEventListener('click',function(e){
+  const r=e.target.closest('.reach');
+  if(!r) return;
+  e.preventDefault();
+  e.stopPropagation();
+  const card=r.closest('.card'), id=card && new URLSearchParams(card.getAttribute('href').split('?')[1]).get('id');
+  const a=ANNONCES.find(x=>x.id===id);
+  const lien=window.nxLienContact ? window.nxLienContact(a) : 'https://wa.me/'+NIOXXER_WA+'?text='+encodeURIComponent(NIOXXER_WA_MESSAGE);
+  window.open(lien,'_blank','noopener');
+});
+
+const mh=document.getElementById('masthead');
+addEventListener('scroll',function(){ mh.classList.toggle('condensed', scrollY>16); },{passive:true});
+
+/* Sélecteur de langue retiré : la version anglaise du site n'existe pas
+   encore. Il sera remis avec les pages traduites, pas avant. */
+const slots=[].slice.call(document.querySelectorAll('.slot')), glide=document.getElementById('glide');
+function moveGlide(el){
+  const r=el.getBoundingClientRect(), p=el.parentElement.getBoundingClientRect();
+  glide.style.left=(r.left-p.left+r.width/2-12)+'px';
+}
+slots.forEach(function(s){
+  s.onclick=function(){
+    slots.forEach(x=>x.removeAttribute('aria-current'));
+    s.setAttribute('aria-current','page'); moveGlide(s);
+  };
+});
+addEventListener('load',function(){ moveGlide(slots[0]); });
+addEventListener('resize',function(){ const a=document.querySelector('.slot[aria-current]'); if(a) moveGlide(a); });
+moveGlide(slots[0]);
+</script>
+<script type="module">
+import { filAnnonces, lienContact, messageErreurAnnonce } from '/js/annonces.js';
+import { auth, onAuthStateChanged } from '/js/nioxxer-auth.js';
+window.nxLienContact=lienContact;
+window.nxCharger=async function(v){
+  try{ recevoirAnnonces(v, await filAnnonces(v)); }
+  catch(e){ messageErreurAnnonce(e); recevoirAnnonces(v, [], e); }
+};
+window.nxCharger(villeDemandee);
+/* En-tête : « Connexion » pour un visiteur, « Mon compte » une fois connecté. */
+onAuthStateChanged(auth, function(u){
+  const b=document.getElementById('enter');
+  if(u){ b.textContent='Mon compte'; b.href='/compte'; }
+  else { b.textContent='Connexion'; b.href='/connexion?mode=log'; }
+});
+</script>
+</body>
+</html>

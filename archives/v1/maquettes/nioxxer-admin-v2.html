@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#100E14">
+<title>Administration · NIOXXER</title>
+<meta name="description" content="Back-office NIOXXER : modération, vérifications, paiements et tarifs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Karla:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- En production : <link rel="stylesheet" href="/css/tokens.css"> -->
+<style>
+:root{
+  --bg:#100E14;--bg-lift:#191520;--ink:#F2EDF3;--ink-60:#A198A6;--ink-40:#736A78;
+  --line:rgba(242,237,243,.10);--panel:rgba(255,255,255,.05);
+  --accent:#F0455F;--accent-lift:#FF5F76;--accent-ink:#26060C;
+  --saffron:#F5C542;--saffron-ink:#2A1D05;--whatsapp:#25D366;--whatsapp-ink:#053B1A;
+  --danger:#FF6B6B;--ok:#5FD07A;
+  --bar:rgba(16,14,20,.74);--bar-solid:rgba(16,14,20,.95);
+  --dye-1:linear-gradient(158deg,#8E1C3C,#C9666F);--dye-2:linear-gradient(158deg,#26407A,#7288B8);
+  --dye-3:linear-gradient(158deg,#9A6018,#D6A85C);--dye-4:linear-gradient(158deg,#5A2652,#9E6E92);
+  --dye-5:linear-gradient(158deg,#1A564F,#68A296);--dye-6:linear-gradient(158deg,#8A3720,#C4835F);
+  --font-display:'Young Serif',Georgia,serif;--font-ui:'Karla',system-ui,sans-serif;
+  --t-title:20px;--t-lead:15px;--t-body:13px;--t-meta:11.5px;--t-micro:10.5px;
+  --r-card:16px;--r-panel:20px;--r-field:12px;--r-pill:999px;
+  --sp-1:4px;--sp-2:8px;--sp-3:11px;--sp-4:16px;--sp-5:18px;--sp-6:24px;--sp-7:32px;
+  --gutter:16px;--page-max:520px;
+  --ease:cubic-bezier(.22,.68,.28,1);--t-fast:.18s;--t-mid:.32s;--t-slow:.5s;
+  --ring:inset 0 0 0 1px rgba(255,255,255,.16);--lift-1:0 10px 20px -14px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg)}
+body{background:transparent;color:var(--ink);font-family:var(--font-ui);font-size:var(--t-body);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+:focus-visible{outline:2px solid var(--saffron);outline-offset:3px;border-radius:5px}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit}
+.page{max-width:var(--page-max);margin:0 auto;position:relative;z-index:2}
+.scene{position:fixed;top:0;left:0;right:0;height:54vh;z-index:0;pointer-events:none;overflow:hidden;
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.72) 34%,transparent 100%);
+          mask-image:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.72) 34%,transparent 100%)}
+.mass{position:absolute;border-radius:50%;filter:blur(78px);will-change:transform}
+.m1{width:74vw;height:74vw;top:-30vw;left:-24vw;background:#A32846;opacity:.26;animation:mm1 22s ease-in-out infinite}
+.m2{width:62vw;height:62vw;top:-12vw;right:-26vw;background:#4C2C86;opacity:.24;animation:mm2 28s ease-in-out infinite}
+.m3{width:52vw;height:52vw;top:12vw;left:26vw;background:#8A5A22;opacity:.16;animation:mm3 34s ease-in-out infinite}
+@keyframes mm1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(12vw,6vw) scale(1.12)}}
+@keyframes mm2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-11vw,7vw) scale(1.1)}}
+@keyframes mm3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-8vw,-6vw) scale(1.16)}}
+.bit{position:absolute;will-change:transform,opacity}
+.bit.lozenge{background:currentColor;transform:rotate(45deg)}
+.bit.dot{border-radius:50%;background:currentColor}
+.bit.ring{border-radius:50%;border:1px solid currentColor}
+@keyframes drift{0%{transform:translate3d(0,10vh,0) rotate(0deg);opacity:0}
+  14%{opacity:var(--o,.4)}86%{opacity:var(--o,.4)}
+  100%{transform:translate3d(var(--dx,3vw),-64vh,0) rotate(var(--rot,120deg));opacity:0}}
+.spark{position:absolute;border-radius:50%;pointer-events:none;mix-blend-mode:screen;
+  background:radial-gradient(circle,#fff 0%,rgba(255,255,255,.85) 26%,rgba(255,255,255,0) 70%)}
+@keyframes fly{0%{transform:translate3d(0,10vh,0)}50%{transform:translate3d(calc(var(--dx,4vw)*.55),-28vh,0)}
+  100%{transform:translate3d(var(--dx,4vw),-66vh,0)}}
+@keyframes twinkle{0%,100%{opacity:0}10%{opacity:var(--o,.9)}40%{opacity:calc(var(--o,.9)*.28)}
+  62%{opacity:var(--o,.9)}88%{opacity:calc(var(--o,.9)*.45)}}
+[data-rise]{opacity:0;transform:translateY(12px)}
+.ready [data-rise]{opacity:1;transform:none;
+  transition:opacity var(--t-slow) var(--ease),transform var(--t-slow) var(--ease);transition-delay:var(--d,0ms)}
+.masthead{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;
+  padding:11px var(--gutter);background:var(--bar);
+  -webkit-backdrop-filter:blur(20px) saturate(1.35);backdrop-filter:blur(20px) saturate(1.35);
+  border-bottom:1px solid transparent;transition:background var(--t-mid),border-color var(--t-mid)}
+.masthead.condensed{background:var(--bar-solid);border-bottom-color:var(--line)}
+.masthead h1{font-family:var(--font-display);font-size:16px;font-weight:400}
+.mark{font-family:var(--font-display);font-size:19px;color:var(--accent)}
+.mark em{font-style:normal;color:var(--saffron)}
+.icon-btn{width:34px;height:34px;border-radius:50%;background:var(--panel);border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.icon-btn svg{width:16px;height:16px;fill:var(--ink)}
+.stamp{font-size:8.5px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;padding:3px 7px;border-radius:var(--r-pill)}
+.stamp.premium{background:linear-gradient(96deg,var(--saffron),#FFE08A);color:var(--saffron-ink)}
+.stamp.boost{background:rgba(240,69,95,.2);color:#FF9AAB;box-shadow:inset 0 0 0 1px rgba(240,69,95,.45)}
+.seal{width:11px;height:11px;flex:0 0 auto}
+.sheet{position:fixed;inset:0;z-index:70;display:none;background:rgba(4,3,6,.68);
+  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);align-items:flex-end}
+.sheet.open{display:flex}
+.sheet .panel{width:100%;max-width:var(--page-max);margin:0 auto;background:var(--bg-lift);
+  border-radius:var(--r-panel) var(--r-panel) 0 0;border-top:1px solid var(--line);
+  padding:var(--sp-2) 14px calc(var(--sp-5) + env(safe-area-inset-bottom));animation:up .26s var(--ease)}
+@keyframes up{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.grip{width:34px;height:3.5px;border-radius:var(--r-pill);background:rgba(255,255,255,.22);margin:0 auto var(--sp-3)}
+.sheet h3{font-family:var(--font-display);font-size:17px;font-weight:400;margin:0 4px 6px}
+.sheet .lead{font-size:12.5px;color:var(--ink-60);margin:0 4px var(--sp-3);line-height:1.6}
+.opts{display:flex;flex-direction:column;gap:5px;max-height:44vh;overflow-y:auto;overscroll-behavior:contain}
+.opt{display:flex;align-items:center;gap:10px;padding:11px 13px;border-radius:var(--r-field);
+  background:var(--panel);border:1px solid transparent;color:var(--ink);font-size:14px;text-align:left}
+.opt[aria-selected="true"]{border-color:var(--accent);background:rgba(240,69,95,.12);color:var(--accent);font-weight:700}
+.opt .rank{font-size:10.5px;color:var(--ink-40);min-width:18px;font-variant-numeric:tabular-nums}
+.opt .tick{margin-left:auto;opacity:0;font-weight:800}
+.opt[aria-selected="true"] .tick{opacity:1}
+.sheet-search{width:100%;margin-bottom:9px;background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--r-field);padding:11px 13px;color:var(--ink);font-family:var(--font-ui);font-size:14px;outline:none}
+.cancel{width:100%;margin-top:var(--sp-3);color:var(--ink-40);font-size:13px;padding:6px}
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--bar-solid);
+  -webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px);border-top:1px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom)}
+.tabs .row{position:relative;max-width:var(--page-max);margin:0 auto;display:grid;
+  grid-template-columns:repeat(4,1fr);align-items:end;padding:7px 8px 8px}
+.glide{position:absolute;top:3px;height:2.5px;width:24px;border-radius:var(--r-pill);
+  background:var(--accent);transition:left var(--t-mid) var(--ease)}
+.slot{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:600;color:var(--ink-40)}
+.slot svg{width:20px;height:20px;fill:currentColor}
+.slot[aria-current="page"]{color:var(--accent)}
+.slot.post{color:var(--accent)}
+.slot.post .knob{width:42px;height:42px;border-radius:50%;background:var(--accent);display:flex;
+  align-items:center;justify-content:center;margin-top:-13px;box-shadow:0 6px 15px -5px rgba(240,69,95,.7)}
+.slot.post .knob svg{width:21px;height:21px;fill:var(--accent-ink)}
+.motion-hint{position:fixed;left:12px;right:12px;bottom:80px;z-index:65;display:flex;align-items:center;gap:10px;
+  max-width:496px;margin:0 auto;padding:11px 13px;border-radius:14px;background:rgba(28,22,34,.95);
+  border:1px solid rgba(245,197,66,.35);font-size:12.5px;color:var(--ink-60)}
+.motion-hint[hidden]{display:none}
+.motion-hint button{margin-left:auto;background:var(--saffron);color:var(--saffron-ink);
+  border-radius:var(--r-pill);padding:8px 14px;font-size:12.5px;font-weight:700}
+html.calm .mass,html.calm .bit,html.calm .spark{animation:none}
+html.calm [data-rise]{opacity:1;transform:none;transition:none}
+
+body{padding-bottom:50px}
+.page{max-width:1080px;padding:0 14px}
+.bar{display:flex;align-items:center;gap:12px;padding:13px 0;position:sticky;top:0;z-index:30;
+  background:rgba(16,14,20,.93);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line)}
+.badge-admin{font-size:9.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--panel);color:var(--saffron);padding:4px 9px;border-radius:var(--r-pill)}
+.me{margin-left:auto;display:flex;align-items:center;gap:9px;font-size:13px;color:var(--ink-60)}
+.me .av{width:28px;height:28px;border-radius:9px;background:var(--dye-2);display:flex;align-items:center;
+  justify-content:center;font-family:var(--font-display);font-size:12px;color:#fff}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:var(--sp-4)}
+@media(max-width:640px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-card);padding:13px 14px}
+.kpi .k{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-40);font-weight:800}
+.kpi .v{font-family:var(--font-display);font-size:25px;margin-top:5px}
+.kpi .d{font-size:11.5px;color:var(--ink-40);margin-top:3px}
+.kpi.alert{border-color:rgba(255,107,107,.4)}.kpi.alert .v{color:#FF8A8A}
+.kpi.warn .v{color:var(--saffron)}
+.navtabs{display:flex;gap:6px;overflow-x:auto;margin-top:var(--sp-5);scrollbar-width:none}
+.navtabs::-webkit-scrollbar{display:none}
+.nt{flex:0 0 auto;display:flex;align-items:center;gap:8px;padding:10px 15px;border-radius:var(--r-pill);
+  background:var(--panel);font-size:13px;font-weight:700;color:var(--ink-40);white-space:nowrap}
+.nt[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+.nt .n{background:rgba(0,0,0,.2);border-radius:var(--r-pill);padding:1px 7px;font-size:11px}
+.nt[aria-selected="true"] .n{background:rgba(16,14,20,.16)}
+.pane{display:none}.pane.on{display:block}
+.sec-t{font-family:var(--font-display);font-size:17px;margin:var(--sp-5) 0 4px;font-weight:400}
+.sec-s{font-size:12.5px;color:var(--ink-40);line-height:1.55}
+.job{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-card);margin-top:var(--sp-3);overflow:hidden}
+.job.danger{border-color:rgba(255,107,107,.42)}
+.job .hd{display:flex;align-items:center;gap:9px;padding:11px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.sig{font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;border-radius:var(--r-pill)}
+.sig.nud{background:rgba(245,197,66,.16);color:var(--saffron)}
+.sig.min{background:rgba(255,107,107,.16);color:#FF8A8A}
+.sig.txt{background:rgba(240,69,95,.14);color:#FF9AAB}
+.job .when{margin-left:auto;font-size:11.5px;color:var(--ink-40)}
+.job .bd{display:flex;gap:13px;padding:14px}
+@media(max-width:640px){.job .bd{flex-direction:column}}
+.job .img{width:142px;height:180px;border-radius:14px;flex:0 0 auto;position:relative;display:flex;
+  align-items:center;justify-content:center;font-family:var(--font-display);font-size:42px;
+  color:rgba(255,255,255,.22);filter:blur(14px)}
+.job .img .eye{position:absolute;bottom:8px;left:8px;right:8px;text-align:center;background:rgba(4,2,6,.72);
+  border-radius:var(--r-pill);padding:5px 0;font-size:11px;font-weight:600;color:#fff;filter:none}
+.job .col{flex:1;min-width:0}
+.who{font-family:var(--font-display);font-size:15px}
+.who span{font-family:var(--font-ui);color:var(--ink-40);font-size:12.5px;margin-left:7px}
+.adtitle{font-size:14.5px;font-weight:600;margin-top:8px;line-height:1.4}
+.adbody{font-size:13px;color:var(--ink-60);margin-top:7px;line-height:1.6}
+mark{background:rgba(255,107,107,.22);color:#FFB3B3;padding:1px 4px;border-radius:4px}
+.scores{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.sc{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 11px;min-width:92px}
+.sc .l{font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-40);font-weight:800}
+.sc .v{font-family:var(--font-display);font-size:15px;margin-top:3px}
+.sc.hi .v{color:#FF8A8A}.sc.md .v{color:var(--saffron)}.sc.lo .v{color:var(--ok)}
+.acts{display:flex;gap:7px;padding:0 14px 14px;flex-wrap:wrap}
+.b{padding:10px 17px;border-radius:var(--r-pill);font-size:12.5px;font-weight:700}
+.b.ok{background:var(--ok);color:#04220F}
+.b.no{background:rgba(255,107,107,.15);color:#FF8A8A;box-shadow:inset 0 0 0 1px rgba(255,107,107,.35)}
+.b.ban{background:var(--danger);color:#2A0505}
+.b.gh{background:var(--panel);color:var(--ink-60);box-shadow:inset 0 0 0 1px var(--line)}
+.b.gold{background:var(--saffron);color:var(--saffron-ink)}
+.motive{display:flex;gap:7px;flex-wrap:wrap;padding:0 14px 14px}
+.mv{font-size:11.5px;font-weight:600;padding:7px 12px;border-radius:var(--r-pill);background:var(--bg);
+  border:1px solid var(--line);color:var(--ink-40)}
+.mv[aria-pressed="true"]{border-color:var(--danger);color:#FF8A8A;background:rgba(255,107,107,.1)}
+.vrow{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-card);margin-top:var(--sp-3);padding:14px}
+.match{display:grid;grid-template-columns:1fr auto 1fr;gap:11px;align-items:center}
+@media(max-width:640px){.match{grid-template-columns:1fr}}
+.box{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:12px}
+.box .l{font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-40);font-weight:800}
+.box .v{font-family:var(--font-display);font-size:16px;margin-top:6px;letter-spacing:.03em}
+.box.exp{border-color:rgba(245,197,66,.4)}.box.exp .v{color:var(--saffron)}
+.box.got{border-color:rgba(95,208,122,.4)}.box.got .v{color:var(--ok)}
+.eq{font-family:var(--font-display);font-size:20px;text-align:center}
+.eq.yes{color:var(--ok)}.eq.no{color:#FF8A8A}
+.vmeta{display:flex;gap:14px;flex-wrap:wrap;margin-top:11px;font-size:12px;color:var(--ink-40)}
+.vwarn{margin-top:11px;background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.3);
+  border-radius:12px;padding:11px 13px;font-size:12.5px;color:#FFB3B3;line-height:1.55}
+.vacts{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap}
+.tbl{width:100%;margin-top:var(--sp-3);border-collapse:collapse;font-size:12.5px}
+.tbl th{text-align:left;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-40);
+  font-weight:800;padding:9px 10px;border-bottom:1px solid var(--line)}
+.tbl td{padding:11px 10px;border-bottom:1px solid var(--line);color:var(--ink-60)}
+.tbl td b{color:var(--ink);font-weight:600}
+.tbl tr.old td{background:rgba(255,107,107,.06)}
+.set{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-card);margin-top:var(--sp-3);padding:14px}
+.set .row{display:flex;align-items:center;gap:12px;padding:9px 0}
+.set .row+.row{border-top:1px solid var(--line)}
+.set .row .t{flex:1;font-size:13.5px}
+.set .row .t small{display:block;font-size:11.5px;color:var(--ink-40);margin-top:2px}
+.set input{width:110px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 11px;
+  color:var(--saffron);font-family:var(--font-display);font-size:14px;text-align:right;outline:none}
+.set input:focus{border-color:var(--saffron)}
+.log{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-card);margin-top:var(--sp-3);overflow:hidden}
+.lg{display:flex;gap:11px;padding:11px 14px;font-size:12.5px;align-items:baseline}
+.lg+.lg{border-top:1px solid var(--line)}
+.lg .t{font-family:var(--font-display);color:var(--ink-40);font-size:11px;flex:0 0 auto}
+.lg .a{flex:1;color:var(--ink-60);line-height:1.5}.lg .a b{color:var(--ink)}
+.lg .w{font-size:11px;color:var(--ink-40);flex:0 0 auto}
+.fill-bar{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--r-card);padding:13px 14px;margin-top:var(--sp-3);font-size:12.5px;color:var(--ink-60)}
+.fill-bar .track{flex:1;height:6px;border-radius:var(--r-pill);background:rgba(255,255,255,.1);overflow:hidden;display:flex}
+.fill-bar .track i{display:block;height:100%}
+.fill-bar .track .gold{background:var(--saffron)}
+.fill-bar .track .rose{background:var(--accent)}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="bar">
+  <span class="mark">nio<em>xx</em>er</span>
+  <span class="badge-admin">Administration</span>
+  <span class="me"><span class="av">FK</span>Franck</span>
+</div>
+
+<div class="kpis">
+  <div class="kpi"><div class="k">Publiées aujourd'hui</div><div class="v">47</div><div class="d">+9 vs hier</div></div>
+  <div class="kpi warn"><div class="k">En attente</div><div class="v">3</div><div class="d">1,4 % du volume</div></div>
+  <div class="kpi alert"><div class="k">Signalements</div><div class="v">2</div><div class="d">dont 1 urgent</div></div>
+  <div class="kpi warn"><div class="k">Recharges à valider</div><div class="v">3</div><div class="d">14 000 F déclarés</div></div>
+</div>
+
+<div class="navtabs" id="nav">
+  <button class="nt" data-p="mod" aria-selected="true">Modération <span class="n">3</span></button>
+  <button class="nt" data-p="ver" aria-selected="false">Vérifications <span class="n">2</span></button>
+  <button class="nt" data-p="rep" aria-selected="false">Signalements <span class="n">2</span></button>
+  <button class="nt" data-p="rech" aria-selected="false">Recharges <span class="n">3</span></button>
+  <button class="nt" data-p="prem" aria-selected="false">Premium <span class="n">4</span></button>
+  <button class="nt" data-p="set" aria-selected="false">Tarifs</button>
+  <button class="nt" data-p="log" aria-selected="false">Journal</button>
+</div>
+
+<!-- MODÉRATION -->
+<div class="pane on" id="mod">
+  <h2 class="sec-t">File de modération</h2>
+  <p class="sec-s">Seules les annonces retenues par le filtre apparaissent ici. Tout le reste est déjà en ligne.</p>
+
+  <div class="job">
+    <div class="hd"><span class="sig nud">Nudité explicite</span><span class="sig txt">Lexique tarifé</span><span class="when">il y a 25 min</span></div>
+    <div class="bd">
+      <div class="img" style="background:var(--dye-6)">M<button class="eye">Afficher la photo</button></div>
+      <div class="col">
+        <div class="who">Mireille, 27 <span>+237 6•• •• 41 02 · vérifié · Deido</span></div>
+        <div class="adtitle">Massage relaxant, disponible en soirée</div>
+        <div class="adbody">Je propose un moment de détente chez moi à Deido. <mark>Tarif</mark> à discuter, <mark>disponible 24h</mark>.</div>
+        <div class="scores">
+          <div class="sc hi"><div class="l">Nudité</div><div class="v">0.91</div></div>
+          <div class="sc lo"><div class="l">Minorité</div><div class="v">0.04</div></div>
+          <div class="sc hi"><div class="l">Texte</div><div class="v">0.88</div></div>
+          <div class="sc"><div class="l">Historique</div><div class="v">2 refus</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="motive">
+      <button class="mv" aria-pressed="true">Service tarifé</button>
+      <button class="mv" aria-pressed="false">Nudité</button>
+      <button class="mv" aria-pressed="false">Photo d'autrui</button>
+      <button class="mv" aria-pressed="false">Arnaque</button>
+      <button class="mv" aria-pressed="false">Autre</button>
+    </div>
+    <div class="acts">
+      <button class="b no">Refuser et notifier</button>
+      <button class="b ban">Refuser et bannir</button>
+      <button class="b gh">Approuver quand même</button>
+    </div>
+  </div>
+
+  <div class="job">
+    <div class="hd"><span class="sig nud">Nudité explicite</span><span class="when">il y a 2 h</span></div>
+    <div class="bd">
+      <div class="img" style="background:var(--dye-5)">R<button class="eye">Afficher la photo</button></div>
+      <div class="col">
+        <div class="who">Roland, 26 <span>+237 6•• •• 77 38 · vérifié · Makepe</span></div>
+        <div class="adtitle">Sportif, je cherche une belle rencontre</div>
+        <div class="adbody">Salut, je suis Roland, passionné de foot et de musique. Je cherche quelqu'un de simple.</div>
+        <div class="scores">
+          <div class="sc md"><div class="l">Nudité</div><div class="v">0.62</div></div>
+          <div class="sc lo"><div class="l">Minorité</div><div class="v">0.07</div></div>
+          <div class="sc lo"><div class="l">Texte</div><div class="v">0.05</div></div>
+          <div class="sc"><div class="l">Historique</div><div class="v">Aucun</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="acts">
+      <button class="b ok">Approuver</button><button class="b no">Refuser</button>
+      <button class="b gh">Demander une autre photo</button>
+    </div>
+  </div>
+
+  <div class="job danger">
+    <div class="hd"><span class="sig min">Minorité apparente · rejet automatique</span><span class="when">il y a 4 h</span></div>
+    <div class="bd"><div class="col">
+      <div class="who">Compte #4712 <span>+237 6•• •• 09 55 · non vérifié</span></div>
+      <div class="adtitle">Annonce bloquée avant publication</div>
+      <div class="adbody">Cette annonce n'a jamais été visible. La photo a été rejetée automatiquement et le compte suspendu.</div>
+      <div class="scores">
+        <div class="sc hi"><div class="l">Minorité</div><div class="v">0.94</div></div>
+        <div class="sc"><div class="l">Compte</div><div class="v">Suspendu</div></div>
+        <div class="sc"><div class="l">Journal</div><div class="v">A-2291</div></div>
+      </div>
+    </div></div>
+    <div class="acts">
+      <button class="b ban">Confirmer le bannissement</button>
+      <button class="b gh">Exporter le dossier</button>
+      <button class="b gh">Marquer faux positif</button>
+    </div>
+  </div>
+</div>
+
+<!-- VÉRIFICATIONS -->
+<div class="pane" id="ver">
+  <h2 class="sec-t">Vérifications WhatsApp</h2>
+  <p class="sec-s">Validez seulement si le numéro qui a envoyé le message correspond au numéro déclaré dans le profil.</p>
+
+  <div class="vrow">
+    <div class="match">
+      <div class="box exp"><div class="l">Code attendu</div><div class="v">NX-4837</div></div>
+      <div class="eq yes">=</div>
+      <div class="box got"><div class="l">Message reçu de</div><div class="v">+237 678 802 447</div></div>
+    </div>
+    <div class="vmeta"><span>Profil : Sandrine, 23 · Bonapriso</span><span>Numéro déclaré : +237 678 802 447</span><span>il y a 12 min</span></div>
+    <div class="vacts"><button class="b ok">Valider le numéro</button><button class="b gh">Ouvrir le profil</button></div>
+  </div>
+
+  <div class="vrow">
+    <div class="match">
+      <div class="box exp"><div class="l">Code attendu</div><div class="v">NX-1150</div></div>
+      <div class="eq no">≠</div>
+      <div class="box got" style="border-color:rgba(255,107,107,.4)"><div class="l">Message reçu de</div><div class="v" style="color:#FF8A8A">+237 699 314 780</div></div>
+    </div>
+    <div class="vmeta"><span>Profil : Compte #5104</span><span>Numéro déclaré : +237 677 220 118</span><span>il y a 40 min</span></div>
+    <div class="vwarn">Le message ne vient pas du numéro déclaré. Cette personne tente probablement de publier avec le numéro de quelqu'un d'autre. Ne validez pas.</div>
+    <div class="vacts"><button class="b no">Rejeter</button><button class="b ban">Rejeter et suspendre</button></div>
+  </div>
+</div>
+
+<!-- SIGNALEMENTS -->
+<div class="pane" id="rep">
+  <h2 class="sec-t">Signalements</h2>
+  <p class="sec-s">Trois signalements d'adresses distinctes dépublient automatiquement l'annonce en attendant votre décision.</p>
+
+  <div class="job danger">
+    <div class="hd"><span class="sig min">3 signalements</span><span class="when">il y a 1 h</span></div>
+    <div class="bd"><div class="col">
+      <div class="adtitle">« Soirée privée, participation demandée »</div>
+      <div class="adbody"><b>Service tarifé</b> — Elle demande de l'argent pour venir.<br>
+      <b>Arnaque</b> — Demande un dépôt MoMo avant le rendez-vous.<br>
+      <b>Service tarifé</b> — Tarif donné en message privé.</div>
+    </div></div>
+    <div class="acts">
+      <button class="b no">Supprimer l'annonce</button><button class="b ban">Supprimer et bannir</button>
+      <button class="b gh">Remettre en ligne</button>
+    </div>
+  </div>
+
+  <div class="job danger">
+    <div class="hd"><span class="sig min">Urgent · guet-apens</span><span class="when">il y a 20 min</span></div>
+    <div class="bd"><div class="col">
+      <div class="adtitle">Signalement d'agression · Compte #3390</div>
+      <div class="adbody">Rendez-vous à Ndokotti, trois hommes m'attendaient, mon téléphone a été pris.</div>
+      <div class="vwarn" style="margin-top:12px">
+        <b>Procédure d'incident.</b> 1. Geler le compte immédiatement · 2. Conserver annonce, photos, clics de contact,
+        IP et horodatages · 3. Accuser réception à la victime sous 24 h · 4. Transmettre à la police judiciaire ·
+        5. Consigner au journal.
+      </div>
+    </div></div>
+    <div class="acts">
+      <button class="b ban">Geler le compte</button><button class="b no">Exporter le dossier complet</button>
+      <button class="b gh">Répondre à la victime</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- RECHARGES -->
+<div class="pane" id="rech">
+  <h2 class="sec-t">Recharges à valider</h2>
+  <p class="sec-s">L'utilisateur envoie l'argent sur vos numéros, puis déclare sa transaction. Vérifiez le versement sur votre relevé MTN ou Orange, puis validez. Chaque décision est consignée.</p>
+
+  <div class="fill-bar">
+    <span style="color:var(--saffron);font-weight:700">3 en attente</span>
+    <div class="track"><i class="gold" style="width:36%"></i></div>
+    <span>14 000 F déclarés · plus ancienne : il y a 3 h</span>
+  </div>
+
+  <table class="tbl">
+    <thead><tr><th>Déclaré</th><th>Montant</th><th>Opérateur</th><th>Payeur</th><th>Référence</th><th>Reçu</th><th></th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>Sandrine, 23</b><br>il y a 12 min</td>
+        <td><b>5 000 F</b></td>
+        <td>MTN</td>
+        <td>+237 678 802 447</td>
+        <td><span style="font-family:var(--font-display);color:var(--saffron)">MP260830.1432.A54321</span></td>
+        <td><span style="color:var(--ok)">✓ trouvé</span></td>
+        <td><button class="b ok">Créditer</button></td>
+      </tr>
+      <tr>
+        <td><b>Emmanuel, 30</b><br>il y a 1 h</td>
+        <td><b>2 000 F</b></td>
+        <td>Orange</td>
+        <td>+237 699 314 780</td>
+        <td><span style="font-family:var(--font-display);color:var(--saffron)">OM260830.1301.77B2</span></td>
+        <td><span style="color:var(--ok)">✓ trouvé</span></td>
+        <td><button class="b ok">Créditer</button></td>
+      </tr>
+      <tr class="old">
+        <td><b>Compte #5104</b><br>il y a 3 h</td>
+        <td><b>7 000 F</b></td>
+        <td>MTN</td>
+        <td>+237 677 220 118</td>
+        <td><span style="font-family:var(--font-display);color:#FF8A8A">MP260830.1108.C991</span></td>
+        <td><span style="color:#FF8A8A">✗ introuvable</span></td>
+        <td><button class="b no">Rejeter</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="vwarn" style="margin-top:14px">
+    <b>Montant déclaré non conforme.</b> 7 000 F ne correspond à aucun palier (1 000 · 2 000 · 5 000 · 10 000).
+    Vérifiez le relevé avant de rejeter : il peut s'agir d'une erreur de saisie de l'utilisateur.
+  </div>
+
+  <h2 class="sec-t">Motif de rejet</h2>
+  <div class="motive">
+    <button class="mv" aria-pressed="true">Versement introuvable</button>
+    <button class="mv" aria-pressed="false">Montant différent</button>
+    <button class="mv" aria-pressed="false">Référence déjà utilisée</button>
+    <button class="mv" aria-pressed="false">Numéro payeur inconnu</button>
+    <button class="mv" aria-pressed="false">Autre</button>
+  </div>
+
+  <h2 class="sec-t">Vos numéros d'encaissement</h2>
+  <p class="sec-s">Affichés aux utilisateurs sur l'écran de recharge. Toute modification est consignée au journal.</p>
+  <div class="set">
+    <div class="row"><div class="t">MTN Mobile Money<small>Numéro affiché aux utilisateurs</small></div><input value="678 802 447" style="width:150px"></div>
+    <div class="row"><div class="t">Orange Money<small>Numéro affiché aux utilisateurs</small></div><input value="699 314 780" style="width:150px"></div>
+  </div>
+  <div class="acts" style="padding:var(--sp-4) 0 0"><button class="b gold">Enregistrer</button></div>
+
+  <div class="vwarn" style="margin-top:18px">
+    <b>Rappel.</b> Encaisser des revenus commerciaux sur une ligne Mobile Money personnelle expose à un
+    plafonnement ou à un blocage par l'opérateur. Une référence de transaction ne peut être utilisée
+    qu'une seule fois : la contrainte est appliquée en base.
+  </div>
+</div>
+
+<!-- PREMIUM -->
+<div class="pane" id="prem">
+  <h2 class="sec-t">Bandeau Premium</h2>
+  <p class="sec-s">20 emplacements. Les Premium passent en premier ; s'il y en a moins de 5, le bandeau est complété par les annonces sponsorisées.</p>
+
+  <div class="fill-bar">
+    <span style="color:var(--saffron);font-weight:700">4 Premium</span>
+    <div class="track"><i class="gold" style="width:20%"></i><i class="rose" style="width:80%"></i></div>
+    <span>16 sponsorisées en complément</span>
+  </div>
+
+  <h2 class="sec-t">Premium actifs</h2>
+  <p class="sec-s">Les surclassements offerts n'expirent pas. Surveillez leur ancienneté : au-delà de 30 jours ils bloquent des emplacements payants.</p>
+
+  <table class="tbl">
+    <thead><tr><th>Annonce</th><th>Source</th><th>Depuis</th><th>Expire</th><th>Affichages</th><th></th></tr></thead>
+    <tbody>
+      <tr><td><b>Aïcha, 24</b><br>Akwa</td><td>Payé 5 000 F</td><td>2 j</td><td>dans 5 j</td><td>1 240</td><td><button class="b gh">Retirer</button></td></tr>
+      <tr><td><b>Bertrand, 29</b><br>Bonapriso</td><td>Payé 5 000 F</td><td>6 j</td><td><span style="color:var(--saffron)">demain</span></td><td>3 908</td><td><button class="b gh">Retirer</button></td></tr>
+      <tr><td><b>Nadège, 26</b><br>Makepe</td><td><span style="color:var(--saffron)">Admin</span></td><td>9 j</td><td>illimité</td><td>5 102</td><td><button class="b gh">Retirer</button></td></tr>
+      <tr class="old"><td><b>Serge, 31</b><br>Deido</td><td><span style="color:var(--saffron)">Admin</span></td><td><span style="color:#FF8A8A">41 j</span></td><td>illimité</td><td>22 470</td><td><button class="b no">Retirer</button></td></tr>
+    </tbody>
+  </table>
+
+  <div class="vwarn" style="margin-top:14px">
+    Un surclassement dure depuis plus de 30 jours. Il occupe un emplacement qu'un Premium payant ne peut pas prendre.
+  </div>
+
+  <h2 class="sec-t">Surclasser une annonce</h2>
+  <div class="set">
+    <div class="row"><div class="t">Rechercher une annonce<small>Le surclassement est gratuit, illimité, et consigné au journal</small></div>
+      <button class="b gold">Surclasser</button></div>
+  </div>
+</div>
+
+<!-- TARIFS -->
+<div class="pane" id="set">
+  <h2 class="sec-t">Tarifs</h2>
+  <p class="sec-s">Publier reste gratuit. Seule la mise en avant est payante. Toute modification est consignée au journal.</p>
+  <div class="set">
+    <div class="row"><div class="t">Premium · 7 jours<small>Bandeau du haut, par annonce</small></div><input value="5 000"></div>
+    <div class="row"><div class="t">Boost · 7 jours<small>Rang dans le fil de la ville</small></div><input value="1 000"></div>
+    <div class="row"><div class="t">Boost · 3 jours<small>Formule d'essai</small></div><input value="500"></div>
+  </div>
+  <h2 class="sec-t">Paliers de recharge</h2>
+  <div class="set">
+    <div class="row"><div class="t">Palier 1</div><input value="1 000"></div>
+    <div class="row"><div class="t">Palier 2</div><input value="2 000"></div>
+    <div class="row"><div class="t">Palier 3<small>Couvre une semaine de Premium</small></div><input value="5 000"></div>
+    <div class="row"><div class="t">Palier 4<small>Couvre deux semaines de Premium</small></div><input value="10 000"></div>
+  </div>
+  <div class="acts" style="padding:var(--sp-4) 0 0"><button class="b gold">Enregistrer</button></div>
+</div>
+
+<!-- JOURNAL -->
+<div class="pane" id="log">
+  <h2 class="sec-t">Journal des décisions</h2>
+  <p class="sec-s">Chaque action est consignée avec son auteur, son horodatage et son motif. C'est la preuve de votre diligence.</p>
+  <div class="log">
+    <div class="lg"><span class="t">14:22</span><span class="a"><b>Franck</b> a refusé l'annonce #8841 — motif : service tarifé</span><span class="w">198.51.100.24</span></div>
+    <div class="lg"><span class="t">14:19</span><span class="a"><b>Système</b> a rejeté la photo #22910 — minorité apparente 0.94, compte #4712 suspendu</span><span class="w">auto</span></div>
+    <div class="lg"><span class="t">13:58</span><span class="a"><b>Franck</b> a validé le numéro +237 678 •• 447 — profil Sandrine</span><span class="w">198.51.100.24</span></div>
+    <div class="lg"><span class="t">13:44</span><span class="a"><b>Système</b> a dépublié l'annonce #8802 — 3 signalements distincts</span><span class="w">auto</span></div>
+    <div class="lg"><span class="t">12:30</span><span class="a"><b>Franck</b> a surclassé l'annonce #8790 en Premium — durée illimitée</span><span class="w">198.51.100.24</span></div>
+    <div class="lg"><span class="t">12:41</span><span class="a"><b>Franck</b> a crédité 5 000 F au compte #1188 — réf. MP260830.1432.A54321</span><span class="w">198.51.100.24</span></div>
+    <div class="lg"><span class="t">12:07</span><span class="a"><b>Système</b> a recrédité 640 F au compte #2201 — mise en avant interrompue</span><span class="w">auto</span></div>
+    <div class="lg"><span class="t">09:14</span><span class="a"><b>Franck</b> a modifié le prix Premium — 4 000 F → 5 000 F</span><span class="w">198.51.100.24</span></div>
+  </div>
+</div>
+
+</div>
+<script>
+
+document.querySelectorAll('.nt').forEach(function(t){
+  t.onclick=function(){
+    document.querySelectorAll('.nt').forEach(x=>x.setAttribute('aria-selected','false'));
+    document.querySelectorAll('.pane').forEach(x=>x.classList.remove('on'));
+    t.setAttribute('aria-selected','true');
+    document.getElementById(t.dataset.p).classList.add('on');
+    scrollTo({top:0,behavior:'smooth'});
+  };
+});
+document.querySelectorAll('.mv').forEach(function(m){
+  m.onclick=function(){
+    m.parentElement.querySelectorAll('.mv').forEach(x=>x.setAttribute('aria-pressed','false'));
+    m.setAttribute('aria-pressed','true');
+  };
+});
+document.querySelectorAll('.eye').forEach(function(e){
+  e.onclick=function(){
+    const p=e.parentElement, shown=p.dataset.shown==='1';
+    p.dataset.shown=shown?'0':'1';
+    p.style.filter=shown?'blur(14px)':'none';
+    e.textContent=shown?'Afficher la photo':'Masquer';
+  };
+});
+
+</script>
+</body>
+</html>

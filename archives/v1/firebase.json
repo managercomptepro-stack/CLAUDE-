@@ -1,0 +1,152 @@
+{
+  "hosting": {
+    "public": ".",
+    "cleanUrls": true,
+    "trailingSlash": false,
+    "ignore": [
+      "firebase.json",
+      "firestore.rules",
+      "**/.*",
+      "**/.*/**",
+      "**/node_modules/**",
+      "*.md",
+      "*.zip",
+      "*.sh",
+      "archives/**",
+      "tests/**",
+      "package.json",
+      "package-lock.json",
+      "logo-removebg.png",
+      "CLAUDE_md_ajout.txt",
+      "config_dns_firebase.txt",
+      "firestore.indexes.json",
+      "firestore-debug.log",
+      "*.log"
+    ],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "X-Content-Type-Options",
+            "value": "nosniff"
+          },
+          {
+            "key": "Referrer-Policy",
+            "value": "strict-origin-when-cross-origin"
+          },
+          {
+            "key": "Permissions-Policy",
+            "value": "camera=(), microphone=(), geolocation=(), payment=()"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(png|jpg|jpeg|webp|svg|ico|woff2)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=604800"
+          }
+        ]
+      }
+    ],
+    "redirects": [
+      {
+        "source": "/nioxxer-accueil",
+        "destination": "/",
+        "type": 301
+      },
+      {
+        "source": "/nioxxer-accueil.html",
+        "destination": "/",
+        "type": 301
+      },
+      {
+        "source": "/nioxxer-recherche-v2",
+        "destination": "/recherche",
+        "type": 301
+      },
+      {
+        "source": "/nioxxer-recherche-v2.html",
+        "destination": "/recherche",
+        "type": 301
+      },
+      {
+        "source": "/nioxxer-connexion-v2",
+        "destination": "/connexion",
+        "type": 301
+      },
+      {
+        "source": "/nioxxer-connexion-v2.html",
+        "destination": "/connexion",
+        "type": 301
+      },
+      {
+        "source": "/nioxxer-compte-annonces-v2",
+        "destination": "/compte",
+        "type": 301
+      },
+      {
+        "source": "/nioxxer-compte-annonces-v2.html",
+        "destination": "/compte",
+        "type": 301
+      },
+      {
+        "source": "/verify-email",
+        "destination": "/verifier-email",
+        "type": 301
+      },
+      {
+        "source": "/verify-email.html",
+        "destination": "/verifier-email",
+        "type": 301
+      },
+      {
+        "source": "/nioxxer-annonce",
+        "destination": "/annonce",
+        "type": 301
+      },
+      {
+        "source": "/nioxxer-annonce.html",
+        "destination": "/annonce",
+        "type": 301
+      },
+      {
+        "source": "/nioxxer-publier-v2",
+        "destination": "/publier",
+        "type": 301
+      },
+      {
+        "source": "/nioxxer-publier-v2.html",
+        "destination": "/publier",
+        "type": 301
+      }
+    ]
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "emulators": {
+    "auth": {
+      "host": "127.0.0.1",
+      "port": 9099
+    },
+    "firestore": {
+      "host": "127.0.0.1",
+      "port": 8080
+    },
+    "ui": {
+      "enabled": false
+    },
+    "hosting": {
+      "host": "127.0.0.1",
+      "port": 5173
+    }
+  }
+}

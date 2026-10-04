@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#100E14">
+<title>Publier une annonce · NIOXXER</title>
+<meta name="description" content="Publiez gratuitement votre annonce de rencontre sur NIOXXER.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Karla:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/app.css">
+<link rel="stylesheet" href="/css/form.css">
+<style>
+.preview{margin:var(--sp-4) var(--gutter) 0;display:flex;gap:12px;align-items:center;background:var(--panel);
+  border:1px solid var(--line);border-radius:var(--r-card);padding:12px}
+.preview .ph{width:58px;height:72px;border-radius:12px;flex:0 0 auto;background:var(--dye-1);display:flex;
+  align-items:center;justify-content:center;font-family:var(--font-display);font-size:24px;color:rgba(255,255,255,.35)}
+.preview .who{font-family:var(--font-display);font-size:16px}
+.preview .where{font-size:12px;color:var(--ink-60);margin-top:3px}
+.preview .edit{font-size:12px;color:var(--accent);margin-top:6px;display:inline-block;text-decoration:none}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:var(--sp-3)}
+.chip{font-size:12.5px;font-weight:500;color:var(--ink-60);background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--r-pill);padding:8px 13px}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg);font-weight:600}
+textarea{width:100%;min-height:150px;resize:vertical;background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--r-field);padding:14px;color:var(--ink);font-family:var(--font-ui);font-size:15px;line-height:1.55;outline:none}
+textarea:focus{border-color:var(--accent)}
+textarea::placeholder{color:var(--ink-40)}
+.count{text-align:right;font-size:var(--t-meta);color:var(--ink-40);margin-top:6px;font-variant-numeric:tabular-nums}
+.count.bad{color:var(--danger-soft)}
+.quota{margin:var(--sp-3) var(--gutter) 0;font-size:12.5px;color:var(--ink-60)}
+.quota b{color:var(--ink)}
+.done{padding:var(--sp-7) var(--gutter) 0;text-align:center}
+.done .glyph{width:64px;height:64px;border-radius:50%;background:rgba(var(--ok-rgb),.14);margin:0 auto var(--sp-4);
+  display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--ok)}
+.done h2{margin-top:0}
+.done .actions{display:flex;flex-direction:column;gap:9px;margin-top:var(--sp-6)}
+.done .actions a{display:block;text-decoration:none;text-align:center}
+.ghost-btn{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-pill);padding:14px 0;font-weight:700;font-size:14px}
+</style>
+</head>
+<body>
+<script type="module" src="/js/auth-guard.js"></script>
+<div class="page">
+<header class="masthead" id="masthead">
+  <button class="icon-btn" aria-label="Retour"><svg viewBox="0 0 24 24"><path d="M15.5 4 7 12l8.5 8 1.4-1.4L9.8 12l7.1-6.6L15.5 4Z"/></svg></button>
+  <h1 id="titre">Publier une annonce</h1>
+</header>
+
+<main id="form">
+  <p class="quota" id="quota">&nbsp;</p>
+
+  <div class="preview" aria-live="polite">
+    <div class="ph" id="pvInitial">·</div>
+    <div>
+      <div class="who" id="pvWho">—</div>
+      <div class="where" id="pvWhere"></div>
+      <a class="edit" href="/connexion?step=profil&amp;next=/publier">Modifier mon profil</a>
+    </div>
+  </div>
+
+  <div class="pad">
+    <div class="lbl">Quartier <span class="opt-note">(facultatif)</span></div>
+    <div class="chips" id="quartiers"></div>
+
+    <div class="lbl">Votre annonce</div>
+    <div class="field">
+      <textarea id="texte" maxlength="600" placeholder="Présentez-vous et dites ce que vous cherchez : une relation sérieuse, des sorties, une amitié…"></textarea>
+      <div class="count" id="count">0 / 600</div>
+    </div>
+    <p class="err" id="err"></p>
+
+    <div class="info">Publier est <b>gratuit</b>. Votre annonce reste en ligne <b>60 jours</b>, 3 annonces actives au maximum.
+      N'écrivez ni numéro ni lien : le bouton Contacter s'en charge, votre numéro n'est jamais affiché.
+      Les photos arrivent bientôt.</div>
+    <p class="note">En publiant, vous acceptez les <a href="/regles">règles de publication</a> : aucun service tarifé, aucune personne mineure.</p>
+  </div>
+</main>
+
+<main id="ok" class="done" hidden>
+  <div class="glyph" aria-hidden="true">✓</div>
+  <h2 id="okTitre">Annonce publiée</h2>
+  <p class="sub">Elle est visible dès maintenant dans le fil de votre ville.</p>
+  <div class="actions">
+    <a class="cta" id="okVoir" href="/">Voir mon annonce</a>
+    <a class="ghost-btn" href="/compte">Mes annonces</a>
+  </div>
+</main>
+</div>
+
+<div class="dock" id="dock"><div class="inner">
+  <button class="cta" id="cta" disabled>Publier gratuitement</button>
+  <p class="hint">Gratuit · 60 jours en ligne</p>
+</div></div>
+
+<script src="/js/config.js"></script>
+<script type="module">
+import { auth, onAuthStateChanged, getProfile } from '/js/nioxxer-auth.js';
+import { publierAnnonce, modifierAnnonce, lireAnnonce, mesAnnonces, verifierTexte,
+         messageErreurAnnonce, MAX_ACTIVES, TEXTE_MIN, TEXTE_MAX } from '/js/annonces.js';
+
+const $=id=>document.getElementById(id);
+const texte=$('texte'), cta=$('cta'), err=$('err');
+const editId=new URLSearchParams(location.search).get('id');
+let profil=null, quartier='';
+
+function showErr(m){ err.textContent=m||''; err.classList.toggle('show',!!m); }
+function refresh(){
+  const n=texte.value.trim().length;
+  $('count').textContent=n+' / '+TEXTE_MAX;
+  $('count').classList.toggle('bad', n>0 && n<TEXTE_MIN);
+  cta.disabled=!profil || n<TEXTE_MIN;
+}
+texte.addEventListener('input',refresh);
+
+function quartiers(){
+  const list=(NIOXXER_QUARTIERS[profil.ville]||[]);
+  const host=$('quartiers');
+  host.innerHTML=['Non précisé'].concat(list).map(q=>'<button class="chip" type="button" aria-pressed="'
+    +((q==='Non précisé'&&!quartier)||q===quartier)+'">'+nxEsc(q)+'</button>').join('');
+  host.querySelectorAll('.chip').forEach(function(c){
+    c.onclick=function(){
+      host.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed','false'));
+      c.setAttribute('aria-pressed','true');
+      quartier = c.textContent==='Non précisé' ? '' : c.textContent;
+    };
+  });
+}
+
+onAuthStateChanged(auth, async function(user){
+  if(!user || !user.emailVerified) return;          // auth-guard redirige
+  try{
+    profil=await getProfile(user.uid);
+    if(!profil){ location.replace('/connexion?step=profil&next='+encodeURIComponent(location.pathname+location.search)); return; }
+    const n=profil.naissance&&profil.naissance.toDate?profil.naissance.toDate():null;
+    $('pvInitial').textContent=(profil.nom||'·')[0].toUpperCase();
+    $('pvWho').textContent=profil.nom+(n?', '+ageDepuis(n)+' ans':'');
+    $('pvWhere').textContent=[profil.genre,profil.ville].filter(Boolean).join(' · ');
+    if(editId){
+      const a=await lireAnnonce(editId);
+      if(!a || a.uid!==user.uid){ location.replace('/compte'); return; }
+      $('titre').textContent='Modifier mon annonce'; cta.textContent='Enregistrer';
+      texte.value=a.texte; quartier=a.quartier;
+      $('quota').textContent='';
+    }else{
+      const actives=(await mesAnnonces()).filter(a=>a.active).length;
+      $('quota').innerHTML='Annonces actives : <b>'+actives+' / '+MAX_ACTIVES+'</b>';
+      if(actives>=MAX_ACTIVES){ showErr(messageErreurAnnonce({code:'nioxxer/quota'})); texte.disabled=true; }
+    }
+    quartiers(); refresh();
+  }catch(e){ showErr(messageErreurAnnonce(e)); }
+});
+
+cta.onclick=async function(){
+  showErr('');
+  const champs={texte:texte.value, quartier};
+  const msg=verifierTexte(champs.texte, champs.quartier);
+  if(msg){ showErr(msg); return; }
+  cta.disabled=true;
+  try{
+    const id = editId ? (await modifierAnnonce(editId, profil, champs), editId)
+                      : await publierAnnonce(profil, champs);
+    $('form').hidden=true; $('dock').hidden=true; $('ok').hidden=false;
+    if(editId) $('okTitre').textContent='Annonce modifiée';
+    $('okVoir').href='/annonce?id='+encodeURIComponent(id);
+    scrollTo(0,0);
+  }catch(e){ showErr(messageErreurAnnonce(e)); cta.disabled=false; }
+};
+</script>
+</body>
+</html>

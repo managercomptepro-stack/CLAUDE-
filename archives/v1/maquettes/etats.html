@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#100E14">
+<title>États du service · NIOXXER</title>
+<meta name="description" content="États d'interface NIOXXER : page introuvable, aucun résultat, annonce expirée.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Karla:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- En production : <link rel="stylesheet" href="/css/tokens.css"> -->
+<style>
+:root{
+  --bg:#100E14;--bg-lift:#191520;--ink:#F2EDF3;--ink-60:#A198A6;--ink-40:#736A78;
+  --line:rgba(242,237,243,.10);--panel:rgba(255,255,255,.05);
+  --accent:#F0455F;--accent-ink:#26060C;--saffron:#F5C542;--saffron-ink:#2A1D05;
+  --danger:#FF6B6B;--ok:#5FD07A;--bar:rgba(16,14,20,.74);--bar-solid:rgba(16,14,20,.95);
+  --font-display:'Young Serif',Georgia,serif;--font-ui:'Karla',system-ui,sans-serif;
+  --r-card:16px;--r-pill:999px;--gutter:16px;--page-max:520px;
+  --ease:cubic-bezier(.22,.68,.28,1);--t-fast:.18s;--t-mid:.32s;--t-slow:.5s;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg)}
+body{background:transparent;color:var(--ink);font-family:var(--font-ui);font-size:14px;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;padding-bottom:40px}
+:focus-visible{outline:2px solid var(--saffron);outline-offset:3px;border-radius:5px}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:var(--saffron);text-decoration:none}
+a:hover{text-decoration:underline}
+.page{max-width:var(--page-max);margin:0 auto;position:relative;z-index:2}
+.glow{position:fixed;top:0;left:0;right:0;height:40vh;z-index:0;pointer-events:none;
+  background:radial-gradient(60% 60% at 20% 0%,rgba(163,40,70,.20),transparent 66%),
+             radial-gradient(54% 54% at 84% 8%,rgba(76,44,134,.18),transparent 66%);
+  -webkit-mask-image:linear-gradient(to bottom,#000,transparent);mask-image:linear-gradient(to bottom,#000,transparent)}
+.masthead{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;
+  padding:11px var(--gutter);background:var(--bar);
+  -webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);
+  border-bottom:1px solid transparent;transition:background var(--t-mid),border-color var(--t-mid)}
+.masthead.condensed{background:var(--bar-solid);border-bottom-color:var(--line)}
+.masthead h1{font-family:var(--font-display);font-size:15px;font-weight:400}
+.icon-btn{width:34px;height:34px;border-radius:50%;background:var(--panel);border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.icon-btn svg{width:16px;height:16px;fill:var(--ink)}
+.mark{font-family:var(--font-display);font-size:17px;color:var(--accent)}
+.mark em{font-style:normal;color:var(--saffron)}
+.hero{padding:26px var(--gutter) 0}
+.hero h2{font-family:var(--font-display);font-size:27px;line-height:1.15;letter-spacing:-.02em;font-weight:400}
+.hero .date{font-size:12px;color:var(--ink-40);margin-top:9px}
+.toc{margin:20px var(--gutter) 0;background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--r-card);padding:13px 15px}
+.toc .t{font-size:10.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--saffron)}
+.toc ol{margin:9px 0 0 18px}
+.toc li{margin-top:5px;font-size:13px}
+.toc a{color:var(--ink-60)}
+.body{padding:0 var(--gutter)}
+.body section{margin-top:30px;scroll-margin-top:60px}
+.body h3{font-family:var(--font-display);font-size:18px;font-weight:400;letter-spacing:-.01em}
+.body h3 .num{color:var(--saffron);font-size:14px;margin-right:7px}
+.body p{margin-top:10px;line-height:1.75;color:#D6CEDA}
+.body ul{margin:10px 0 0 18px}
+.body li{margin-top:7px;line-height:1.65;color:#D6CEDA}
+.body strong{color:var(--ink)}
+.callout{margin-top:14px;border-radius:var(--r-card);padding:13px 15px;font-size:13px;line-height:1.65}
+.callout.warn{background:rgba(240,69,95,.08);border:1px solid rgba(240,69,95,.26);color:#EFC6CE}
+.callout.warn b{color:#FF9AAB}
+.callout.gold{background:rgba(245,197,66,.08);border:1px solid rgba(245,197,66,.26);color:#E4D5AE}
+.callout.gold b{color:var(--saffron)}
+.callout.ok{background:rgba(95,208,122,.08);border:1px solid rgba(95,208,122,.26);color:#C6E4CE}
+.callout.ok b{color:var(--ok)}
+.tbl{width:100%;margin-top:13px;border-collapse:collapse;font-size:12.5px}
+.tbl th{text-align:left;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-40);
+  font-weight:800;padding:8px 9px;border-bottom:1px solid var(--line)}
+.tbl td{padding:10px 9px;border-bottom:1px solid var(--line);color:var(--ink-60);vertical-align:top}
+.tbl td b{color:var(--ink);font-weight:600}
+.todo{color:var(--saffron);font-family:var(--font-display)}
+.colophon{margin-top:38px;padding:16px var(--gutter);border-top:1px solid var(--line)}
+.links{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:11px}
+.links a{font-size:12px;color:var(--ink-60)}
+.links .wa{color:#5FD07A;font-weight:600}
+.smallprint{margin-top:12px;font-size:11.5px;line-height:1.55;color:var(--ink-40)}
+</style><style>
+.state-wrap{min-height:62vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:40px var(--gutter) 0}
+.state-wrap .glyph{width:96px;height:96px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  margin-bottom:22px;background:rgba(255,255,255,.05);border:1px solid var(--line)}
+.state-wrap .glyph svg{width:42px;height:42px}
+.state-wrap h2{font-family:var(--font-display);font-size:26px;font-weight:400;letter-spacing:-.02em}
+.state-wrap p{margin-top:12px;font-size:14px;color:var(--ink-60);line-height:1.7;max-width:34ch}
+.state-wrap .acts{display:flex;flex-direction:column;gap:9px;margin-top:26px;width:100%;max-width:300px}
+.bp{width:100%;background:var(--accent);color:var(--accent-ink);border-radius:var(--r-pill);
+  padding:14px 0;font-family:var(--font-display);font-size:15px}
+.bg2{width:100%;background:var(--panel);border:1px solid var(--line);color:var(--ink);
+  border-radius:var(--r-pill);padding:14px 0;font-size:14px;font-weight:600}
+.switcher{display:flex;gap:5px;justify-content:center;margin:22px auto 0;max-width:420px;
+  background:var(--panel);border-radius:var(--r-pill);padding:4px}
+.switcher button{flex:1;padding:9px 0;border-radius:var(--r-pill);font-size:12.5px;font-weight:700;color:var(--ink-40)}
+.switcher button[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+.st{display:none}.st.on{display:block}
+.suggest{margin-top:26px;width:100%;max-width:340px}
+.suggest .t{font-size:10.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--saffron);text-align:left}
+.suggest .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+.suggest .chip{font-size:12.5px;font-weight:600;padding:8px 13px;border-radius:var(--r-pill);
+  background:var(--panel);border:1px solid var(--line);color:var(--ink-60)}
+</style>
+</head>
+<body>
+<!-- Trois états à intégrer aux écrans correspondants : page introuvable, recherche sans résultat, annonce expirée. -->
+<div class="glow" aria-hidden="true"></div>
+<div class="page">
+  <header class="masthead" id="masthead">
+    <span class="mark">nio<em>xx</em>er</span>
+  </header>
+
+  <div class="switcher" role="group" aria-label="État affiché">
+    <button data-s="e404" aria-selected="true">Page introuvable</button>
+    <button data-s="evide" aria-selected="false">Aucun résultat</button>
+    <button data-s="eexp" aria-selected="false">Annonce expirée</button>
+  </div>
+
+  <!-- 404 -->
+  <div class="st on" id="e404">
+    <div class="state-wrap">
+      <div class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="#F0455F" stroke-width="1.6">
+        <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5" stroke-linecap="round"/>
+        <path d="M8.5 11h5" stroke-linecap="round"/></svg></div>
+      <h2>Cette page n'existe pas</h2>
+      <p>Le lien est peut-être ancien, ou l'annonce a été retirée ou a expiré.</p>
+      <div class="acts">
+        <button class="bp">Retour à l'accueil</button>
+        <button class="bg2">Chercher une annonce</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUCUN RÉSULTAT -->
+  <div class="st" id="evide">
+    <div class="state-wrap">
+      <div class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="#F5C542" stroke-width="1.6">
+        <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5" stroke-linecap="round"/></svg></div>
+      <h2>Aucune annonce ne correspond</h2>
+      <p>Vos filtres sont peut-être trop serrés. Élargissez la tranche d'âge, ou retirez un quartier.</p>
+      <div class="acts">
+        <button class="bp">Élargir aux villes voisines</button>
+        <button class="bg2">Réinitialiser les filtres</button>
+      </div>
+      <div class="suggest">
+        <div class="t">Essayez plutôt</div>
+        <div class="chips">
+          <span class="chip">Douala · toutes</span>
+          <span class="chip">18 – 45 ans</span>
+          <span class="chip">Sans filtre de quartier</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ANNONCE EXPIRÉE -->
+  <div class="st" id="eexp">
+    <div class="state-wrap">
+      <div class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="#A198A6" stroke-width="1.6">
+        <circle cx="12" cy="12" r="9"/><path d="M12 7v5.5l3.5 2" stroke-linecap="round"/></svg></div>
+      <h2>Cette annonce a expiré</h2>
+      <p>Les annonces restent en ligne 60 jours. Celle-ci est arrivée à son terme le 12 juillet 2026.</p>
+      <div class="acts">
+        <button class="bp">Republier cette annonce</button>
+        <button class="bg2">Voir mes autres annonces</button>
+      </div>
+      <div class="suggest">
+        <div class="t">Avant de republier</div>
+        <div class="chips">
+          <span class="chip">203 vues</span>
+          <span class="chip">7 contacts</span>
+          <span class="chip">Photos conservées</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="colophon">
+  <div class="mark">nio<em>xx</em>er</div>
+  <div class="links">
+    <a href="cgu.html">Conditions d'utilisation</a><a href="confidentialite.html">Confidentialité</a>
+    <a href="mentions-legales.html">Mentions légales</a><a href="regles.html">Règles de publication</a>
+    <a href="securite.html">Se rencontrer en sécurité</a>
+    <a class="wa" href="https://wa.me/237678802447" target="_blank" rel="noopener">Nous contacter sur WhatsApp</a>
+  </div>
+  <p class="smallprint">© 2026 NIOXXER · Douala, Cameroun · 18 ans et plus</p>
+</footer>
+</div>
+<script>
+document.querySelectorAll('.switcher button').forEach(function(b){
+  b.onclick=function(){
+    document.querySelectorAll('.switcher button').forEach(x=>x.setAttribute('aria-selected','false'));
+    document.querySelectorAll('.st').forEach(x=>x.classList.remove('on'));
+    b.setAttribute('aria-selected','true');
+    document.getElementById(b.dataset.s).classList.add('on');
+  };
+});
+addEventListener('scroll',function(){
+  document.getElementById('masthead').classList.toggle('condensed',scrollY>10);
+},{passive:true});
+</script>
+</body>
+</html>

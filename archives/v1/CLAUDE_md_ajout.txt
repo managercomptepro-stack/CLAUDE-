@@ -1,0 +1,5 @@
+## À ajouter dans CLAUDE.md (section règles ou en fin de fichier) :
+
+### Règle crédits
+Les crédits utilisateur sont stockés UNIQUEMENT dans la collection `credit_ledger`.
+Ne JAMAIS écrire de champ crédit dans `users/{uid}`.

@@ -1,0 +1,17 @@
+{
+  "name": "nioxxer",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "npm run test:unit && npm run test:rules && npm run test:hosting",
+    "test:unit": "node tests/config.test.mjs",
+    "test:rules": "firebase emulators:exec --only auth,firestore --project demo-nioxxer \"node tests/signup.test.mjs\"",
+    "deploy": "npm test && firebase deploy --only hosting,firestore",
+    "test:hosting": "node tests/hosting.test.mjs",
+    "dev": "firebase emulators:start --only hosting,auth,firestore --project demo-nioxxer"
+  },
+  "devDependencies": {
+    "firebase": "10.14.1",
+    "firebase-tools": "13.35.1"
+  }
+}

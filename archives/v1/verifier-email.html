@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#100E14">
+<title>Vérifiez votre e-mail · NIOXXER</title>
+<meta name="description" content="Confirmez votre adresse e-mail pour activer votre compte NIOXXER.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Karla:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/app.css">
+<style>
+body{background:transparent;color:var(--ink);font-family:var(--font-ui);font-size:13px;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--accent)}
+.page{max-width:var(--page-max);margin:0 auto;position:relative;z-index:2;padding-bottom:40px}
+.ready [data-rise]{opacity:1;transform:none;
+  transition:opacity var(--t-slow) var(--ease),transform var(--t-slow) var(--ease);transition-delay:var(--d,0ms)}
+.masthead{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;
+  padding:11px var(--gutter);background:var(--bar);
+  -webkit-backdrop-filter:blur(20px) saturate(1.35);backdrop-filter:blur(20px) saturate(1.35);
+  border-bottom:1px solid var(--line)}
+.mark{font-family:var(--font-display);font-size:19px;color:var(--accent);margin:0 auto;padding-right:34px}
+.prog i{flex:1;height:3px;border-radius:var(--r-pill);background:rgba(255,255,255,.1)}
+.wrap{padding:var(--sp-6) var(--gutter) 0;text-align:center}
+.icon{width:64px;height:64px;border-radius:50%;background:rgba(var(--saffron-rgb),.12);margin:0 auto var(--sp-4);
+  display:flex;align-items:center;justify-content:center}
+.icon svg{width:28px;height:28px;fill:var(--saffron)}
+h2{font-family:var(--font-display);font-size:22px;font-weight:400}
+.sub{font-size:13.5px;color:var(--ink-60);margin-top:10px;line-height:1.6}
+.sub b{color:var(--ink);font-weight:700}
+.info{margin-top:var(--sp-5);text-align:left;background:rgba(var(--saffron-rgb),.08);border-left:3px solid var(--saffron);
+  border-radius:0 12px 12px 0;padding:12px 13px;font-size:12.5px;line-height:1.6;color:var(--ink-60)}
+.cta{width:100%;background:var(--accent);color:var(--accent-ink);border-radius:var(--r-pill);
+  padding:15px 0;font-family:var(--font-display);font-size:16px;margin-top:var(--sp-6)}
+.ghost{width:100%;margin-top:var(--sp-3);color:var(--ink-60);font-size:13.5px;font-weight:600;padding:10px 0}
+.ghost:disabled{color:var(--ink-40)}
+.err{margin-top:var(--sp-4);background:rgba(var(--danger-rgb),.09);border-left:3px solid var(--danger);
+  border-radius:0 12px 12px 0;padding:11px 13px;font-size:12.5px;line-height:1.55;color:var(--danger-mist);display:none;text-align:left}
+.ok{margin-top:var(--sp-4);background:rgba(var(--ok-rgb),.09);border-left:3px solid var(--ok);
+  border-radius:0 12px 12px 0;padding:11px 13px;font-size:12.5px;line-height:1.55;color:var(--ok-mist);display:none;text-align:left}
+.ok.show{display:block}
+.logout{display:block;margin-top:var(--sp-6);font-size:13px;color:var(--ink-40)}
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="masthead"><span class="mark"><picture><source srcset="/img/logo.webp" type="image/webp"><img class="logo" src="/img/logo.png" alt="NIOXXER" width="364" height="160"></picture></span></header>
+  <div class="prog"><i class="on"></i><i class="on"></i><i></i></div>
+
+  <div class="wrap" data-rise style="--d:0ms">
+    <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm0 2v.01L12 13l8-6.99V6H4Zm16 2.24-7.4 6.48a1 1 0 0 1-1.2 0L4 8.24V18h16V8.24Z"/></svg></div>
+    <h2>Vérifiez votre e-mail</h2>
+    <p class="sub">Nous avons envoyé un lien de confirmation à <b id="emailAddr">votre adresse</b>. Ouvrez-le pour activer votre compte.</p>
+    <div class="info">Vous ne le trouvez pas ? Vérifiez aussi votre dossier <b>spam</b> ou <b>courrier indésirable</b> — les premiers e-mails d'un nouveau service y atterrissent parfois.</div>
+
+    <p class="err" id="err"></p>
+    <p class="ok" id="ok"></p>
+
+    <button class="cta" id="checkBtn">J'ai vérifié mon e-mail</button>
+    <button class="ghost" id="resendBtn">Renvoyer l'e-mail</button>
+    <button class="logout" id="logoutBtn">Se déconnecter</button>
+  </div>
+</div>
+<script type="module">
+import { auth, onAuthStateChanged, signOut, resendVerificationEmail, translateAuthError, ensureFreshVerifiedToken, safeNext } from '/js/nioxxer-auth.js';
+
+const q=new URLSearchParams(location.search);
+const next=q.get('next') ? safeNext(q.get('next')) : null;
+const suite='/connexion?step=profil'+(next?'&next='+encodeURIComponent(next):'');
+
+const err=document.getElementById('err'), ok=document.getElementById('ok');
+function showErr(msg){ err.textContent=msg; err.classList.toggle('show',!!msg); }
+function showOk(msg){ ok.textContent=msg; ok.classList.toggle('show',!!msg); }
+
+let currentUser=null;
+onAuthStateChanged(auth,function(user){
+  if(!user){ location.replace('/connexion?mode=log'); return; }
+  currentUser=user;
+  document.getElementById('emailAddr').textContent=user.email;
+  if(user.emailVerified){ location.replace(suite); return; }
+  requestAnimationFrame(()=>document.body.classList.add('ready'));
+  surveiller();
+});
+
+/* Le lien est souvent ouvert ailleurs (appli Gmail, autre onglet) : on
+   vérifie toutes les 5 s, tant que la page est visible, et on passe à la
+   suite dès que l'e-mail est confirmé — sans avoir à cliquer. */
+let veille=null, enCours=false;
+async function verifierMaintenant(){
+  if(document.hidden || !currentUser || enCours) return;
+  enCours=true;
+  try{
+    await currentUser.reload();
+    if(currentUser.emailVerified){ clearInterval(veille); await ensureFreshVerifiedToken(); location.replace(suite); }
+  }catch(e){ /* réseau coupé : on réessaiera au prochain tour */ }
+  enCours=false;
+}
+function surveiller(){
+  if(veille) return;
+  veille=setInterval(verifierMaintenant,5000);
+  /* retour depuis l'appli e-mail : on vérifie tout de suite */
+  document.addEventListener('visibilitychange',verifierMaintenant);
+}
+
+document.getElementById('checkBtn').onclick=async function(){
+  showErr(''); showOk('');
+  if(!currentUser) return;
+  try{
+    await currentUser.reload();
+    if(currentUser.emailVerified){
+      await ensureFreshVerifiedToken();   /* sinon les règles Firestore voient encore « non vérifié » */
+      location.assign(suite);
+    }else{
+      showErr("Toujours pas vérifié. Ouvrez le lien reçu par e-mail, puis réessayez — pensez aussi aux spams.");
+    }
+  }catch(e){ showErr(translateAuthError(e)); }
+};
+
+/* Compteur anti-abus de 60 s côté interface : Firebase applique de toute façon
+   sa propre limite serveur (~5 renvois par heure) ; ce minuteur n'est qu'un
+   confort d'UX pour éviter les clics répétés, pas une donnée métier — il
+   n'est donc pas persisté (localStorage), il vit en mémoire le temps de la page. */
+const resendBtn=document.getElementById('resendBtn');
+let cooldown=0, timer=null;
+function tick(){
+  cooldown--;
+  if(cooldown<=0){
+    clearInterval(timer); timer=null;
+    resendBtn.disabled=false; resendBtn.textContent='Renvoyer l\'e-mail';
+  }else{
+    resendBtn.textContent='Renvoyer dans '+cooldown+' s';
+  }
+}
+resendBtn.onclick=async function(){
+  showErr(''); showOk('');
+  resendBtn.disabled=true;
+  try{
+    await resendVerificationEmail(next);
+    showOk('E-mail renvoyé.');
+    cooldown=60; timer=setInterval(tick,1000); resendBtn.textContent='Renvoyer dans 60 s';
+  }catch(e){
+    showErr(translateAuthError(e));
+    resendBtn.disabled=false;
+  }
+};
+
+document.getElementById('logoutBtn').onclick=async function(){
+  await signOut(auth);
+  location.assign('/connexion?mode=log');
+};
+</script>
+</body>
+</html>

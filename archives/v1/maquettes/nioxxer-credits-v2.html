@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#100E14">
+<title>Crédits · NIOXXER</title>
+<meta name="description" content="Rechargez vos crédits NIOXXER et achetez une mise en avant Premium ou un boost.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Karla:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- En production : <link rel="stylesheet" href="/css/tokens.css"> -->
+<style>
+:root{
+  --bg:#100E14;--bg-lift:#191520;--ink:#F2EDF3;--ink-60:#A198A6;--ink-40:#736A78;
+  --line:rgba(242,237,243,.10);--panel:rgba(255,255,255,.05);
+  --accent:#F0455F;--accent-lift:#FF5F76;--accent-ink:#26060C;
+  --saffron:#F5C542;--saffron-ink:#2A1D05;--whatsapp:#25D366;--whatsapp-ink:#053B1A;
+  --danger:#FF6B6B;--ok:#5FD07A;
+  --bar:rgba(16,14,20,.74);--bar-solid:rgba(16,14,20,.95);
+  --dye-1:linear-gradient(158deg,#8E1C3C,#C9666F);--dye-2:linear-gradient(158deg,#26407A,#7288B8);
+  --dye-3:linear-gradient(158deg,#9A6018,#D6A85C);--dye-4:linear-gradient(158deg,#5A2652,#9E6E92);
+  --dye-5:linear-gradient(158deg,#1A564F,#68A296);--dye-6:linear-gradient(158deg,#8A3720,#C4835F);
+  --font-display:'Young Serif',Georgia,serif;--font-ui:'Karla',system-ui,sans-serif;
+  --t-title:20px;--t-lead:15px;--t-body:13px;--t-meta:11.5px;--t-micro:10.5px;
+  --r-card:16px;--r-panel:20px;--r-field:12px;--r-pill:999px;
+  --sp-1:4px;--sp-2:8px;--sp-3:11px;--sp-4:16px;--sp-5:18px;--sp-6:24px;--sp-7:32px;
+  --gutter:16px;--page-max:520px;
+  --ease:cubic-bezier(.22,.68,.28,1);--t-fast:.18s;--t-mid:.32s;--t-slow:.5s;
+  --ring:inset 0 0 0 1px rgba(255,255,255,.16);--lift-1:0 10px 20px -14px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg)}
+body{background:transparent;color:var(--ink);font-family:var(--font-ui);font-size:var(--t-body);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+:focus-visible{outline:2px solid var(--saffron);outline-offset:3px;border-radius:5px}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit}
+.page{max-width:var(--page-max);margin:0 auto;position:relative;z-index:2}
+.scene{position:fixed;top:0;left:0;right:0;height:54vh;z-index:0;pointer-events:none;overflow:hidden;
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.72) 34%,transparent 100%);
+          mask-image:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.72) 34%,transparent 100%)}
+.mass{position:absolute;border-radius:50%;filter:blur(78px);will-change:transform}
+.m1{width:74vw;height:74vw;top:-30vw;left:-24vw;background:#A32846;opacity:.26;animation:mm1 22s ease-in-out infinite}
+.m2{width:62vw;height:62vw;top:-12vw;right:-26vw;background:#4C2C86;opacity:.24;animation:mm2 28s ease-in-out infinite}
+.m3{width:52vw;height:52vw;top:12vw;left:26vw;background:#8A5A22;opacity:.16;animation:mm3 34s ease-in-out infinite}
+@keyframes mm1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(12vw,6vw) scale(1.12)}}
+@keyframes mm2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-11vw,7vw) scale(1.1)}}
+@keyframes mm3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-8vw,-6vw) scale(1.16)}}
+.bit{position:absolute;will-change:transform,opacity}
+.bit.lozenge{background:currentColor;transform:rotate(45deg)}
+.bit.dot{border-radius:50%;background:currentColor}
+.bit.ring{border-radius:50%;border:1px solid currentColor}
+@keyframes drift{0%{transform:translate3d(0,10vh,0) rotate(0deg);opacity:0}
+  14%{opacity:var(--o,.4)}86%{opacity:var(--o,.4)}
+  100%{transform:translate3d(var(--dx,3vw),-64vh,0) rotate(var(--rot,120deg));opacity:0}}
+.spark{position:absolute;border-radius:50%;pointer-events:none;mix-blend-mode:screen;
+  background:radial-gradient(circle,#fff 0%,rgba(255,255,255,.85) 26%,rgba(255,255,255,0) 70%)}
+@keyframes fly{0%{transform:translate3d(0,10vh,0)}50%{transform:translate3d(calc(var(--dx,4vw)*.55),-28vh,0)}
+  100%{transform:translate3d(var(--dx,4vw),-66vh,0)}}
+@keyframes twinkle{0%,100%{opacity:0}10%{opacity:var(--o,.9)}40%{opacity:calc(var(--o,.9)*.28)}
+  62%{opacity:var(--o,.9)}88%{opacity:calc(var(--o,.9)*.45)}}
+[data-rise]{opacity:0;transform:translateY(12px)}
+.ready [data-rise]{opacity:1;transform:none;
+  transition:opacity var(--t-slow) var(--ease),transform var(--t-slow) var(--ease);transition-delay:var(--d,0ms)}
+.masthead{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;
+  padding:11px var(--gutter);background:var(--bar);
+  -webkit-backdrop-filter:blur(20px) saturate(1.35);backdrop-filter:blur(20px) saturate(1.35);
+  border-bottom:1px solid transparent;transition:background var(--t-mid),border-color var(--t-mid)}
+.masthead.condensed{background:var(--bar-solid);border-bottom-color:var(--line)}
+.masthead h1{font-family:var(--font-display);font-size:16px;font-weight:400}
+.mark{font-family:var(--font-display);font-size:19px;color:var(--accent)}
+.mark em{font-style:normal;color:var(--saffron)}
+.icon-btn{width:34px;height:34px;border-radius:50%;background:var(--panel);border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.icon-btn svg{width:16px;height:16px;fill:var(--ink)}
+.stamp{font-size:8.5px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;padding:3px 7px;border-radius:var(--r-pill)}
+.stamp.premium{background:linear-gradient(96deg,var(--saffron),#FFE08A);color:var(--saffron-ink)}
+.stamp.boost{background:rgba(240,69,95,.2);color:#FF9AAB;box-shadow:inset 0 0 0 1px rgba(240,69,95,.45)}
+.seal{width:11px;height:11px;flex:0 0 auto}
+.sheet{position:fixed;inset:0;z-index:70;display:none;background:rgba(4,3,6,.68);
+  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);align-items:flex-end}
+.sheet.open{display:flex}
+.sheet .panel{width:100%;max-width:var(--page-max);margin:0 auto;background:var(--bg-lift);
+  border-radius:var(--r-panel) var(--r-panel) 0 0;border-top:1px solid var(--line);
+  padding:var(--sp-2) 14px calc(var(--sp-5) + env(safe-area-inset-bottom));animation:up .26s var(--ease)}
+@keyframes up{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.grip{width:34px;height:3.5px;border-radius:var(--r-pill);background:rgba(255,255,255,.22);margin:0 auto var(--sp-3)}
+.sheet h3{font-family:var(--font-display);font-size:17px;font-weight:400;margin:0 4px 6px}
+.sheet .lead{font-size:12.5px;color:var(--ink-60);margin:0 4px var(--sp-3);line-height:1.6}
+.opts{display:flex;flex-direction:column;gap:5px;max-height:44vh;overflow-y:auto;overscroll-behavior:contain}
+.opt{display:flex;align-items:center;gap:10px;padding:11px 13px;border-radius:var(--r-field);
+  background:var(--panel);border:1px solid transparent;color:var(--ink);font-size:14px;text-align:left}
+.opt[aria-selected="true"]{border-color:var(--accent);background:rgba(240,69,95,.12);color:var(--accent);font-weight:700}
+.opt .rank{font-size:10.5px;color:var(--ink-40);min-width:18px;font-variant-numeric:tabular-nums}
+.opt .tick{margin-left:auto;opacity:0;font-weight:800}
+.opt[aria-selected="true"] .tick{opacity:1}
+.sheet-search{width:100%;margin-bottom:9px;background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--r-field);padding:11px 13px;color:var(--ink);font-family:var(--font-ui);font-size:14px;outline:none}
+.cancel{width:100%;margin-top:var(--sp-3);color:var(--ink-40);font-size:13px;padding:6px}
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--bar-solid);
+  -webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px);border-top:1px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom)}
+.tabs .row{position:relative;max-width:var(--page-max);margin:0 auto;display:grid;
+  grid-template-columns:repeat(4,1fr);align-items:end;padding:7px 8px 8px}
+.glide{position:absolute;top:3px;height:2.5px;width:24px;border-radius:var(--r-pill);
+  background:var(--accent);transition:left var(--t-mid) var(--ease)}
+.slot{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:600;color:var(--ink-40)}
+.slot svg{width:20px;height:20px;fill:currentColor}
+.slot[aria-current="page"]{color:var(--accent)}
+.slot.post{color:var(--accent)}
+.slot.post .knob{width:42px;height:42px;border-radius:50%;background:var(--accent);display:flex;
+  align-items:center;justify-content:center;margin-top:-13px;box-shadow:0 6px 15px -5px rgba(240,69,95,.7)}
+.slot.post .knob svg{width:21px;height:21px;fill:var(--accent-ink)}
+.motion-hint{position:fixed;left:12px;right:12px;bottom:80px;z-index:65;display:flex;align-items:center;gap:10px;
+  max-width:496px;margin:0 auto;padding:11px 13px;border-radius:14px;background:rgba(28,22,34,.95);
+  border:1px solid rgba(245,197,66,.35);font-size:12.5px;color:var(--ink-60)}
+.motion-hint[hidden]{display:none}
+.motion-hint button{margin-left:auto;background:var(--saffron);color:var(--saffron-ink);
+  border-radius:var(--r-pill);padding:8px 14px;font-size:12.5px;font-weight:700}
+html.calm .mass,html.calm .bit,html.calm .spark{animation:none}
+html.calm [data-rise]{opacity:1;transform:none;transition:none}
+
+body{padding-bottom:110px}
+.seg{display:flex;gap:5px;background:var(--panel);border-radius:var(--r-pill);padding:4px;margin:var(--sp-2) var(--gutter) 0}
+.seg button{flex:1;padding:9px 0;border-radius:var(--r-pill);font-size:13px;font-weight:700;color:var(--ink-40)}
+.seg button[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+.pane{display:none;padding:0 var(--gutter)}.pane.on{display:block}
+h2{font-family:var(--font-display);font-size:21px;margin-top:var(--sp-6);font-weight:400}
+.sub{font-size:13px;color:var(--ink-60);margin-top:7px;line-height:1.6}
+.lbl{font-size:var(--t-micro);font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--saffron);margin-top:var(--sp-6)}
+.packs{display:flex;flex-direction:column;gap:8px;margin-top:var(--sp-3)}
+.pack{display:flex;align-items:center;gap:13px;background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--r-card);padding:14px 15px;position:relative}
+.pack[aria-selected="true"]{border-color:var(--saffron);background:rgba(245,197,66,.08)}
+.radio{width:20px;height:20px;border-radius:50%;border:1.5px solid rgba(245,197,66,.4);flex:0 0 auto;
+  display:flex;align-items:center;justify-content:center}
+.pack[aria-selected="true"] .radio::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--saffron)}
+.pack .amt{font-family:var(--font-display);font-size:18px}
+.pack .amt small{font-size:12.5px;color:var(--ink-60)}
+.pack .eq{font-size:11.5px;color:var(--ink-40);margin-top:3px}
+.pack .badge{margin-left:auto;font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  background:var(--saffron);color:var(--saffron-ink);padding:4px 9px;border-radius:var(--r-pill)}
+.paybox{margin-top:var(--sp-3);background:var(--panel);border:1px solid var(--line);border-radius:var(--r-card);padding:6px}
+.pay{display:flex;align-items:center;gap:12px;padding:11px 10px}
+.pay+.pay{border-top:1px solid var(--line)}
+.pay .dot{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-size:12px;flex:0 0 auto}
+.pay .dot.mtn{background:#FFCB05;color:#1A1400}.pay .dot.om{background:#FF7900;color:#2B1200}
+.pay .pn{flex:1;min-width:0}
+.pay .op-n{font-size:11.5px;color:var(--ink-40)}
+.pay .num{font-family:var(--font-display);font-size:16px;letter-spacing:.02em;margin-top:2px}
+.copy{background:var(--bg);border:1px solid var(--line);border-radius:var(--r-pill);padding:8px 14px;
+  font-size:12px;font-weight:700;color:var(--saffron);flex:0 0 auto}
+.copy.done{background:rgba(95,208,122,.16);color:var(--ok);border-color:rgba(95,208,122,.4)}
+.exact{margin:4px 10px 8px;padding:10px 12px;border-radius:12px;background:rgba(245,197,66,.09);
+  font-size:12.5px;color:#E4D5AE;line-height:1.5}
+.exact b{color:var(--saffron)}
+.ops{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:var(--sp-3)}
+.op{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-card);padding:15px 12px;text-align:center}
+.op[aria-selected="true"]{border-color:var(--saffron);background:rgba(245,197,66,.08)}
+.op .dot{width:34px;height:34px;border-radius:11px;margin:0 auto 8px;display:flex;align-items:center;
+  justify-content:center;font-family:var(--font-display);font-size:12px}
+.op.mtn .dot{background:#FFCB05;color:#1A1400}.op.om .dot{background:#FF7900;color:#2B1200}
+.op .n{font-size:13px;font-weight:700}.op .s{font-size:11px;color:var(--ink-40);margin-top:2px}
+.phone{display:flex;gap:8px;margin-top:var(--sp-3)}
+.cc{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-field);padding:13px 13px;
+  font-size:15px;font-weight:600;color:var(--saffron);flex:0 0 auto;display:flex;align-items:center}
+input{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-field);
+  padding:13px 14px;color:var(--ink);font-family:var(--font-ui);font-size:15px;outline:none}
+input:focus{border-color:var(--saffron)}
+.recap{margin-top:var(--sp-5);background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--r-card);padding:14px 15px}
+.ln{display:flex;justify-content:space-between;font-size:13px;color:var(--ink-60);margin-top:7px}
+.ln:first-child{margin-top:0}
+.ln b{color:var(--ink);font-weight:600}
+.tot{border-top:1px solid var(--line);margin-top:11px;padding-top:11px}
+.tot b{font-family:var(--font-display);font-size:18px;color:var(--saffron)}
+.info{margin-top:var(--sp-4);background:rgba(245,197,66,.08);border-left:3px solid var(--saffron);
+  border-radius:0 12px 12px 0;padding:12px 13px;font-size:12.5px;line-height:1.6;color:var(--ink-60)}
+.miss{margin-top:var(--sp-4);background:rgba(240,69,95,.09);border:1px solid rgba(240,69,95,.28);
+  border-radius:var(--r-card);padding:13px 14px;font-size:12.5px;line-height:1.6;color:#F2C2CB}
+.miss b{color:#FF9AAB}
+.preview{margin-top:var(--sp-3);background:var(--panel);border:1px solid var(--line);border-radius:var(--r-card);
+  padding:12px;display:flex;gap:12px;align-items:center}
+.preview .th{width:58px;height:74px;border-radius:11px;flex:0 0 auto;background:var(--dye-2);
+  display:flex;align-items:center;justify-content:center;font-family:var(--font-display);
+  font-size:20px;color:rgba(255,255,255,.3)}
+.preview .tt{font-family:var(--font-display);font-size:14px;line-height:1.3}
+.preview .ss{font-size:11.5px;color:var(--ink-40);margin-top:4px}
+.durs{display:flex;flex-direction:column;gap:8px;margin-top:var(--sp-3)}
+.dur{display:flex;align-items:center;gap:13px;background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--r-card);padding:14px 15px}
+.dur[aria-selected="true"]{border-color:var(--saffron);background:rgba(245,197,66,.08)}
+.dur.prem[aria-selected="true"]{border-color:var(--saffron)}
+.dur .d1{font-family:var(--font-display);font-size:16px}
+.dur .d2{font-size:11.5px;color:var(--ink-40);margin-top:3px}
+.dur .px{margin-left:auto;font-family:var(--font-display);font-size:17px;color:var(--saffron)}
+.gain{margin-top:var(--sp-4);background:rgba(245,197,66,.08);border-radius:var(--r-card);padding:14px 15px}
+.gain h3{font-family:var(--font-display);font-size:14px;font-weight:400;color:var(--saffron)}
+.gain ul{margin-top:9px;padding-left:16px}
+.gain li{font-size:12.5px;color:#E0D3B6;line-height:1.6;margin-top:5px}
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:40;
+  padding:var(--sp-3) var(--gutter) calc(var(--sp-3) + env(safe-area-inset-bottom));
+  background:linear-gradient(to top,rgba(16,14,20,.98) 62%,rgba(16,14,20,0))}
+.dock .inner{max-width:var(--page-max);margin:0 auto}
+.cta{width:100%;background:var(--saffron);color:var(--saffron-ink);border-radius:var(--r-pill);
+  padding:15px 0;font-family:var(--font-display);font-size:16px}
+.cta:disabled{background:rgba(255,255,255,.07);color:var(--ink-40)}
+.dock .hint{text-align:center;font-size:var(--t-meta);color:var(--ink-40);margin-top:7px}
+.spin{width:44px;height:44px;border-radius:50%;border:3px solid rgba(245,197,66,.2);
+  border-top-color:var(--saffron);margin:6px auto 0;animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.ussd{margin-top:var(--sp-4);background:var(--bg);border:1.5px dashed rgba(245,197,66,.4);
+  border-radius:var(--r-card);padding:14px;text-align:center;font-family:var(--font-display);
+  font-size:17px;color:var(--saffron);letter-spacing:.05em}
+</style>
+</head>
+<body>
+<div class="scene" id="scene" aria-hidden="true">
+  <i class="mass m1"></i><i class="mass m2"></i><i class="mass m3"></i>
+</div>
+<div class="page">
+
+<header class="masthead" id="masthead">
+  <button class="icon-btn" aria-label="Retour"><svg viewBox="0 0 24 24"><path d="M15.5 4 7 12l8.5 8 1.4-1.4L9.8 12l7.1-6.6L15.5 4Z"/></svg></button>
+  <h1>Crédits</h1>
+  <span style="margin-left:auto;font-family:var(--font-display);font-size:14px;color:var(--saffron)" id="bal">1 500 F</span>
+</header>
+
+<div class="seg" data-rise style="--d:0ms">
+  <button id="tR" aria-selected="true">Recharger</button>
+  <button id="tP" aria-selected="false">Mettre en avant</button>
+</div>
+
+<!-- RECHARGE -->
+<div class="pane on" id="pR">
+  <h2>Recharger mon compte</h2>
+  <p class="sub">Les crédits ne servent qu'à la mise en avant. Publier reste gratuit. Ils n'expirent pas.</p>
+
+  <div class="miss" id="miss" hidden>
+    <b>Il vous manque 3 500 F</b> pour le Premium 7 jours. Après la recharge, vous reviendrez sur votre annonce.
+  </div>
+
+  <div class="lbl">Montant</div>
+  <div class="packs" id="packs">
+    <button class="pack" data-v="1000"><span class="radio"></span><span><span class="amt">1 000 <small>FCFA</small></span><span class="eq">2 boosts de 3 jours</span></span></button>
+    <button class="pack" data-v="2000"><span class="radio"></span><span><span class="amt">2 000 <small>FCFA</small></span><span class="eq">2 boosts de 7 jours</span></span></button>
+    <button class="pack" aria-selected="true" data-v="5000"><span class="radio"></span><span><span class="amt">5 000 <small>FCFA</small></span><span class="eq">Une semaine de Premium</span></span><span class="badge">Le plus pris</span></button>
+    <button class="pack" data-v="10000"><span class="radio"></span><span><span class="amt">10 000 <small>FCFA</small></span><span class="eq">Deux semaines de Premium</span></span></button>
+  </div>
+
+  <div class="lbl">1 · Envoyez le montant</div>
+  <div class="paybox">
+    <div class="pay">
+      <span class="dot mtn">MTN</span>
+      <div class="pn"><div class="op-n">MTN Mobile Money</div><div class="num" id="numMtn">+237 678 802 447</div></div>
+      <button class="copy" data-copy="numMtn">Copier</button>
+    </div>
+    <div class="pay">
+      <span class="dot om">OM</span>
+      <div class="pn"><div class="op-n">Orange Money</div><div class="num" id="numOm">+237 699 314 780</div></div>
+      <button class="copy" data-copy="numOm">Copier</button>
+    </div>
+    <div class="exact">Envoyez <b id="exact">5 000 F</b> exactement. Un montant différent retarde la validation.</div>
+  </div>
+
+  <div class="lbl">2 · Déclarez votre paiement</div>
+  <p class="sub" style="margin-top:8px">Après l'envoi, votre opérateur vous adresse un SMS contenant un identifiant de transaction. Recopiez-le ici.</p>
+
+  <div class="ops">
+    <button class="op mtn" aria-selected="true"><span class="dot">MTN</span><span class="n">MTN MoMo</span><span class="s">Payé depuis MTN</span></button>
+    <button class="op om" aria-selected="false"><span class="dot">OM</span><span class="n">Orange Money</span><span class="s">Payé depuis Orange</span></button>
+  </div>
+
+  <div class="lbl">Numéro depuis lequel vous avez payé</div>
+  <div class="phone"><span class="cc">+237</span><input type="tel" id="payer" value="6 78 80 24 47"></div>
+
+  <div class="lbl">Identifiant de la transaction</div>
+  <div class="phone" style="margin-top:var(--sp-3)"><input type="text" id="ref" placeholder="Ex : MP260830.1432.A54321"></div>
+
+  <div class="info"><b>Validation sous quelques heures.</b> Nous vérifions votre paiement puis créditons votre compte. Vous recevrez une confirmation. Gardez le SMS de votre opérateur jusque-là.</div>
+</div>
+
+<!-- MISE EN AVANT -->
+<div class="pane" id="pP">
+  <h2>Mettre en avant</h2>
+  <p class="sub">Le Premium place votre annonce dans le bandeau du haut. Le boost la remonte dans le fil de sa ville. Les deux se cumulent.</p>
+
+  <div class="lbl">Annonce concernée</div>
+  <div class="preview">
+    <div class="th">S</div>
+    <div><div class="tt">Sortie cinéma ce week-end, qui vient ?</div><div class="ss">86 vues · 3 contacts · Bonapriso</div></div>
+  </div>
+
+  <div class="lbl">Formule</div>
+  <div class="durs" id="durs">
+    <button class="dur prem" aria-selected="true" data-v="5000" data-k="Premium 7 jours">
+      <span class="radio"></span><span><span class="d1">Premium · 7 jours</span><span class="d2">Bandeau du haut, badge doré</span></span><span class="px">5 000 F</span></button>
+    <button class="dur" aria-selected="false" data-v="1000" data-k="Boost 7 jours">
+      <span class="radio"></span><span><span class="d1">Boost · 7 jours</span><span class="d2">Meilleur rapport dans le fil</span></span><span class="px">1 000 F</span></button>
+    <button class="dur" aria-selected="false" data-v="500" data-k="Boost 3 jours">
+      <span class="radio"></span><span><span class="d1">Boost · 3 jours</span><span class="d2">Pour tester</span></span><span class="px">500 F</span></button>
+  </div>
+
+  <div class="gain">
+    <h3>Ce qu'il faut savoir</h3>
+    <ul>
+      <li>Le Premium s'arrête au bout de 7 jours. Aucun renouvellement automatique.</li>
+      <li>Vous serez prévenu la veille de l'expiration.</li>
+      <li>S'il y a plus de 20 annonces Premium, l'affichage tourne entre elles. Le compteur d'affichages est visible dans Mes annonces.</li>
+      <li>L'annonce porte la mention Premium ou Sponsorisé, comme l'exige la loi.</li>
+      <li>Si l'annonce est retirée pendant la période, le reste vous est recrédité.</li>
+    </ul>
+  </div>
+
+  <div class="recap">
+    <div class="ln">Solde actuel <b>1 500 F</b></div>
+    <div class="ln">Coût <b id="pC">− 5 000 F</b></div>
+    <div class="ln tot"><span>Solde après</span><b id="pS">Insuffisant</b></div>
+  </div>
+</div>
+
+</div>
+
+<div class="dock"><div class="inner">
+  <button class="cta" id="cta">Payer 5 000 F par MTN MoMo</button>
+  <p class="hint" id="hint">Paiement sécurisé · Aucun frais ajouté</p>
+</div></div>
+
+<div class="sheet" id="sheet" role="dialog" aria-modal="true"><div class="panel" id="panel"></div></div>
+<div class="motion-hint" id="motionHint" hidden>
+  <span>Votre appareil bloque les animations des sites.</span>
+  <button id="motionOn">Les activer ici</button>
+</div>
+<script src="js/config.js"></script>
+<script>
+
+const calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(calm) document.documentElement.classList.add('calm');
+const rnd=(a,b)=>a+Math.random()*(b-a), pick=a=>a[Math.floor(Math.random()*a.length)];
+const WA=NIOXXER_WA;   /* voir js/config.js — rule 10 */
+{
+  const host=document.getElementById('scene');
+  const kinds=['lozenge','dot','dot','ring'], tints=['rgba(255,255,255,.9)','#F5C542','#F0455F'];
+  for(let i=0;i<30;i++){
+    const b=document.createElement('span'), s=rnd(4,11);
+    b.className='bit '+pick(kinds); b.style.color=pick(tints);
+    b.style.width=s+'px'; b.style.height=s+'px'; b.style.left=rnd(-2,101)+'%'; b.style.bottom='0';
+    b.style.setProperty('--o',rnd(.22,.52)); b.style.setProperty('--dx',rnd(-10,10)+'vw');
+    b.style.setProperty('--rot',rnd(-180,180)+'deg');
+    b.style.animation='drift '+rnd(12,24)+'s linear infinite';
+    b.style.animationDelay=(-rnd(0,24))+'s'; host.appendChild(b);
+  }
+  const glows=[['255,255,255',.95],['245,197,66',.85],['240,69,95',.75]];
+  for(let i=0;i<22;i++){
+    const g=document.createElement('span'), c=pick(glows), s=rnd(3,9);
+    g.className='spark'; g.style.width=s+'px'; g.style.height=s+'px';
+    g.style.left=rnd(-2,101)+'%'; g.style.bottom='0';
+    g.style.boxShadow='0 0 '+(s*2.6)+'px '+(s*.55)+'px rgba('+c[0]+','+(c[1]*.55).toFixed(2)+')';
+    g.style.setProperty('--o',rnd(.45,1)*c[1]); g.style.setProperty('--dx',rnd(-12,12)+'vw');
+    g.style.animation='fly '+rnd(14,26)+'s linear infinite, twinkle '+rnd(2.4,5.2)+'s ease-in-out infinite';
+    g.style.animationDelay=(-rnd(0,26))+'s, '+(-rnd(0,5))+'s'; host.appendChild(g);
+  }
+}
+requestAnimationFrame(function(){document.body.classList.add('ready')});
+addEventListener('scroll',function(){
+  const m=document.getElementById('masthead'); if(m) m.classList.toggle('condensed',scrollY>16);
+},{passive:true});
+if(calm){
+  const h=document.getElementById('motionHint');
+  if(h){h.hidden=false;
+    document.getElementById('motionOn').onclick=function(){
+      document.documentElement.classList.remove('calm'); h.hidden=true;};}
+}
+
+let mode='R', pack=5000, promo=5000, promoName='Premium 7 jours';
+const SOLDE=1500;
+const f=n=>n.toLocaleString('fr-FR').replace(/\u202f|,/g,' ')+' F';
+const cta=document.getElementById('cta'), hint=document.getElementById('hint');
+
+function selGroup(sel,val){
+  document.querySelectorAll(sel).forEach(function(b){b.setAttribute('aria-selected',String(b===val))});
+}
+document.querySelectorAll('#packs .pack').forEach(function(p){
+  p.onclick=function(){selGroup('#packs .pack',p);pack=+p.dataset.v;sync();};
+});
+document.querySelectorAll('#durs .dur').forEach(function(d){
+  d.onclick=function(){selGroup('#durs .dur',d);promo=+d.dataset.v;promoName=d.dataset.k;sync();};
+});
+document.querySelectorAll('.op').forEach(function(o){
+  o.onclick=function(){selGroup('.op',o);sync();};
+});
+document.querySelectorAll('.copy').forEach(function(b){
+  b.onclick=function(){
+    const t=document.getElementById(b.dataset.copy).textContent.replace(/\s/g,'');
+    if(navigator.clipboard) navigator.clipboard.writeText(t);
+    b.textContent='Copié'; b.classList.add('done');
+    setTimeout(function(){b.textContent='Copier';b.classList.remove('done')},1600);
+  };
+});
+document.getElementById('ref').addEventListener('input',sync);
+
+function sync(){
+  /* #rA et #rT n'existent plus dans le balisage : les lire renvoyait null et
+     interrompait sync() dès sa première ligne, ce qui laissait le bouton et
+     le message « crédits insuffisants » figés. Le montant s'affiche dans #exact. */
+  document.getElementById('exact').textContent=f(pack);
+  document.getElementById('pC').textContent='− '+f(promo);
+  const after=SOLDE-promo;
+  document.getElementById('pS').textContent = after>=0 ? f(after) : 'Insuffisant';
+  document.getElementById('pS').style.color = after>=0 ? 'var(--saffron)' : '#FF9AAB';
+  const miss=document.getElementById('miss');
+  if(mode==='R'){
+    const ref=document.getElementById('ref').value.trim();
+    cta.textContent='Déclarer mon paiement de '+f(pack);
+    hint.textContent = ref.length>5
+      ? 'Votre compte sera crédité après vérification'
+      : "Saisissez l'identifiant de transaction reçu par SMS";
+    cta.disabled = ref.length<6;
+  }else{
+    if(after>=0){
+      cta.textContent='Activer '+promoName+' · '+f(promo);
+      hint.textContent='Débité de vos crédits · Solde après : '+f(after);
+      cta.disabled=false; miss.hidden=true;
+    }else{
+      cta.textContent='Recharger '+f(promo-SOLDE)+' d\'abord';
+      hint.textContent='Crédits insuffisants pour cette formule';
+      cta.disabled=false;
+      miss.hidden=false;
+      miss.innerHTML='<b>Il vous manque '+f(promo-SOLDE)+'</b> pour '+promoName+'. Après la recharge, vous reviendrez sur votre annonce.';
+    }
+  }
+}
+function setMode(m){
+  mode=m;
+  document.getElementById('tR').setAttribute('aria-selected',String(m==='R'));
+  document.getElementById('tP').setAttribute('aria-selected',String(m==='P'));
+  document.getElementById('pR').classList.toggle('on',m==='R');
+  document.getElementById('pP').classList.toggle('on',m==='P');
+  sync();
+}
+document.getElementById('tR').onclick=function(){setMode('R')};
+document.getElementById('tP').onclick=function(){setMode('P')};
+
+const sheet=document.getElementById('sheet'), panel=document.getElementById('panel');
+function closeSheet(){sheet.classList.remove('open')}
+sheet.onclick=function(e){if(e.target===sheet)closeSheet()};
+cta.onclick=function(){
+  if(mode==='P' && SOLDE-promo<0){ setMode('R'); scrollTo({top:0,behavior:'smooth'}); return; }
+  if(mode==='R'){
+    panel.innerHTML='<div class="grip"></div><h3>Paiement déclaré</h3>'
+      +'<p class="lead">Nous avons bien reçu votre déclaration de '+f(pack)+'. '
+      +'Nous vérifions le versement sur notre compte, puis nous créditons le vôtre. '
+      +'Cela prend en général quelques heures.</p>'
+      +'<div class="ussd">Réf. '+document.getElementById('ref').value.trim()+'</div>'
+      +'<p class="lead" style="margin-top:14px">Conservez le SMS de votre opérateur jusqu\'à la confirmation. '
+      +'En cas de problème, écrivez-nous sur WhatsApp en citant cette référence.</p>'
+      +'<button class="cancel" id="cx">Fermer</button>';
+  }else{
+    panel.innerHTML='<div class="grip"></div><h3>'+promoName+' activé</h3>'
+      +'<p class="lead">Votre annonce est mise en avant pour 7 jours. Vous serez prévenu la veille de l\'expiration. '
+      +'Le compteur d\'affichages est visible dans Mes annonces.</p>'
+      +'<button class="cancel" id="cx">Fermer</button>';
+  }
+  panel.querySelector('#cx').onclick=closeSheet;
+  sheet.classList.add('open');
+};
+setMode('R');
+
+</script>
+</body>
+</html>

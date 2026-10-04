@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="NIOXXER">
+  <!-- Reprend la signature du logotype : le double X de nioXXer.
+       Couleurs des jetons : fond --bg #100E14, accent #F0455F, safran #F5C542.
+       Tracé en chemins plutôt qu'en texte : le rendu ne dépend d'aucune police. -->
+  <rect width="64" height="64" rx="14" fill="#100E14"/>
+  <g stroke-width="6" stroke-linecap="round" fill="none">
+    <path d="M13 23 L28 41 M28 23 L13 41" stroke="#F0455F"/>
+    <path d="M36 23 L51 41 M51 23 L36 41" stroke="#F5C542"/>
+  </g>
+</svg>

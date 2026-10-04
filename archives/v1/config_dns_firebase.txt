@@ -1,0 +1,20 @@
+== CONFIG DNS FIREBASE AUTH POUR NIOXXER.COM ==
+
+Après achat du domaine sur IONOS :
+
+1. Firebase Console > Authentication > Modèles (Templates)
+   → "Personnaliser le domaine" → entrer : nioxxer.com
+
+2. Firebase donne des enregistrements DNS à ajouter :
+   - Un TXT pour la vérification du domaine
+   - Un CNAME pour les liens d'action (vérification email, reset password)
+
+3. IONOS > Domaines > nioxxer.com > DNS
+   → Ajouter les enregistrements TXT et CNAME fournis par Firebase
+
+4. Attendre la propagation DNS (quelques minutes à 48h)
+
+5. Firebase Console > Authentication > Modèles
+   → Vérifier que le domaine est validé (coche verte)
+
+Résultat : les emails de vérification arrivent depuis @nioxxer.com → inbox, pas spam.

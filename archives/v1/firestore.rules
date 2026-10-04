@@ -1,0 +1,164 @@
+rules_version = '2';
+// Règles Firestore — NIOXXER
+// Portée : uniquement la collection users/{uid}, écrite par
+// js/nioxxer-auth.js (saveProfile) une fois l'e-mail vérifié. Les annonces,
+// crédits et modération (règles non négociables 3, 5, 6, 9 du CLAUDE.md)
+// auront leurs propres règles quand ces fonctionnalités existeront — ne pas
+// les anticiper ici sans le code qui les utilise.
+//
+// Rule 5 (CLAUDE.md) : aucune écriture de profil sans e-mail vérifié.
+// Rule 4 (CLAUDE.md) : 18 ans minimum, contraint ici et pas seulement côté
+// formulaire. `naissance` est OBLIGATOIRE à la création comme à la mise à
+// jour (ligne ~38: "tout juste majeur")
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── helpers ──────────────────────────────────────────────
+    function estConnecte() {
+      return request.auth != null;
+    }
+
+    function emailVerifie() {
+      return request.auth.token.email_verified == true;
+    }
+
+    // 18 ans valent 6574 ou 6575 jours selon les années bissextiles
+    // traversées. On retient la borne haute : aucun mineur ne passe, au prix
+    // d'un refus possible le jour même du 18e anniversaire.
+    // Le formulaire applique le MÊME seuil (SEUIL_MAJORITE_JOURS dans
+    // js/config.js) : sans cela, une date acceptée à l'écran était refusée
+    // ici, et l'utilisateur recevait une erreur de permissions brute.
+    function estMajeur(naissance) {
+      return naissance is timestamp
+        && naissance <= request.time - duration.value(6575, 'd');
+    }
+
+    // Les 7 genres du CLAUDE.md — mêmes libellés que le formulaire.
+    function genreValide(g) {
+      return g in ['Femme', 'Homme', 'Gay', 'Lesbienne', 'Trans', 'Couples', 'Autres'];
+    }
+
+    // Les 28 villes du sélecteur (VILLES dans nioxxer-connexion-v2.html).
+    function villeValide(v) {
+      return v in ['Douala', 'Yaoundé', 'Garoua', 'Bamenda', 'Maroua', 'Bafoussam',
+        'Ngaoundéré', 'Bertoua', 'Edéa', 'Loum', 'Kumba', 'Nkongsamba', 'Buea',
+        'Kumbo', 'Foumban', 'Dschang', 'Ebolowa', 'Kousséri', 'Guider', 'Mbouda',
+        'Limbé', 'Kribi', 'Bafang', 'Tiko', 'Mbalmayo', 'Sangmélima', 'Meiganga',
+        'Bafia'];
+    }
+
+    // Prénom ou pseudo : 2 à 30 caractères (maxlength du champ).
+    function nomValide(n) {
+      return n is string && n.size() >= 2 && n.size() <= 30;
+    }
+
+    // WhatsApp facultatif. S'il est donné : numéro mobile camerounais au
+    // format normalisé +2376XXXXXXXX (préfixe +237 imposé, CLAUDE.md).
+    // Le formulaire normalise la saisie avant l'envoi (normaliserWhatsApp).
+    function whatsappValide(w) {
+      return w == null || (w is string && w.matches('^[+]2376[0-9]{8}$'));
+    }
+
+    function profilValide() {
+      let d = request.resource.data;
+      return d.keys().hasOnly(['nom', 'naissance', 'genre', 'ville', 'whatsapp', 'updatedAt'])
+        && d.keys().hasAll(['nom', 'naissance', 'genre', 'ville', 'updatedAt'])
+        && estMajeur(d.naissance)
+        && nomValide(d.nom)
+        && genreValide(d.genre)
+        && villeValide(d.ville)
+        && whatsappValide(d.get('whatsapp', null))
+        && d.updatedAt == request.time;
+    }
+
+    // ── users/{uid} ─────────────────────────────────────────
+    match /users/{uid} {
+      allow read: if estConnecte() && request.auth.uid == uid;
+      allow create, update: if estConnecte()
+        && request.auth.uid == uid
+        && emailVerifie()
+        && profilValide();
+      // Suppression du compte par son titulaire (Réglages > Supprimer mon compte).
+      allow delete: if estConnecte() && request.auth.uid == uid;
+    }
+
+    // ── annonces/{id} ───────────────────────────────────────
+    // Identifiant = <uid>_1, <uid>_2 ou <uid>_3 : trois emplacements par
+    // compte, c'est ce qui plafonne à 3 annonces (CLAUDE.md § Annonces).
+    // Expiration : createdAt (heure serveur, non modifiable) + 60 jours. Pas
+    // de champ expiresAt : le navigateur ne peut pas écrire « heure serveur
+    // + 60 j ». Le fil ne lit que createdAt > maintenant − 60 j ; pour
+    // republier, on supprime et on recrée.
+    // Prénom, âge, genre et ville sont recopiés du profil vérifié et
+    // contrôlés ici : impossible de publier sous une autre identité ou un
+    // autre âge. Pas de photo tant que l'hébergement des images n'est pas
+    // tranché (Note de transition). Le numéro WhatsApp n'est JAMAIS dans
+    // une annonce (rule 7) : le contact passe par le numéro NIOXXER.
+    //
+    // Les deux motifs ci-dessous sont recopiés dans js/config.js
+    // (NIOXXER_RE_COORDONNEES, NIOXXER_RE_SUSPECT) ; tests/config.test.mjs
+    // vérifie qu'ils restent identiques.
+    //  - coordonnées : numéro (8 chiffres ou plus), lien WhatsApp, e-mail —
+    //    interdits dans le texte (Règles de publication § 03) ;
+    //  - suspect (rule 3, FR/EN/pidgin) : ne bloque pas, mais marque
+    //    l'annonce (champ `suspect`) pour la modération. Le champ est
+    //    recalculé ici : le navigateur ne peut pas le falsifier.
+    function coordonnees(t) {
+      return t.lower().matches('(?s).*([0-9]([ ./-]?[0-9]){7}|wa[.]me|whatsapp[.]com|@[a-z0-9-]+[.][a-z]{2,}).*');
+    }
+    function suspect(t) {
+      return t.lower().matches('(?s).*(escort|massage|bizi|tarif|payant|cfa|cash|money|sponsor|wolowoss|tchoko|short ?time|shot ?time|long ?time|per night|par nuit|une passe|ndolo payant|pay me|r[eé]mun[eé]r).*');
+    }
+    // Âge révolu calculé comme js/annonces.js (année moyenne de 365,2425 j).
+    function ageDe(n) {
+      return math.floor((request.time.toMillis() - n.toMillis()) / 31556952000);
+    }
+    function monProfil() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+    function annonceValide(d, p) {
+      return d.keys().hasOnly(['uid', 'prenom', 'age', 'genre', 'ville', 'quartier', 'texte',
+          'statut', 'sponsorise', 'premium', 'suspect', 'createdAt', 'updatedAt'])
+        && d.keys().hasAll(['uid', 'prenom', 'age', 'genre', 'ville', 'quartier', 'texte',
+          'statut', 'sponsorise', 'premium', 'suspect', 'createdAt', 'updatedAt'])
+        && d.uid == request.auth.uid
+        && d.prenom == p.nom
+        && d.genre == p.genre
+        && d.ville == p.ville
+        && d.age is int && d.age >= 18
+        && d.age <= ageDe(p.naissance) && d.age >= ageDe(p.naissance) - 1
+        && d.quartier is string && d.quartier.size() <= 40
+        && d.texte is string && d.texte.size() >= 20 && d.texte.size() <= 600
+        && !coordonnees(d.texte)
+        && d.suspect == suspect(d.texte)
+        && d.statut == 'publiee'
+        && d.sponsorise == false && d.premium == false   // mises en avant : pas encore de paiement
+        && d.updatedAt == request.time;
+    }
+
+    match /annonces/{id} {
+      // Public : naviguer et contacter restent libres, sans compte.
+      allow read: if resource.data.statut == 'publiee'
+        || (estConnecte() && resource.data.uid == request.auth.uid);
+      allow create: if estConnecte() && emailVerifie()
+        && id in [request.auth.uid + '_1', request.auth.uid + '_2', request.auth.uid + '_3']
+        && annonceValide(request.resource.data, monProfil())
+        && request.resource.data.createdAt == request.time;
+      allow update: if estConnecte() && emailVerifie()
+        && resource.data.uid == request.auth.uid
+        && annonceValide(request.resource.data, monProfil())
+        && request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if estConnecte() && resource.data.uid == request.auth.uid;
+    }
+
+    // ── credit_ledger/{docId} ───────────────────────────────
+    // Placeholder — règles à définir quand le code crédits existera.
+    // Les crédits ne vont JAMAIS dans users/{uid} (CLAUDE.md).
+
+    // Tout le reste est refusé par défaut
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

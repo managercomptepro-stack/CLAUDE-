@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<!-- Servie pour n'importe quelle adresse inconnue, y compris /a/b : sans base
+     absolue, les liens relatifs pointaient vers /a/… et retombaient en 404. -->
+<base href="/">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#100E14">
+<title>Page introuvable · NIOXXER</title>
+<meta name="description" content="Cette page NIOXXER n'existe pas ou l'annonce a été retirée.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Karla:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/app.css">
+<style>
+body{background:transparent;color:var(--ink);font-family:var(--font-ui);font-size:13px;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
+a{color:inherit}
+.glow{position:fixed;top:0;left:0;right:0;height:46vh;z-index:0;pointer-events:none;
+  background:radial-gradient(60% 70% at 50% 0%,rgba(var(--accent-rgb),.20),transparent 70%)}
+.page{max-width:var(--page-max);margin:0 auto;position:relative;z-index:2;
+  min-height:100vh;display:flex;flex-direction:column}
+.masthead{display:flex;align-items:center;padding:13px var(--gutter);background:var(--bar);
+  -webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}
+.mark{font-family:var(--font-display);font-size:20px;color:var(--accent);text-decoration:none}
+.wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:var(--sp-7) var(--gutter)}
+.glyph{width:74px;height:74px;border-radius:50%;background:rgba(var(--accent-rgb),.10);
+  display:flex;align-items:center;justify-content:center;margin-bottom:var(--sp-5)}
+.glyph svg{width:32px;height:32px}
+h1{font-family:var(--font-display);font-size:24px;font-weight:400;line-height:1.25}
+p{font-size:13.5px;color:var(--ink-60);margin-top:var(--sp-3);line-height:1.65;max-width:34ch}
+.acts{display:flex;flex-direction:column;gap:var(--sp-2);margin-top:var(--sp-6);width:100%;max-width:280px}
+.bp{background:var(--accent);color:var(--accent-ink);border-radius:var(--r-pill);
+  padding:14px 0;font-family:var(--font-display);font-size:15px;text-decoration:none;
+  transition:background var(--t-fast)}
+.bp:hover{background:var(--accent-lift)}
+.bg2{background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:var(--r-pill);
+  padding:13px 0;font-size:13.5px;font-weight:600;text-decoration:none}
+.colophon{padding:var(--sp-4) var(--gutter) var(--sp-6);border-top:1px solid var(--line)}
+.links{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center}
+.links a{font-size:12px;color:var(--ink-40);text-decoration:none}
+.smallprint{margin-top:var(--sp-3);font-size:11.5px;color:var(--ink-40);text-align:center}
+</style>
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+<div class="page">
+
+  <header class="masthead">
+    <a class="mark" href="/"><picture><source srcset="/img/logo.webp" type="image/webp"><img class="logo" src="/img/logo.png" alt="NIOXXER" width="364" height="160"></picture></a>
+  </header>
+
+  <main class="wrap">
+    <div class="glyph" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" style="stroke:var(--accent)">
+        <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5" stroke-linecap="round"/>
+        <path d="M8.5 11h5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <h1>Cette page n'existe pas</h1>
+    <p>Le lien est peut-être ancien, ou l'annonce a été retirée ou a expiré.</p>
+    <div class="acts">
+      <a class="bp" href="/">Retour à l'accueil</a>
+      <a class="bg2" href="/recherche">Chercher une annonce</a>
+    </div>
+  </main>
+
+  <footer class="colophon">
+    <div class="links">
+      <a href="/cgu">Conditions d'utilisation</a><a href="/confidentialite">Confidentialité</a>
+      <a href="/mentions-legales">Mentions légales</a><a href="/regles">Règles de publication</a>
+      <a href="/securite">Se rencontrer en sécurité</a>
+    </div>
+    <p class="smallprint">© 2026 NIOXXER · Douala, Cameroun · 18 ans et plus</p>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /connexion
+Disallow: /verifier-email
+Disallow: /compte
+Disallow: /publier
+
+Sitemap: https://nioxxer.com/sitemap.xml

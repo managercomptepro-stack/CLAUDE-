@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NIOXXER — Rencontres</title>
+  <meta name="description" content="NIOXXER — Site de rencontres. Inscrivez-vous et trouvez votre match.">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- ── NAV ──────────────────────────────── -->
+  <nav class="navbar">
+    <div class="logo">NIOXXER</div>
+    <div class="nav-links">
+      <a href="#" id="nav-home" onclick="showPage('home')">Accueil</a>
+      <span id="nav-guest">
+        <button onclick="showPage('login')">Connexion</button>
+        <button class="btn-primary" onclick="showPage('register')">Inscription</button>
+      </span>
+      <span id="nav-user" style="display:none;">
+        <button onclick="showPage('profile')">Mon profil</button>
+        <button onclick="logout()">Deconnexion</button>
+      </span>
+    </div>
+  </nav>
+
+  <!-- ── VERIFY BANNER ────────────────────── -->
+  <div class="verify-banner" id="verify-banner">
+    Votre e-mail n'est pas verifie. <a onclick="resendVerification()">Renvoyer le lien</a>
+  </div>
+
+  <!-- ── HOME ─────────────────────────────── -->
+  <div id="page-home">
+    <section class="hero">
+      <h1>Trouvez votre match</h1>
+      <p>Rejoignez NIOXXER, la plateforme de rencontres pensee pour creer de vraies connexions.</p>
+      <div class="hero-cta">
+        <button class="btn btn-primary btn-big" onclick="showPage('register')">Commencer</button>
+        <button class="btn btn-outline btn-big" onclick="showPage('login')">Se connecter</button>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Pourquoi NIOXXER ?</h2>
+      <div class="features">
+        <div class="feature-card">
+          <div class="feature-icon">&#x1F512;</div>
+          <h3>Securise</h3>
+          <p>Verification d'identite par e-mail. Seuls les profils verifies peuvent interagir.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#x1F46B;</div>
+          <h3>Majeurs uniquement</h3>
+          <p>Acces reserve aux 18 ans et plus. Votre securite est notre priorite.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#x1F4AC;</div>
+          <h3>Contact direct</h3>
+          <p>Echangez directement via WhatsApp avec les personnes qui vous interessent.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ── LOGIN ────────────────────────────── -->
+  <div class="auth-container" id="page-login">
+    <div class="auth-box">
+      <h2>Connexion</h2>
+      <form onsubmit="loginEmail(event)">
+        <div class="form-group">
+          <label for="login-email">E-mail</label>
+          <input type="email" id="login-email" required placeholder="votre@email.com">
+        </div>
+        <div class="form-group">
+          <label for="login-password">Mot de passe</label>
+          <input type="password" id="login-password" required minlength="6" placeholder="Votre mot de passe">
+        </div>
+        <button type="submit" class="btn btn-primary btn-big">Se connecter</button>
+      </form>
+      <div class="divider">ou</div>
+      <button class="btn btn-google btn-big" onclick="loginGoogle()">Continuer avec Google</button>
+      <div class="auth-switch">
+        Pas encore inscrit ? <a onclick="showPage('register')">Creer un compte</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── REGISTER ─────────────────────────── -->
+  <div class="auth-container" id="page-register">
+    <div class="auth-box">
+      <h2>Inscription</h2>
+      <form onsubmit="registerEmail(event)">
+        <div class="form-group">
+          <label for="reg-email">E-mail</label>
+          <input type="email" id="reg-email" required placeholder="votre@email.com">
+        </div>
+        <div class="form-group">
+          <label for="reg-password">Mot de passe</label>
+          <input type="password" id="reg-password" required minlength="6" placeholder="6 caracteres minimum">
+        </div>
+        <div class="form-group">
+          <label for="reg-password2">Confirmer</label>
+          <input type="password" id="reg-password2" required minlength="6" placeholder="Retapez le mot de passe">
+        </div>
+        <button type="submit" class="btn btn-primary btn-big">Creer mon compte</button>
+      </form>
+      <div class="divider">ou</div>
+      <button class="btn btn-google btn-big" onclick="loginGoogle()">Continuer avec Google</button>
+      <div class="auth-switch">
+        Deja inscrit ? <a onclick="showPage('login')">Se connecter</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PROFILE ──────────────────────────── -->
+  <div class="profile-container" id="page-profile">
+    <div class="profile-box">
+      <h2>Mon profil</h2>
+      <p class="subtitle">Completez votre profil pour etre visible.</p>
+      <form onsubmit="saveProfile(event)">
+        <div class="form-group">
+          <label for="prof-nom">Prenom ou pseudo</label>
+          <input type="text" id="prof-nom" required placeholder="Votre prenom">
+        </div>
+        <div class="form-group">
+          <label for="prof-naissance">Date de naissance</label>
+          <input type="date" id="prof-naissance" required>
+        </div>
+        <div class="form-group">
+          <label for="prof-genre">Genre</label>
+          <select id="prof-genre" required>
+            <option value="">Choisir...</option>
+            <option value="homme">Homme</option>
+            <option value="femme">Femme</option>
+            <option value="autre">Autre</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="prof-ville">Ville</label>
+          <input type="text" id="prof-ville" required placeholder="Votre ville">
+        </div>
+        <div class="form-group">
+          <label for="prof-whatsapp">WhatsApp (avec indicatif)</label>
+          <input type="tel" id="prof-whatsapp" required placeholder="+33 6 12 34 56 78">
+        </div>
+        <button type="submit" class="btn btn-primary btn-big">Enregistrer</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ── LOADING ──────────────────────────── -->
+  <div class="loading-overlay" id="loading">
+    <div class="spinner" style="width:40px;height:40px;border-width:3px;"></div>
+  </div>
+
+  <!-- ── TOAST ────────────────────────────── -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ── FOOTER ───────────────────────────── -->
+  <footer>
+    &copy; 2026 NIOXXER. Tous droits reserves.
+  </footer>
+
+  <!-- Firebase SDK (compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="/js/nioxxer-auth.js"></script>
+</body>
+</html>
