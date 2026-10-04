@@ -16,7 +16,7 @@ export const PUBLISHER: Publisher = {
   // Given by the owner on 4 Oct 2026 (contact: WhatsApp +79003269415).
   name: 'PAPA BONHEUR',
   legalForm: 'Personne physique',
-  address: 'Moscou, Russie',
+  address: 'Moscou City, Russie',
   rccm: 'Non communiqué (personne physique)',
   taxId: 'Non communiqué (personne physique)',
   director: 'PAPA BONHEUR',
