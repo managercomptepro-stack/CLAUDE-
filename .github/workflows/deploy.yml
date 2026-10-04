@@ -1,0 +1,74 @@
+# Production switch-over of nioxxer.com, run from GitHub (no local machine needed):
+# 1. export the v1 data (artifact "v1-export", personal data, never committed);
+# 2. `npm run deploy` (legal check + full test suite + hosting & Firestore rules/indexes);
+# 3. smoke checks of the live site and of the Auth providers.
+# Secret: FIREBASE_SERVICE_ACCOUNT (JSON key of a service account of nioxxer-cda95, role Firebase Admin).
+# Triggered by editing .github/deploy-request.txt on the working branch, or by hand.
+name: Deploy production
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/charming-maxwell-lrfbr7]
+    paths: ['.github/deploy-request.txt']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 20
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - run: npm ci --no-audit --no-fund
+      - name: Write service account
+        run: |
+          test -n "$FIREBASE_SERVICE_ACCOUNT" || { echo "E_NO_SERVICE_ACCOUNT"; exit 1; }
+          printf '%s' "$FIREBASE_SERVICE_ACCOUNT" > "$RUNNER_TEMP/sa.json"
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+      - name: Export v1 data
+        run: npx tsx scripts/export-v1.ts
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: v1-export
+          path: archives/v1-export/
+          retention-days: 90
+      - name: Deploy (npm run deploy)
+        run: npm run deploy -- --non-interactive
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/sa.json
+      - name: Smoke checks
+        if: always()
+        run: |
+          for host in nioxxer-cda95.web.app nioxxer.com; do
+            for p in / /recherche /publier /connexion /compte /aide /cgu /mentions-legales /sitemap.xml /n-existe-pas; do
+              echo "$host$p $(curl -s -o /dev/null -m 20 -w '%{http_code}' "https://$host$p")"
+            done
+          done
+          KEY=AIzaSyBQz0NOIbDahSMyZLCKutn3vgKHVte9a0o
+          for prov in password google.com; do
+            echo "auth $prov: $(curl -s -m 20 -X POST -H 'Content-Type: application/json' -H 'Referer: https://nioxxer.com/' \
+              -d "{\"identifier\":\"test@example.com\",\"providerId\":\"$prov\",\"continueUri\":\"https://nioxxer.com/\"}" \
+              "https://identitytoolkit.googleapis.com/v1/accounts:createAuthUri?key=$KEY" | head -c 300)"
+          done
+      - name: Remove key
+        if: always()
+        run: rm -f "$RUNNER_TEMP/sa.json"
