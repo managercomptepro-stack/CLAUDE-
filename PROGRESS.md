@@ -1075,4 +1075,5 @@ Ensuite phase 4 (publier) — attend Cloudinary (HUMAN-TODO).
 ### Bascule production (4 oct. 2026)
 - [x] Recette signée par le propriétaire (conversation, 4 oct.). Éditeur : PAPA BONHEUR, Moscou City, Russie.
 - [x] `scripts/export-v1.ts` (`npm run export:v1`) : export lecture seule Firestore + comptes Auth → `archives/v1-export/` (ignoré par git). `tsc`, eslint, prettier OK ; `vitest` → 449 passed ; `check:legal` → complètes.
-- [ ] Export v1 + `npm run deploy` : **bloqué dans la session cloud** (aucun identifiant Firebase/gcloud). À lancer sur le PC du propriétaire (`firebase login` déjà fait).
+- [x] Workflow `production.yml` (run 37211871765, succès) : export v1 → settings 1, users 2, comptes Auth 2, aucune annonce ; `npm run deploy` → 449 unitaires + 172 règles, check-links 0 mort, hosting+règles+index sur nioxxer-cda95 ; nioxxer.com : 35 pages du sitemap + /connexion /publier /compte /admin → 200, /n-existe-pas → 404.
+- [ ] Test manuel du propriétaire : connexion e-mail, Google, publication.
